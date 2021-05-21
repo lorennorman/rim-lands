@@ -20,17 +20,21 @@ transform = Transform( -0.552228, -0.497606, 0.668904, 0, 0.802339, 0.596869, -0
 visible = false
 light_energy = 0.8
 
-[node name="Dwarf" type="CSGCombiner" parent="."]
+[node name="Dwarf" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29898, 0 )
 visible = false
 
-[node name="Head" type="CSGSphere" parent="Dwarf"]
+[node name="Spatial" type="Spatial" parent="Dwarf"]
+
+[node name="Head" type="CSGSphere" parent="Dwarf/Spatial"]
 transform = Transform( 1, 0, 0, 0, 0.75, 0, 0, 0, 1, 0, -0.34533, 0 )
 radius = 0.154
 radial_segments = 8
 material = SubResource( 1 )
 
-[node name="Fatty Body" type="CSGPolygon" parent="Dwarf"]
+[node name="Spatial2" type="Spatial" parent="Dwarf"]
+
+[node name="Fatty Body" type="CSGPolygon" parent="Dwarf/Spatial2"]
 transform = Transform( 0.9, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 invert_faces = true
 polygon = PoolVector2Array( -0.00451094, -0.48547, -0.292399, -0.555134, -0.421406, -0.712793, -0.417332, -0.890007, -0.263882, -1.05256, -0.143725, -1.12379, -0.123445, -1.24526, -0.231291, -1.29577, 0.0145005, -1.29577 )
@@ -40,18 +44,22 @@ spin_sides = 10
 smooth_faces = true
 material = ExtResource( 1 )
 
-[node name="Elf" type="CSGCombiner" parent="."]
+[node name="Elf" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.28119, 0 )
 visible = false
 
-[node name="Head" type="CSGSphere" parent="Elf"]
+[node name="Spatial" type="Spatial" parent="Elf"]
+
+[node name="Head" type="CSGSphere" parent="Elf/Spatial"]
 transform = Transform( 0.571949, 0, 0, 0, 1.03496, 0, 0, 0, 0.8, 0, 0.0648366, 0 )
 radius = 0.154
 radial_segments = 6
 rings = 8
 material = SubResource( 1 )
 
-[node name="Skinny Body" type="CSGPolygon" parent="Elf"]
+[node name="Spatial2" type="Spatial" parent="Elf"]
+
+[node name="Skinny Body" type="CSGPolygon" parent="Elf/Spatial2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0.01779, 0 )
 invert_faces = true
 polygon = PoolVector2Array( -0.00293774, -0.136667, -0.105786, -0.25634, -0.152366, -0.5824, -0.076553, -1.06811, -0.0821705, -1.2109, -0.229447, -1.29139, -0.00173087, -1.29892 )
@@ -61,18 +69,21 @@ spin_sides = 10
 smooth_faces = true
 material = ExtResource( 1 )
 
-[node name="Human" type="CSGCombiner" parent="."]
+[node name="Human" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.28119, 0 )
-visible = false
 
-[node name="Head" type="CSGSphere" parent="Human"]
+[node name="Spatial" type="Spatial" parent="Human"]
+
+[node name="Head" type="CSGSphere" parent="Human/Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.8, 0, -0.036062, 0 )
 radius = 0.154
 radial_segments = 10
 rings = 8
 material = SubResource( 1 )
 
-[node name="Skinny Body" type="CSGPolygon" parent="Human"]
+[node name="Spatial2" type="Spatial" parent="Human"]
+
+[node name="Skinny Body" type="CSGPolygon" parent="Human/Spatial2"]
 transform = Transform( 0.716073, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0, 0 )
 invert_faces = true
 polygon = PoolVector2Array( -0.00361086, -0.23855, -0.314645, -0.292643, -0.37024, -0.478963, -0.319153, -0.624713, -0.189931, -0.875644, -0.144853, -1.17766, -0.343194, -1.23476, -0.350707, -1.29036, 0.000896924, -1.28284 )

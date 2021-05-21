@@ -9,3 +9,4 @@ Done:
 - [x] add custom fonts
 - [x] use a global event bus
 - [x] check into git
+- [x] experiment with terrain normal

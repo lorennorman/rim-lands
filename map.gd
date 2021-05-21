@@ -89,7 +89,7 @@ func _ready():
   # power-of-two-plus-1 (17, 33, 65, 129, 257, 513, 1025, etc...)
   terrain_data.resize(terrain_size)
 
-  var image_maps = [HTerrainData.CHANNEL_COLOR, HTerrainData.CHANNEL_HEIGHT] #, HTerrainData.CHANNEL_DETAIL]
+  var image_maps = [HTerrainData.CHANNEL_COLOR, HTerrainData.CHANNEL_HEIGHT] #, HTerrainData.CHANNEL_NORMAL, HTerrainData.CHANNEL_DETAIL]
   extract_map_images(terrain_data, image_maps, funcref(self, "generate_maps"))
 
   var terrain = HTerrain.new()
@@ -103,12 +103,13 @@ func _ready():
 
 func generate_maps(maps):
   # extract the maps to work with
-  var colormap: Image = maps[0]
-  var heightmap: Image = maps[1]
-  #  var detailmap: Image = maps[2]
+  var color_map: Image = maps[0]
+  var height_map: Image = maps[1]
+  # var normal_map: Image = maps[2]
+  # var detailmap: Image = maps[3]
 
-  map_width = heightmap.get_width()
-  map_height = heightmap.get_height()
+  map_width = height_map.get_width()
+  map_height = height_map.get_height()
 
   # Prepare the pathfinding
   astar.reserve_space(map_width + map_height)
@@ -122,24 +123,29 @@ func generate_maps(maps):
       # returns in the range [-1, 1]
       var base_noise = noise.get_noise_2d(nx, nz)
 
+      # var h_right = noise.get_noise_2d(nx + scale_grid_to_noise/10, nz)
+      # var h_forward = noise.get_noise_2d(nx, nz + scale_grid_to_noise/10)
+      # var normal = Vector3(base_noise - h_right, scale_grid_to_noise/10, h_forward - base_noise).normalized()
+
       # Normalize to the range [0, 1]
       var normalized_noise = inverse_lerp(-1, 1, base_noise)
 
       # height is provided to HTerrainData on the red channel
       var height = height_from_noise(x, z, normalized_noise)
       var height_color = Color(height, 0, 0)
-      heightmap.set_pixel(x, z, height_color)
+      height_map.set_pixel(x, z, height_color)
       var color = color_from_noise(x, z, normalized_noise)
-      colormap.set_pixel(x, z, color)
+      color_map.set_pixel(x, z, color)
+      # normal_map.set_pixel(x, z, HTerrainData.encode_normal(normal))
 #      var detail_weight = detail_weight_from_noise(x, z, normalized_noise)
 #      var detail_color = Color(detail_weight, 0, 0)
 #      detailmap.set_pixel(x, z, detail_color)
 
-      add_pathfinding_node(x, z, height, heightmap)
+      add_pathfinding_node(x, z, height, height_map)
       initialize_grid_bag(node_key, { "terrain": color })
 
 export(bool) var show_pathfinding = true
-func add_pathfinding_node(x, z, height, heightmap):
+func add_pathfinding_node(x, z, height, height_map):
   if x == 0 || z == 0:
     return
 
@@ -148,15 +154,15 @@ func add_pathfinding_node(x, z, height, heightmap):
   var is_navigable = (height > lowest_navigable_height) and (height < highest_navigable_height)
 
   if is_navigable:
-    var oldHeight = heightmap.get_pixel(x-1, z-1).r
-    var averageHeight = (height + oldHeight) / 2
-    var position = Vector3((x-0.5), averageHeight, (z-0.5))
+    var old_height = height_map.get_pixel(x-1, z-1).r
+    var average_height = (height + old_height) / 2
+    var position = Vector3((x-0.5), average_height, (z-0.5))
 
     # Create pathfinding nodes (needs connections)
-    var astarCurrentId = astar.get_available_point_id()
-    astar.add_point(astarCurrentId, position)
+    var astar_current_id = astar.get_available_point_id()
+    astar.add_point(astar_current_id, position)
     var node_key = "%d,%d" % [x, z]
-    astar_lookup_table[node_key] = astarCurrentId
+    astar_lookup_table[node_key] = astar_current_id
 
     # Connect up and connect left
     # Generate up node key
@@ -164,20 +170,20 @@ func add_pathfinding_node(x, z, height, heightmap):
     # Query for up node
     if astar_lookup_table.has(up_node_key):
       # Apply connection if found
-      astar.connect_points(astarCurrentId, astar_lookup_table[up_node_key])
+      astar.connect_points(astar_current_id, astar_lookup_table[up_node_key])
 
     # Generate left node key
     var left_node_key = "%d,%d" %[x-1, z]
     # Query for left node
     if astar_lookup_table.has(left_node_key):
       # Apply connection if found
-      astar.connect_points(astarCurrentId, astar_lookup_table[left_node_key])
+      astar.connect_points(astar_current_id, astar_lookup_table[left_node_key])
 
     if not Engine.editor_hint and show_pathfinding:
       # Visualize the nav mesh in-game only
-      var navViz = MapCell.instance()
-      navViz.translate(position)
-      add_child(navViz)
+      var nav_visualization = MapCell.instance()
+      nav_visualization.translate(position)
+      add_child(nav_visualization)
 
 var to_process = null
 var ray_length = 1000
@@ -235,9 +241,9 @@ func color_from_noise(_x, _z, noise_value):
   var color = terrain_height_color_map.interpolate(noise_value)
   return color
 
-func detail_from_noise(x, z, detail_noise):
-  # Generate Grass from the noise
-  var detailWeight = clamp(inverse_lerp(.1, 0, abs(detail_noise - .5)), 0.0, 1.0)
+# func detail_from_noise(x, z, detail_noise):
+#   # Generate Grass from the noise
+#   var detailWeight = clamp(inverse_lerp(.1, 0, abs(detail_noise - .5)), 0.0, 1.0)
 
 # this is all hterrain implementation details
 func extract_map_images(terrain_data, image_types, operator_func):
