@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://map.gd" type="Script" id=1]
+[ext_resource path="res://shaders/water_3d/displacement_offset_textured/displacement_offset_textured_material.tres" type="Material" id=2]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.2125, 0.3375, 0.39375, 0.465625, 0.65, 0.75, 0.825 )
+colors = PoolColorArray( 0.0691398, 0.274716, 0.710938, 1, 0.948137, 1, 0.336152, 1, 0.625, 0.352141, 0.00132136, 1, 0.00312171, 0.738281, 0.0146086, 1, 0, 0.371094, 0.00579834, 1, 0.414062, 0.414062, 0.414062, 1, 1, 1, 1, 1 )
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.2125, 0.28125, 0.3875, 0.465625, 0.659375, 0.809375 )
+colors = PoolColorArray( 0.222656, 0.222656, 0.222656, 1, 0.333333, 0.333333, 0.333333, 1, 0.345098, 0.345098, 0.345098, 1, 0.386719, 0.386719, 0.386719, 1, 0.390625, 0.390625, 0.390625, 1, 0.847656, 0.847656, 0.847656, 1 )
+
+[sub_resource type="PlaneMesh" id=3]
+material = ExtResource( 2 )
+size = Vector2( 65, 65 )
+subdivide_width = 40
+subdivide_depth = 40
+
+[node name="Map" type="Spatial"]
+script = ExtResource( 1 )
+terrain_height_color_map = SubResource( 1 )
+terrain_height_scale_map = SubResource( 2 )
+maximum_height = 45.0
+noise_seed = 2
+
+[node name="Water" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 14.5, 32 )
+mesh = SubResource( 3 )
+material/0 = null

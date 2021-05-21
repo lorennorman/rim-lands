@@ -1,0 +1,53 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "ResourceFormatLoader",
+"class": "HTerrainDataLoader",
+"language": "GDScript",
+"path": "res://addons/zylann.hterrain/hterrain_resource_loader.gd"
+}, {
+"base": "ResourceFormatSaver",
+"class": "HTerrainDataSaver",
+"language": "GDScript",
+"path": "res://addons/zylann.hterrain/hterrain_resource_saver.gd"
+}, {
+"base": "Reference",
+"class": "Pawn",
+"language": "GDScript",
+"path": "res://pawn.gd"
+} ]
+_global_script_class_icons={
+"HTerrainDataLoader": "",
+"HTerrainDataSaver": "",
+"Pawn": ""
+}
+
+[application]
+
+config/name="RimLands"
+run/main_scene="res://Spatial.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+Events="*res://events.gd"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "zylann.hterrain" )
+
+[physics]
+
+3d/physics_engine="Bullet"
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
