@@ -1,11 +1,11 @@
 TODO:
-  - [ ] investigate RayCast as a node
-  - [ ] implement Move job
-  - [ ] download particle system textures
-  - [ ] apply aura particle system to a pawn
-  - [ ] pawn name tags
-  - [ ] check into git
+- [ ] investigate RayCast as a node
+- [ ] implement Move job
+- [ ] apply aura particle system to a pawn
+- [ ] pawn name tags
 
 Done:
-  - [x] add custom fonts
-  - [x] use a global event bus
+- [x] download particle system textures
+- [x] add custom fonts
+- [x] use a global event bus
+- [x] check into git
