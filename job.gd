@@ -4,6 +4,7 @@ var type setget _type
 var location setget _location
 var area setget _area
 var current_worker setget _current_worker
+var percent_complete = 0
 
 signal updated(job)
 
@@ -40,5 +41,7 @@ func as_text():
   match type:
     Enums.Jobs.MOVE:
       text = "Move to:"
+    Enums.Jobs.BUILD:
+      text = "Build at:"
 
   return "[%s] %s @ %s -%s" % [claim_status, text, location, owner]

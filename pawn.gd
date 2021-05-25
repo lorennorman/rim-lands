@@ -8,7 +8,8 @@ var character_name setget , _get_name
 
 # Job Stuff
 var on_cooldown := false
-var move_speed = 0.6
+var move_speed = 0.4
+var build_speed = 20
 
 func _get_name():
   return character_name if character_name else race
@@ -30,9 +31,16 @@ func _set_map_cell(cell):
   on_cooldown = true
   self.emit_signal("updated")
 
+  start_job_cooldown(move_speed)
+
+func applied_build_speed():
+  start_job_cooldown(1.5)
+  return build_speed
+
+func start_job_cooldown(time):
   # Job Cooldown
   var job_timer = Timer.new()
-  job_timer.wait_time = move_speed
+  job_timer.wait_time = time
   job_timer.autostart = true
   job_timer.one_shot = true
   Events.emit_signal("start_timer", job_timer)

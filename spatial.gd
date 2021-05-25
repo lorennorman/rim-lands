@@ -32,8 +32,8 @@ func _ready():
   sim.make_job(Enums.Jobs.MOVE, "20,20")
   sim.make_job(Enums.Jobs.MOVE, "22,50")
   sim.make_job(Enums.Jobs.MOVE, "50,22")
-  sim.make_job(Enums.Jobs.MOVE, "63,51")
-#  make_job("Cut Wood", "35,35")
+  # sim.make_job(Enums.Jobs.MOVE, "63,51")
+  sim.make_job(Enums.Jobs.BUILD, "30,25")
 #  make_job("Mine Ore", "55,55")
 #  make_job("Till Soil", "30,60")
 

@@ -19,11 +19,11 @@ subdivide_depth = 40
 
 [node name="Map" type="Spatial"]
 script = ExtResource( 1 )
+terrain_size = 129
 terrain_height_color_map = SubResource( 1 )
 terrain_height_scale_map = SubResource( 2 )
 maximum_height = 45.0
 noise_seed = 2
-show_pathfinding = true
 
 [node name="Water" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 14.5, 32 )
