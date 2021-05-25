@@ -24,7 +24,8 @@ func _current_worker(new_worker):
   emit_signal("updated", self)
 
 func complete():
-  current_worker.current_job = null
+  if current_worker and current_worker.current_job == self:
+    current_worker.current_job = null
   emit_signal("updated", self)
   Events.emit_signal("job_completed", self)
 
@@ -33,10 +34,11 @@ func is_claimed():
 
 func as_text():
   var claim_status = "x" if is_claimed() else " "
+  var owner = current_worker.character_name if current_worker else ""
   var text
 
   match type:
     Enums.Jobs.MOVE:
       text = "Move to:"
 
-  return "[%s] %s @ %s" % [claim_status, text, location]
+  return "[%s] %s @ %s -%s" % [claim_status, text, location, owner]

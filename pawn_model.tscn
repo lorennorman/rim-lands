@@ -113,6 +113,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0 )
 visible = false
 
 [node name="Tween" type="Tween" parent="."]
+playback_process_mode = 0
 
 [node name="Emote" type="Spatial" parent="."]
 

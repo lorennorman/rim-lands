@@ -83,7 +83,6 @@ func handle_cell_lclicked(location_key):
 func handle_cell_rclicked(location_key):
   if selected_entity is Pawn:
     sim.make_job(Enums.Jobs.MOVE, location_key, selected_entity)
-    print("Commanded %s to act at %s:" % [selected_entity.character_name, location_key])
 
 
 var last_hovered

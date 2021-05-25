@@ -151,7 +151,7 @@ func add_map_grid_cell(x, z, height, height_map, color):
   var position = Vector3((x-0.5), average_height, (z-0.5))
   # var position = Vector3((x-0.5), average_height, (z-0.5))
 
-  map_grid.add_map_cell(position, color, !is_navigable)
+  map_grid.add_map_cell(position, x-1, z-1, color, !is_navigable)
 
 
 func get_move_path(from_key, to_key):

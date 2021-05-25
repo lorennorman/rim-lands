@@ -19,8 +19,12 @@ func model_did_update():
     present_as(pawn.race)
 
   if self.translation != pawn.translation:
+    if $Tween.is_active():
+      $Tween.stop(self, "translation")
+      $Tween.remove(self, "translation")
+
     $Tween.interpolate_property(self, "translation",
-      self.translation, pawn.translation, 1,
+      self.translation, pawn.translation, pawn.move_speed*0.995,
       Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
     $Tween.start()
 

@@ -25,6 +25,8 @@ func find_job_for_pawn(pawn):
 
 
 func assign_job_to_pawn(job, pawn):
+  if pawn.current_job:
+    pawn.current_job.current_worker = null
   pawn.current_job = job
   job.current_worker = pawn
 
@@ -36,6 +38,14 @@ func assign_job_to_pawn(job, pawn):
       var next_index = 1
 
       while next_index < move_path.size():
+        # Not available yet?
+        if pawn.on_cooldown:
+          yield(pawn, "job_cooldown")
+
+        # Changed jobs before done?
+        if pawn.current_job != job:
+          break
+
         # get the next location
         var next_position = move_path[next_index]
         next_index += 1
@@ -47,8 +57,6 @@ func assign_job_to_pawn(job, pawn):
         current_cell.pawn = null
         # start the tween to the next location
         pawn.map_cell = next_cell
-        # at end of tween, repeat for next location
-        yield(pawn, "job_cooldown")
 
       job.complete()
 
@@ -75,9 +83,9 @@ func make_job(job_type, job_location, pawn_worker=null):
     jobs[job_location] = []
   jobs[job_location].push_back(job)
 
+  Events.emit_signal("job_added", job)
+
   if pawn_worker:
     assign_job_to_pawn(job, pawn_worker)
-
-  Events.emit_signal("job_added", job)
 
   return job
