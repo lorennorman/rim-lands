@@ -6,10 +6,10 @@ extends Spatial
 # RimLands edits
 onready var raycast = RayCast.new()
 onready var altitude = 50
-const MINIMUM_ALTITUDE = 15
+const MINIMUM_ALTITUDE = 12
 const MAXIMUM_ALTITUDE = 140
-const MIN_MAX_SPEED = 0.5
-const MAX_MAX_SPEED = 2.33
+const MIN_MAX_SPEED = 0.66
+const MAX_MAX_SPEED = 2.5
 # User settings:
 # General settings
 export var enabled = true setget set_enabled
@@ -116,10 +116,10 @@ func _input(event):
     if freelook and _triggered:
       if event is InputEventMouseMotion:
         _mouse_offset = event.relative
-        
+
       _rotation_offset.x = Input.get_action_strength(rotate_right_action) - Input.get_action_strength(rotate_left_action)
       _rotation_offset.y = Input.get_action_strength(rotate_down_action) - Input.get_action_strength(rotate_up_action)
-  
+
     if movement and _triggered:
       _direction.x = Input.get_action_strength(right_action) - Input.get_action_strength(left_action)
       _direction.y = Input.get_action_strength(up_action) - Input.get_action_strength(down_action)
@@ -135,12 +135,12 @@ func _input(event):
         altitude -= 5
         altitude = max(altitude, MINIMUM_ALTITUDE)
         altitude_affects_max_speed()
-    
+
     if event is InputEventMagnifyGesture:
       altitude /= event.factor
       altitude = clamp(altitude, MINIMUM_ALTITUDE, MAXIMUM_ALTITUDE)
       altitude_affects_max_speed()
-      
+
     if event is InputEventPanGesture:
       translate(Vector3(event.delta.x, 0, event.delta.y))
 #      _speed.x = event.delta.x * 7 * max_speed.x
@@ -151,7 +151,7 @@ func altitude_affects_max_speed():
   var speed_modifier = lerp(MIN_MAX_SPEED, MAX_MAX_SPEED, altitude_scale)
 
   max_speed = average_max_speed * Vector3(speed_modifier, 1, speed_modifier)
-    
+
 
 func _process(delta):
   if _triggered:
@@ -174,7 +174,7 @@ func _physics_process(delta):
   if _triggered:
     _update_views_physics(delta)
   print("work")
-  
+
 func _update_views_physics(delta):
   # Called when collision are enabled
   _update_distance()
@@ -208,12 +208,12 @@ func _update_movement(delta):
 
 func _update_rotation(delta):
   var offset = Vector2();
-  
+
   if not freelook_mode == Freelook_Modes.INPUT_ACTION:
     offset += _mouse_offset * sensitivity
-  if not freelook_mode == Freelook_Modes.MOUSE: 
+  if not freelook_mode == Freelook_Modes.MOUSE:
     offset += _rotation_offset * sensitivity * ROTATION_MULTIPLIER * delta
-  
+
   _mouse_offset = Vector2()
 
   _yaw = _yaw * smoothness + offset.x * (1.0 - smoothness)
