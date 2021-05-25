@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/particles/circle_03.png" type="Texture" id=1]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0.0048077, 0.260011 ), 0.0, 0.0, 0, 0, Vector2( 0.502404, 0.45821 ), 0.661367, 0.661367, 0, 0, Vector2( 1, 0.251002 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=2]
+width = 256
+curve = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+gravity = Vector3( 0, 0, 0 )
+scale_curve = SubResource( 2 )
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_transparent = true
+flags_unshaded = true
+params_blend_mode = 1
+params_cull_mode = 2
+albedo_color = Color( 1, 0.921569, 0.298039, 0.34902 )
+albedo_texture = ExtResource( 1 )
+
+[sub_resource type="PlaneMesh" id=5]
+material = SubResource( 4 )
+
+[node name="Aura" type="Spatial"]
+
+[node name="Particles" type="Particles" parent="."]
+amount = 2
+lifetime = 1.52
+process_material = SubResource( 3 )
+draw_pass_1 = SubResource( 5 )

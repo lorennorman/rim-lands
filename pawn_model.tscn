@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://pawn_material.tres" type="Material" id=1]
 [ext_resource path="res://pawn_model.gd" type="Script" id=2]
 [ext_resource path="res://toon_shader_outline_pass.tres" type="Material" id=3]
+[ext_resource path="res://aura.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/vector_style1.png" type="Texture" id=5]
 
 [sub_resource type="SpatialMaterial" id=1]
 next_pass = ExtResource( 3 )
@@ -11,6 +13,10 @@ params_specular_mode = 3
 albedo_color = Color( 0.0156863, 0.0745098, 0.458824, 1 )
 metallic_specular = 0.58
 roughness = 0.1
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 5 )
+region = Rect2( 64.5437, 38.2637, 31.4563, 37.3868 )
 
 [node name="Pawn" type="Spatial"]
 script = ExtResource( 2 )
@@ -22,7 +28,6 @@ light_energy = 0.8
 
 [node name="Dwarf" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29898, 0 )
-visible = false
 
 [node name="Spatial" type="Spatial" parent="Dwarf"]
 
@@ -71,6 +76,7 @@ material = ExtResource( 1 )
 
 [node name="Human" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.28119, 0 )
+visible = false
 
 [node name="Spatial" type="Spatial" parent="Human"]
 
@@ -101,3 +107,17 @@ visible = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.224227, 0 )
 inner_radius = 0.121753
 outer_radius = 0.168377
+
+[node name="Aura" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0 )
+visible = false
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Emote" type="Spatial" parent="."]
+
+[node name="Sprite3D" type="Sprite3D" parent="Emote"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67532, 0 )
+billboard = 1
+double_sided = false
+texture = SubResource( 2 )
