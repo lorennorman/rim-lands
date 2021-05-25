@@ -1,14 +1,14 @@
 extends Resource
 
-var name setget _name
+var type setget _type
 var location setget _location
 var area setget _area
 var current_worker setget _current_worker
 
 signal updated(job)
 
-func _name(new_name):
-  name = new_name
+func _type(new_type):
+  type = new_type
   emit_signal("updated", self)
 
 func _location(new_location):
@@ -23,5 +23,20 @@ func _current_worker(new_worker):
   current_worker = new_worker
   emit_signal("updated", self)
 
+func complete():
+  current_worker.current_job = null
+  emit_signal("updated", self)
+  Events.emit_signal("job_completed", self)
+
 func is_claimed():
   return current_worker
+
+func as_text():
+  var claim_status = "x" if is_claimed() else " "
+  var text
+
+  match type:
+    Enums.Jobs.MOVE:
+      text = "Move to:"
+
+  return "[%s] %s @ %s" % [claim_status, text, location]

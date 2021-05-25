@@ -6,13 +6,16 @@ var job
 func _init(new_job):
   job = new_job
 
+  var _job_compeleted = Events.connect("job_completed", self, "check_completed")
   job.connect("updated", self, "model_did_update")
   do_render()
-  
-func model_did_update(job):
-  print("received update", str(job))
+
+func model_did_update(_job):
   do_render()
 
 func do_render():
-  var claim_status = "[x]" if job.is_claimed() else "[ ]"
-  text = "%s %s @ %s" % [claim_status, job.name, job.location]
+  text = job.as_text()
+
+func check_completed(completed_job):
+  if job == completed_job:
+    queue_free()

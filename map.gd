@@ -38,39 +38,25 @@ onready var noise = OpenSimplexNoise.new()
 # For teh randoms
 onready var rng = RandomNumberGenerator.new()
 
+var map_grid
 # Pathfinding graph
 var astar = AStar.new()
 var astar_lookup_table = {}
 var grid_bags = {}
 
-func initialize_grid_bag(index, default={}):
-  if not grid_bags.has(index):
-    grid_bags[index] = {}
-
-  var bag = grid_bags[index]
-
-  Util.default_dict(bag, { "pawn": null, "feature": null, "terrain": null, "position": null })
-  Util.merge_dicts(bag, default)
-
-  if not bag["position"]:
-    if astar_lookup_table.has(index):
-      bag["position"] = astar.get_point_position(astar_lookup_table[index])
-    else:
-      bag["position"] = Vector3(-1, 20, -1)
-
-  return bag
 
 func set_pawn(index, pawn, force=false):
-  # ensure index present
-  var bag = initialize_grid_bag(index)
+  # cell lookup
+  var map_cell = map_grid.lookup_cell(index)
 
   # bail if exists and we're not forcing
-  if bag["pawn"] and not force:
+  if map_cell.pawn and not force:
     return false
 
   # set or force-evict
-  bag["pawn"] = pawn
-  pawn.translation = bag["position"]
+  map_cell.pawn = pawn
+  pawn.location = index
+  pawn.map_cell = map_cell
   return true
 
 # Camera's perspective to use when clicked
@@ -111,12 +97,15 @@ func generate_maps(maps):
   map_width = height_map.get_width()
   map_height = height_map.get_height()
 
+  # Prepare the game data grid
+  map_grid = MapGrid.new(map_width, map_height)
+
   # Prepare the pathfinding
   astar.reserve_space(map_width + map_height)
 
   for z in map_height:
     for x in map_width:
-      var node_key = "%s,%s" % [x, z]
+      # var node_key = "%s,%s" % [x, z]
       var nx = (x * scale_grid_to_noise)
       var nz = (z * scale_grid_to_noise)
 
@@ -141,49 +130,34 @@ func generate_maps(maps):
 #      var detail_color = Color(detail_weight, 0, 0)
 #      detailmap.set_pixel(x, z, detail_color)
 
-      add_pathfinding_node(x, z, height, height_map)
-      initialize_grid_bag(node_key, { "terrain": color })
+      add_map_grid_cell(x, z, height, height_map, color)
 
-export(bool) var show_pathfinding = true
-func add_pathfinding_node(x, z, height, height_map):
-  if x == 0 || z == 0:
-    return
+      # add_pathfinding_node(x, z, height, height_map)
+      # initialize_grid_bag(node_key, { "terrain": color })
 
+func add_map_grid_cell(x, z, height, height_map, color):
+  # calculate navigability
   var lowest_navigable_height = 0.332 * maximum_height
   var highest_navigable_height = 0.42 * maximum_height
   var is_navigable = (height > lowest_navigable_height) and (height < highest_navigable_height)
 
-  if is_navigable:
+  # calculate exact 3d position
+  var average_height
+  if x == 0 or z == 0:
+    average_height = height
+  else:
     var old_height = height_map.get_pixel(x-1, z-1).r
-    var average_height = (height + old_height) / 2
-    var position = Vector3((x-0.5), average_height, (z-0.5))
+    average_height = (height + old_height) / 2
+  var position = Vector3((x-0.5), average_height, (z-0.5))
+  # var position = Vector3((x-0.5), average_height, (z-0.5))
 
-    # Create pathfinding nodes (needs connections)
-    var astar_current_id = astar.get_available_point_id()
-    astar.add_point(astar_current_id, position)
-    var node_key = "%d,%d" % [x, z]
-    astar_lookup_table[node_key] = astar_current_id
+  map_grid.add_map_cell(position, color, !is_navigable)
 
-    # Connect up and connect left
-    # Generate up node key
-    var up_node_key = "%d,%d" %[x, z-1]
-    # Query for up node
-    if astar_lookup_table.has(up_node_key):
-      # Apply connection if found
-      astar.connect_points(astar_current_id, astar_lookup_table[up_node_key])
 
-    # Generate left node key
-    var left_node_key = "%d,%d" %[x-1, z]
-    # Query for left node
-    if astar_lookup_table.has(left_node_key):
-      # Apply connection if found
-      astar.connect_points(astar_current_id, astar_lookup_table[left_node_key])
-
-    if not Engine.editor_hint and show_pathfinding:
-      # Visualize the nav mesh in-game only
-      var nav_visualization = MapCell.instance()
-      nav_visualization.translate(position)
-      add_child(nav_visualization)
+func get_move_path(from_key, to_key):
+  var from_id = map_grid.lookup_cell(from_key).astar_id
+  var to_id = map_grid.lookup_cell(to_key).astar_id
+  return map_grid.astar.get_point_path(from_id, to_id)
 
 var to_process = null
 var ray_length = 1000
@@ -219,7 +193,7 @@ func _physics_process(_delta):
 
     # if the work worked, go!
     if result.get("position"):
-      var node_key = "%d,%d" % [result.position.x+1, result.position.z+1]
+      var node_key = "%d,%d" % [result.position.x, result.position.z]
       Events.emit_signal("node_%s" % action, node_key)
 
     if result.get("collider") and result.collider is Pawn:

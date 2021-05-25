@@ -60,7 +60,6 @@ average_max_speed = Vector3( 40, 40, 40 )
 local = false
 
 [node name="Map" parent="." instance=ExtResource( 5 )]
-show_pathfinding = false
 
 [node name="GUI" type="CanvasLayer" parent="."]
 script = ExtResource( 3 )

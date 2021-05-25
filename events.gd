@@ -6,6 +6,8 @@
 
 extends Node
 
+# Timer
+signal start_timer
 
 # Inputs
 signal node_lclicked(key)
@@ -18,3 +20,4 @@ signal pawn_removed(pawn)
 
 signal job_added(job)
 signal job_removed(job)
+signal job_completed(job)

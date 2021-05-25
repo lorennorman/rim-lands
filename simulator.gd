@@ -8,11 +8,14 @@ var Job = preload("res://job.gd")
 func _init():
   pass
 
+# set up ticker
 func start():
   for pawn in pawns.values():
     if not pawn.is_busy():
       find_job_for_pawn(pawn)
 
+
+# pawn/job queue, job acquisition, job completion, reacquisition
 func find_job_for_pawn(pawn):
   for job_queue in jobs.values():
     for job in job_queue:
@@ -20,10 +23,36 @@ func find_job_for_pawn(pawn):
         assign_job_to_pawn(job, pawn)
         return
 
+
 func assign_job_to_pawn(job, pawn):
   pawn.current_job = job
   job.current_worker = pawn
 
+
+  match job.type:
+    Enums.Jobs.MOVE:
+      # fetch the A* path
+      var move_path = map.get_move_path(pawn.location, job.location)
+      var next_index = 1
+
+      while next_index < move_path.size():
+        # get the next location
+        var next_position = move_path[next_index]
+        next_index += 1
+        var current_cell = pawn.map_cell
+        var next_cell = map.map_grid.lookup_cell(next_position)
+
+        # attempt to switch locations in the map_grid
+        next_cell.pawn = pawn
+        current_cell.pawn = null
+        # start the tween to the next location
+        pawn.map_cell = next_cell
+        # at end of tween, repeat for next location
+        yield(pawn, "job_cooldown")
+
+      job.complete()
+
+## resource management
 func make_pawn(type, name, node_key):
   var pawn = Pawn.new()
   pawn.race = type
@@ -35,18 +64,19 @@ func make_pawn(type, name, node_key):
 
   return pawn
 
-signal job_added(job)
-signal job_removed(job)
 
-func make_job(job_name, job_location):
+func make_job(job_type, job_location, pawn_worker=null):
   var job = Job.new()
-  job.name = job_name
+  job.type = job_type
   job.location = job_location
 
   # add to simulator job queue
   if not jobs.has(job_location):
     jobs[job_location] = []
   jobs[job_location].push_back(job)
+
+  if pawn_worker:
+    assign_job_to_pawn(job, pawn_worker)
 
   Events.emit_signal("job_added", job)
 

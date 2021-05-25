@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Object",
+"class": "Enums",
+"language": "GDScript",
+"path": "res://enums.gd"
+}, {
 "base": "ResourceFormatLoader",
 "class": "HTerrainDataLoader",
 "language": "GDScript",
@@ -20,13 +25,20 @@ _global_script_classes=[ {
 "path": "res://addons/zylann.hterrain/hterrain_resource_saver.gd"
 }, {
 "base": "Reference",
+"class": "MapGrid",
+"language": "GDScript",
+"path": "res://map_grid.gd"
+}, {
+"base": "Reference",
 "class": "Pawn",
 "language": "GDScript",
 "path": "res://pawn.gd"
 } ]
 _global_script_class_icons={
+"Enums": "",
 "HTerrainDataLoader": "",
 "HTerrainDataSaver": "",
+"MapGrid": "",
 "Pawn": ""
 }
 

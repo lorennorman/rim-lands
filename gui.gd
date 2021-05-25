@@ -7,22 +7,25 @@ var selected_entity setget set_selected_entity
 
 func set_hovered_pawn(pawn):
   var name = pawn.character_name if pawn else ""
-  
+
   $Left/VSplitContainer/VBoxContainer/PawnHoverLabel.text = "Pawn: %s" % name
-  
+
 
 func set_hovered_feature(feature):
   var name = feature.name if feature else ""
-  
+
   $Left/VSplitContainer/VBoxContainer/FeatureHoverLabel.text = "Feature: %s" % name
 
 func set_hovered_terrain(terrain):
   var color = terrain if terrain else Color(0)
-  
+
   $Left/VSplitContainer/VBoxContainer/TerrainHoverLabel/ColorRect.color = color
 
 func set_selected_entity(entity):
-  $Left/VSplitContainer/Panel/MarginContainer/TargetFocus.text = "%s" % entity
+  if entity is Pawn:
+    $Left/VSplitContainer/Panel/MarginContainer/TargetFocus.text = "%s" % entity.character_name
+  else:
+    $Left/VSplitContainer/Panel/MarginContainer/TargetFocus.text = "%s" % entity
 
 ## Jobs
 
