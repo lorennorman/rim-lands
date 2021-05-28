@@ -1,3 +1,5 @@
+extends Resource
+
 class_name Pawn
 
 var map_cell setget _set_map_cell
@@ -28,8 +30,6 @@ func _set_map_cell(cell):
   map_cell = cell
   translation = cell.position
   location = cell.location
-  on_cooldown = true
-  self.emit_signal("updated")
 
   start_job_cooldown(move_speed)
 
@@ -39,6 +39,8 @@ func applied_build_speed():
 
 func start_job_cooldown(time):
   # Job Cooldown
+  on_cooldown = true
+  self.emit_signal("updated")
   var job_timer = Timer.new()
   job_timer.wait_time = time
   job_timer.autostart = true

@@ -2,8 +2,6 @@ extends Spatial
 
 const Simulator = preload("simulator.gd")
 const PawnModel = preload("pawn_model.tscn")
-const Pawn = preload("pawn.gd")
-const Job = preload("job.gd")
 
 onready var Map = $Map
 var sim
@@ -14,30 +12,32 @@ func _ready():
   var _node_rclicked = Events.connect("node_rclicked", self, "handle_cell_rclicked")
   var _node_lclicked = Events.connect("node_lclicked", self, "handle_cell_lclicked")
   var _node_hovered = Events.connect("node_hovered", self, "handle_cell_hovered")
-
-  # Create the world
-  sim = Simulator.new()
-  sim.map = Map
-
   var _pawn_added = Events.connect("pawn_added", self, "add_pawn")
   var _job_added = Events.connect("job_added", $GUI, "add_job")
 
+  # Create the world with GameState methods
+  var game_state = GameState.new()
+
+  # Map
+  game_state.map = Map
   # Put pawns onto the map
-  sim.make_pawn("Dwarf", "Thorben", "31,21")
-  sim.make_pawn("Elf", "Zah Dir", "31,22")
-  sim.make_pawn("Elf", "Zah Dra", "32,21")
-  sim.make_pawn("Human", "Fardinand", "32,22")
+  game_state.make_pawn("Dwarf", "Thorben", "31,21")
+  game_state.make_pawn("Elf", "Zah Dir", "31,22")
+  game_state.make_pawn("Elf", "Zah Dra", "32,21")
+  game_state.make_pawn("Human", "Fardinand", "32,22")
 
   # Add some jobs to the job list
-  sim.make_job(Enums.Jobs.MOVE, "20,20")
-  sim.make_job(Enums.Jobs.MOVE, "22,50")
-  sim.make_job(Enums.Jobs.MOVE, "50,22")
-  # sim.make_job(Enums.Jobs.MOVE, "63,51")
-  sim.make_job(Enums.Jobs.BUILD, "30,25")
-#  make_job("Mine Ore", "55,55")
-#  make_job("Till Soil", "30,60")
+  game_state.make_job(Enums.Jobs.MOVE, "20,20")
+  game_state.make_job(Enums.Jobs.MOVE, "22,50")
+  game_state.make_job(Enums.Jobs.MOVE, "50,22")
+  # game_state.make_job(Enums.Jobs.MOVE, "63,51")
+  game_state.make_job(Enums.Jobs.BUILD, "30,25")
+  #  make_job("Mine Ore", "55,55")
+  #  make_job("Till Soil", "30,60")
 
   # Start the sim
+  sim = Simulator.new(game_state)
+  # sim.game_state = game_state
   yield(get_tree().create_timer(0.5), "timeout")
   sim.start()
 

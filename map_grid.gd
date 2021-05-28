@@ -1,11 +1,9 @@
 class_name MapGrid
 
-var astar
-var map_width
-var map_height
-var position_dict
-var location_dict
-var astar_dict
+var map_width: int
+var map_height: int
+var astar: AStar
+var omni_dict: Dictionary
 
 func _init(width, height):
   map_width = width
@@ -14,74 +12,45 @@ func _init(width, height):
   astar = AStar.new()
   astar.reserve_space(map_width * map_height)
 
-  position_dict = {}
-  location_dict = {}
-  astar_dict = {}
+  omni_dict = {}
 
 func lookup_cell(omni_id):
-  if omni_id is String:
-    if location_dict.has(omni_id):
-      return location_dict[omni_id]
-
-  if omni_id is int:
-    if astar_dict.has(omni_id):
-      return astar_dict[omni_id]
-
-  if omni_id is Vector3:
-    if position_dict.has(omni_id):
-      return position_dict[omni_id]
+  if omni_dict.has(omni_id):
+    return omni_dict[omni_id]
 
 func set_cell(omni_id, cell):
-  if omni_id is String:
-    if location_dict.has(omni_id):
-      print("dupe: ", omni_id)
-    location_dict[omni_id] = cell
-
-  if omni_id is int:
-    if astar_dict.has(omni_id):
-      print("dupe: ", omni_id)
-    astar_dict[omni_id] = cell
-
-  if omni_id is Vector3:
-    if position_dict.has(omni_id):
-      print("dupe: ", omni_id)
-    position_dict[omni_id] = cell
+  omni_dict[omni_id] = cell
 
 func add_map_cell(position, x, z, terrain, disabled=false):
   var map_cell = MapCell.new()
-
-  # Store and index position
-  map_cell.position = position
-  if lookup_cell(position):
-    print("p:", position)
-  set_cell(position, map_cell)
-
-  # Generate location key and store it
-  var location_key = "%d,%d" % [x, z]
-  if lookup_cell(location_key):
-    print("l:", location_key)
-  map_cell.location = location_key
-  set_cell(location_key, map_cell)
 
   # Apply the terrain
   map_cell.terrain = terrain
   map_cell.disabled = disabled
 
-  # Add to astar and store astar id
+  # Store and index position
+  map_cell.position = position
+  set_cell(position, map_cell)
+
+  # Generate, store, and index location key
+  var location_key = "%d,%d" % [x, z]
+  map_cell.location = location_key
+  set_cell(location_key, map_cell)
+
+  # Generate astar id and connect to the pathfinding grid
   var astar_id = astar.get_available_point_id()
   astar.add_point(astar_id, position)
-  map_cell.astar_id = astar_id
-  if lookup_cell(astar_id):
-    print("a:", astar_id)
-  set_cell(astar_id, map_cell)
-  add_astar_connections(map_cell, x, z)
+  add_astar_connections(astar_id, x, z)
   if map_cell.disabled:
     astar.set_point_disabled(astar_id, true)
 
+  # Store and index astar id
+  map_cell.astar_id = astar_id
+  set_cell(astar_id, map_cell)
 
-func add_astar_connections(map_cell, x, z):
-  var astar_id = map_cell.astar_id
-  # Connect up, left, and the top diagonals
+func add_astar_connections(astar_id, x, z):
+  # Connect up, left, upper-left, and upper-right
+  # Note: expects cells to be added LtR
   if z > 0:
     add_astar_connection(astar_id, "%d,%d" % [x, z-1]) # up
   if x > 0:
@@ -93,23 +62,21 @@ func add_astar_connections(map_cell, x, z):
 
 func add_astar_connection(astar_id, location_key):
   var cell = lookup_cell(location_key)
-  # Query for up node
-  if cell:
-    if cell.astar_id == astar_id:
-      var othercell = lookup_cell(astar_id)
-      print("location: ", cell.location, "<->", othercell.location)
-      print("astar: ", cell.astar_id, "<->", othercell.astar_id)
-      print("position: ", cell.position, "<->", othercell.position)
-    # Apply connection if found
-    astar.connect_points(astar_id, cell.astar_id)
-  else:
-    print("nothing found: ", location_key)
+  # Blow up if we get something we don't expect
+  assert(cell, "No connection found between AStar ID: %s and Location %s" % [astar_id, location_key])
+  assert(cell.astar_id != astar_id, "Cannot connect AStar node to itself: %s" % astar_id)
+  assert(not astar.are_points_connected(astar_id, cell.astar_id), "AStar IDs already connected: %s, %s" % [astar_id, cell.astar_id])
+
+  astar.connect_points(astar_id, cell.astar_id)
 
 class MapCell:
-  var position
-  var disabled
-  var astar_id
-  var location
-  var pawn
+  extends Resource
+
+  var position: Vector3
+  var disabled: bool
+  var astar_id: int
+  var location: String
+
+  var pawn: Pawn
   var feature
   var terrain

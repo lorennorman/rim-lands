@@ -1,12 +1,13 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://spatial.gd" type="Script" id=1]
+[ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://assets/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=2]
 [ext_resource path="res://gui.gd" type="Script" id=3]
 [ext_resource path="res://addons/zylann.hterrain_demo/textures/table_mountain_2_4k.hdr" type="Texture" id=4]
 [ext_resource path="res://map.tscn" type="PackedScene" id=5]
 [ext_resource path="res://girassol_font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://font_theme.tres" type="Theme" id=7]
+[ext_resource path="res://job_markers.gd" type="Script" id=8]
 
 [sub_resource type="PanoramaSky" id=1]
 panorama = ExtResource( 4 )
@@ -37,7 +38,7 @@ material = SubResource( 5 )
 flip_faces = true
 size = Vector3( 1, 2, 1 )
 
-[node name="Spatial" type="Spatial"]
+[node name="Main" type="Spatial"]
 script = ExtResource( 1 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -104,19 +105,19 @@ margin_right = 204.0
 margin_bottom = 119.0
 columns = 3
 
-[node name="Button" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
+[node name="SaveButton" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
 margin_right = 50.0
 margin_bottom = 26.0
 theme = ExtResource( 7 )
 custom_fonts/font = ExtResource( 6 )
-text = "Dig"
+text = "Save"
 
-[node name="Button2" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
+[node name="LoadButton" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
 margin_left = 54.0
 margin_right = 122.0
 margin_bottom = 26.0
 custom_fonts/font = ExtResource( 6 )
-text = "Mine"
+text = "Load"
 
 [node name="Button3" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
 margin_left = 126.0
@@ -268,9 +269,9 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="GUI/Left/VSplitContainer"]
-margin_top = 83.0
+margin_top = 72.0
 margin_right = 171.0
-margin_bottom = 183.0
+margin_bottom = 171.0
 rect_min_size = Vector2( 0, 100 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -313,3 +314,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 cast_shadow = 0
 mesh = SubResource( 6 )
 material/0 = null
+
+[node name="JobMarkers" type="Spatial" parent="."]
+script = ExtResource( 8 )

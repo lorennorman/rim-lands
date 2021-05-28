@@ -13,7 +13,7 @@ colors = PoolColorArray( 0.222656, 0.222656, 0.222656, 1, 0.333333, 0.333333, 0.
 
 [sub_resource type="PlaneMesh" id=3]
 material = ExtResource( 2 )
-size = Vector2( 65, 65 )
+size = Vector2( 129, 129 )
 subdivide_width = 40
 subdivide_depth = 40
 

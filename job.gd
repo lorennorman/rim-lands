@@ -1,10 +1,13 @@
 extends Resource
 
+class_name Job
+
 var type setget _type
 var location setget _location
 var area setget _area
+var map_cell
 var current_worker setget _current_worker
-var percent_complete = 0
+var percent_complete = 0 setget _percent_complete
 
 signal updated(job)
 
@@ -24,10 +27,15 @@ func _current_worker(new_worker):
   current_worker = new_worker
   emit_signal("updated", self)
 
+func _percent_complete(new_percent_complete):
+  percent_complete = new_percent_complete
+  emit_signal("updated", self)
+
 func complete():
   if current_worker and current_worker.current_job == self:
     current_worker.current_job = null
   emit_signal("updated", self)
+  print("am i  called?")
   Events.emit_signal("job_completed", self)
 
 func is_claimed():
