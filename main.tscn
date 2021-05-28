@@ -68,10 +68,12 @@ script = ExtResource( 9 )
 
 [node name="Map" parent="." instance=ExtResource( 5 )]
 
-[node name="GUI" type="CanvasLayer" parent="."]
+[node name="GUI" type="Spatial" parent="."]
 script = ExtResource( 3 )
 
-[node name="Right" type="Control" parent="GUI"]
+[node name="Menus" type="CanvasLayer" parent="GUI"]
+
+[node name="Right" type="Control" parent="GUI/Menus"]
 modulate = Color( 1, 1, 1, 0.784314 )
 anchor_left = 0.827
 anchor_right = 1.0
@@ -81,7 +83,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VSplitContainer" type="VSplitContainer" parent="GUI/Right"]
+[node name="VSplitContainer" type="VSplitContainer" parent="GUI/Menus/Right"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 45.0
@@ -90,60 +92,60 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tools" type="VBoxContainer" parent="GUI/Right/VSplitContainer"]
+[node name="Tools" type="VBoxContainer" parent="GUI/Menus/Right/VSplitContainer"]
 margin_right = 204.0
 margin_bottom = 119.0
 
-[node name="ToolsLabel" type="Label" parent="GUI/Right/VSplitContainer/Tools"]
+[node name="ToolsLabel" type="Label" parent="GUI/Menus/Right/VSplitContainer/Tools"]
 margin_right = 204.0
 margin_bottom = 21.0
 theme = ExtResource( 7 )
 text = "TOOLS"
 
-[node name="HSeparator2" type="HSeparator" parent="GUI/Right/VSplitContainer/Tools"]
+[node name="HSeparator2" type="HSeparator" parent="GUI/Menus/Right/VSplitContainer/Tools"]
 margin_top = 25.0
 margin_right = 204.0
 margin_bottom = 29.0
 
-[node name="ToolsGrid" type="GridContainer" parent="GUI/Right/VSplitContainer/Tools"]
+[node name="ToolsGrid" type="GridContainer" parent="GUI/Menus/Right/VSplitContainer/Tools"]
 margin_top = 33.0
 margin_right = 204.0
 margin_bottom = 119.0
 columns = 3
 
-[node name="SaveButton" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
+[node name="SaveButton" type="Button" parent="GUI/Menus/Right/VSplitContainer/Tools/ToolsGrid"]
 margin_right = 50.0
 margin_bottom = 26.0
 theme = ExtResource( 7 )
 custom_fonts/font = ExtResource( 6 )
 text = "Save"
 
-[node name="LoadButton" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
+[node name="LoadButton" type="Button" parent="GUI/Menus/Right/VSplitContainer/Tools/ToolsGrid"]
 margin_left = 54.0
 margin_right = 122.0
 margin_bottom = 26.0
 custom_fonts/font = ExtResource( 6 )
 text = "Load"
 
-[node name="Button3" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
+[node name="Button3" type="Button" parent="GUI/Menus/Right/VSplitContainer/Tools/ToolsGrid"]
 margin_left = 126.0
 margin_right = 183.0
 margin_bottom = 26.0
 custom_fonts/font = ExtResource( 6 )
 text = "Forage"
 
-[node name="Button4" type="MenuButton" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
+[node name="Button4" type="MenuButton" parent="GUI/Menus/Right/VSplitContainer/Tools/ToolsGrid"]
 margin_top = 30.0
 margin_right = 50.0
 margin_bottom = 56.0
 custom_fonts/font = ExtResource( 6 )
 text = "Build"
 
-[node name="PopupMenu2" type="PopupMenu" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid/Button4"]
+[node name="PopupMenu2" type="PopupMenu" parent="GUI/Menus/Right/VSplitContainer/Tools/ToolsGrid/Button4"]
 margin_right = 20.0
 margin_bottom = 20.0
 
-[node name="Button5" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
+[node name="Button5" type="Button" parent="GUI/Menus/Right/VSplitContainer/Tools/ToolsGrid"]
 margin_left = 54.0
 margin_top = 30.0
 margin_right = 122.0
@@ -151,7 +153,7 @@ margin_bottom = 56.0
 custom_fonts/font = ExtResource( 6 )
 text = "Weave"
 
-[node name="Button6" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
+[node name="Button6" type="Button" parent="GUI/Menus/Right/VSplitContainer/Tools/ToolsGrid"]
 margin_left = 126.0
 margin_top = 30.0
 margin_right = 183.0
@@ -159,14 +161,14 @@ margin_bottom = 56.0
 custom_fonts/font = ExtResource( 6 )
 text = "Fell"
 
-[node name="Button7" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
+[node name="Button7" type="Button" parent="GUI/Menus/Right/VSplitContainer/Tools/ToolsGrid"]
 margin_top = 60.0
 margin_right = 50.0
 margin_bottom = 86.0
 custom_fonts/font = ExtResource( 6 )
 text = "Forge"
 
-[node name="Button8" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
+[node name="Button8" type="Button" parent="GUI/Menus/Right/VSplitContainer/Tools/ToolsGrid"]
 margin_left = 54.0
 margin_top = 60.0
 margin_right = 122.0
@@ -174,7 +176,7 @@ margin_bottom = 86.0
 custom_fonts/font = ExtResource( 6 )
 text = "Enchant"
 
-[node name="Button9" type="Button" parent="GUI/Right/VSplitContainer/Tools/ToolsGrid"]
+[node name="Button9" type="Button" parent="GUI/Menus/Right/VSplitContainer/Tools/ToolsGrid"]
 visible = false
 margin_left = 97.0
 margin_top = 48.0
@@ -183,7 +185,7 @@ margin_bottom = 68.0
 custom_fonts/font = ExtResource( 6 )
 text = "Dig"
 
-[node name="Jobs" type="VBoxContainer" parent="GUI/Right/VSplitContainer"]
+[node name="Jobs" type="VBoxContainer" parent="GUI/Menus/Right/VSplitContainer"]
 margin_top = 131.0
 margin_right = 204.0
 margin_bottom = 800.0
@@ -191,13 +193,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="JobsLabel" type="Label" parent="GUI/Right/VSplitContainer/Jobs"]
+[node name="JobsLabel" type="Label" parent="GUI/Menus/Right/VSplitContainer/Jobs"]
 margin_right = 204.0
 margin_bottom = 21.0
 theme = ExtResource( 7 )
 text = "JOBS"
 
-[node name="JobsList" type="VBoxContainer" parent="GUI/Right/VSplitContainer/Jobs"]
+[node name="JobsList" type="VBoxContainer" parent="GUI/Menus/Right/VSplitContainer/Jobs"]
 margin_top = 25.0
 margin_right = 204.0
 margin_bottom = 29.0
@@ -205,11 +207,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSeparator" type="HSeparator" parent="GUI/Right/VSplitContainer/Jobs/JobsList"]
+[node name="HSeparator" type="HSeparator" parent="GUI/Menus/Right/VSplitContainer/Jobs/JobsList"]
 margin_right = 204.0
 margin_bottom = 4.0
 
-[node name="Left" type="Control" parent="GUI"]
+[node name="Left" type="Control" parent="GUI/Menus"]
 modulate = Color( 1, 1, 1, 0.784314 )
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -219,7 +221,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VSplitContainer" type="VSplitContainer" parent="GUI/Left"]
+[node name="VSplitContainer" type="VSplitContainer" parent="GUI/Menus/Left"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 24.0
@@ -227,7 +229,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GUI/Left/VSplitContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/Menus/Left/VSplitContainer"]
 margin_right = 171.0
 margin_bottom = 71.0
 alignment = 2
@@ -235,7 +237,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PawnHoverLabel" type="Label" parent="GUI/Left/VSplitContainer/VBoxContainer"]
+[node name="PawnHoverLabel" type="Label" parent="GUI/Menus/Left/VSplitContainer/VBoxContainer"]
 margin_right = 171.0
 margin_bottom = 21.0
 theme = ExtResource( 7 )
@@ -244,7 +246,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FeatureHoverLabel" type="Label" parent="GUI/Left/VSplitContainer/VBoxContainer"]
+[node name="FeatureHoverLabel" type="Label" parent="GUI/Menus/Left/VSplitContainer/VBoxContainer"]
 margin_top = 25.0
 margin_right = 171.0
 margin_bottom = 46.0
@@ -254,7 +256,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TerrainHoverLabel" type="Label" parent="GUI/Left/VSplitContainer/VBoxContainer"]
+[node name="TerrainHoverLabel" type="Label" parent="GUI/Menus/Left/VSplitContainer/VBoxContainer"]
 margin_top = 50.0
 margin_right = 171.0
 margin_bottom = 71.0
@@ -264,7 +266,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect" type="ColorRect" parent="GUI/Left/VSplitContainer/VBoxContainer/TerrainHoverLabel"]
+[node name="ColorRect" type="ColorRect" parent="GUI/Menus/Left/VSplitContainer/VBoxContainer/TerrainHoverLabel"]
 margin_left = 60.4313
 margin_top = 1.0
 margin_right = 100.431
@@ -274,16 +276,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="GUI/Left/VSplitContainer"]
-margin_top = 72.0
+[node name="Panel" type="Panel" parent="GUI/Menus/Left/VSplitContainer"]
+margin_top = 83.0
 margin_right = 171.0
-margin_bottom = 171.0
+margin_bottom = 183.0
 rect_min_size = Vector2( 0, 100 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="GUI/Left/VSplitContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/Left/VSplitContainer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
@@ -294,7 +296,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TargetFocus" type="Label" parent="GUI/Left/VSplitContainer/Panel/MarginContainer"]
+[node name="TargetFocus" type="Label" parent="GUI/Menus/Left/VSplitContainer/Panel/MarginContainer"]
 margin_right = 151.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 8, 100 )
@@ -305,21 +307,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HoverIndicator" type="Spatial" parent="."]
+[node name="HoverIndicator" type="Spatial" parent="GUI"]
 
-[node name="TransparentWhiteCube" type="MeshInstance" parent="HoverIndicator"]
+[node name="TransparentWhiteCube" type="MeshInstance" parent="GUI/HoverIndicator"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 cast_shadow = 0
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="SelectIndicator" type="Spatial" parent="."]
+[node name="SelectIndicator" type="Spatial" parent="GUI"]
 
-[node name="TransparentYellowCube" type="MeshInstance" parent="SelectIndicator"]
+[node name="TransparentYellowCube" type="MeshInstance" parent="GUI/SelectIndicator"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 cast_shadow = 0
 mesh = SubResource( 6 )
 material/0 = null
 
-[node name="JobMarkers" type="Spatial" parent="."]
+[node name="JobMarkers" type="Spatial" parent="GUI"]
 script = ExtResource( 8 )
