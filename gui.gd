@@ -6,7 +6,7 @@ var hovered_terrain setget set_hovered_terrain
 var selected_entity# setget set_selected_entity
 var selected_location_key
 var selected_cell
-var map
+var game_state: GameState
 
 func set_hovered_pawn(pawn):
   var name = pawn.character_name if pawn else ""
@@ -39,7 +39,7 @@ func handle_cell_lclicked(location_key):
   if selected_location_key != location_key:
     selected_location_key = location_key
 
-    selected_cell = map.map_grid.lookup_cell(location_key)
+    selected_cell = game_state.map.map_grid.lookup_cell(location_key)
     $SelectIndicator.translation = selected_cell.position
 
     # select next entity: pawn, feature, terrain
@@ -74,7 +74,7 @@ var last_hovered
 func handle_cell_hovered(location_key):
   if location_key != last_hovered:
     last_hovered = location_key
-    var cell = map.map_grid.lookup_cell(location_key)
+    var cell = game_state.map.map_grid.lookup_cell(location_key)
     if cell:
       self.hovered_pawn = cell.pawn
       self.hovered_feature = cell.feature

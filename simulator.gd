@@ -4,8 +4,8 @@ func _init(given_game_state: GameState):
   assert(given_game_state, "Simulation initialized without a GameState")
   game_state = given_game_state
 
-# set up ticker
-func start():
+
+func _process(_delta):
   for pawn in game_state.pawns:
     if not pawn.is_busy():
       find_job_for_pawn(pawn)
