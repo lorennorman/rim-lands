@@ -8,6 +8,9 @@ var sim
 func _ready():
   Map.input_camera = $Camera
 
+  var _nwrError = Events.connect("new_world_requested", self, "generate_new_world")
+
+func generate_new_world():
   # Create the world with GameState methods
   var game_state = GameState.new()
 
@@ -37,9 +40,7 @@ func _ready():
   $GUI.game_state = game_state
   sim = Simulator.new(game_state)
 
-  # Take a breath, then start the simulation
-  # yield(get_tree().create_timer(0.5), "timeout")
-  # sim.start()
 
 func _process(delta):
-  sim._process(delta)
+  if sim:
+    sim._process(delta)

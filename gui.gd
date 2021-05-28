@@ -27,7 +27,7 @@ func set_hovered_terrain(terrain):
 var JobLabel = preload("res://job_label.gd")
 
 func add_job(job):
-  $Menus/Right/VSplitContainer/Jobs/JobsList.add_child(JobLabel.new(job))
+  $Menus/Right/VBox/Jobs/JobsList.add_child(JobLabel.new(job))
 
 func _ready():
   var _node_rclicked = Events.connect("node_rclicked", self, "handle_cell_rclicked")
@@ -72,12 +72,13 @@ func handle_cell_rclicked(location_key):
 
 var last_hovered
 func handle_cell_hovered(location_key):
-  if location_key != last_hovered:
-    last_hovered = location_key
-    var cell = game_state.map.map_grid.lookup_cell(location_key)
-    if cell:
-      self.hovered_pawn = cell.pawn
-      self.hovered_feature = cell.feature
-      self.hovered_terrain = cell.terrain
+  if location_key == last_hovered: return
 
-      $HoverIndicator.translation = cell.position
+  last_hovered = location_key
+  var cell = game_state.map.map_grid.lookup_cell(location_key)
+  if cell:
+    self.hovered_pawn = cell.pawn
+    self.hovered_feature = cell.feature
+    self.hovered_terrain = cell.terrain
+
+    $HoverIndicator.translation = cell.position

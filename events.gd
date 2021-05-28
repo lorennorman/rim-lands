@@ -6,6 +6,11 @@
 
 extends Node
 
+# New/Load/Save Data
+signal new_world_requested
+signal load_world_requested
+signal save_world_requested
+
 # Timer
 signal start_timer
 
