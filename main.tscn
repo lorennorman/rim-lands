@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://assets/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://girassol_font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://font_theme.tres" type="Theme" id=7]
 [ext_resource path="res://job_markers.gd" type="Script" id=8]
+[ext_resource path="res://pawn_models.gd" type="Script" id=9]
 
 [sub_resource type="PanoramaSky" id=1]
 panorama = ExtResource( 4 )
@@ -59,6 +60,11 @@ pitch_limit = 24
 distance = 20.0
 average_max_speed = Vector3( 40, 40, 40 )
 local = false
+
+[node name="Pawns" type="Spatial" parent="."]
+script = ExtResource( 9 )
+
+[node name="Jobs" type="Spatial" parent="."]
 
 [node name="Map" parent="." instance=ExtResource( 5 )]
 

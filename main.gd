@@ -1,7 +1,6 @@
 extends Spatial
 
 const Simulator = preload("simulator.gd")
-const PawnModel = preload("pawn_model.tscn")
 
 onready var Map = $Map
 var sim
@@ -12,7 +11,6 @@ func _ready():
   var _node_rclicked = Events.connect("node_rclicked", self, "handle_cell_rclicked")
   var _node_lclicked = Events.connect("node_lclicked", self, "handle_cell_lclicked")
   var _node_hovered = Events.connect("node_hovered", self, "handle_cell_hovered")
-  var _pawn_added = Events.connect("pawn_added", self, "add_pawn")
   var _job_added = Events.connect("job_added", $GUI, "add_job")
 
   # Create the world with GameState methods
@@ -45,11 +43,6 @@ func handle_start_timer(timer):
   add_child(timer)
   yield(timer, "timeout")
   remove_child(timer)
-
-func add_pawn(pawn):
-  var pawn_scene = PawnModel.instance()
-  pawn_scene.pawn = pawn
-  add_child(pawn_scene)
 
 var selected_location_key
 var selected_cell
