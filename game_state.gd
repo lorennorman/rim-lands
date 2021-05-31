@@ -2,30 +2,58 @@ extends Resource
 
 class_name GameState
 
-export(Array, Resource) var pawns
+export(Array, Resource) var pawns setget _set_pawns
 export(Array, Resource) var jobs
-export(Resource) var map
+export(Resource) var map_grid setget _set_map
 
-## resource management
+signal map_ready
+
+func _set_map(new_map):
+  map_grid = new_map
+  emit_signal("map_ready")
+
+func add_pawn(pawn: Pawn, location: String):
+  assert(map_grid, "Map must be set before Pawns can be added")
+  pawns.push_back(pawn)
+  map_grid.set_pawn(location, pawn)
+  Events.emit_signal("pawn_added", pawn)
+
+func _set_pawns(all_pawns):
+  pawns = []
+
+  if not map_grid:
+    yield(self, "map_ready")
+
+  for pawn in all_pawns:
+    add_pawn(pawn, pawn.location)
+
+
+func add_job(job: Job, location: String):
+  assert(map_grid, "Map must be set before Jobs can be added")
+  jobs.push_back(job)
+  job.map_cell = map_grid.lookup_cell(location)
+  Events.emit_signal("job_added", job)
+
+
+func teardown():
+  pass
+  # destroy all jobs
+  # destroy all pawns
+  # destroy all map cells
+  # destroy map
+
+  # destroy signals will cascade through the scene tree and clean up
+
+# Helpers
 func make_pawn(type, name, node_key) -> void:
-  assert(map, "Map must be set before Pawns can be added")
   var pawn = Pawn.new()
   pawn.race = type
   pawn.character_name = name
-  pawns.push_back(pawn)
-
-  map.set_pawn(node_key, pawn)
-  Events.emit_signal("pawn_added", pawn)
+  add_pawn(pawn, node_key)
 
 
 func make_job(job_type, job_location) -> void:
-  assert(map, "Map must be set before Jobs can be added")
   var job = Job.new()
   job.type = job_type
   job.location = job_location
-  job.map_cell = map.map_grid.lookup_cell(job_location)
-
-  # add to simulator job queue
-  jobs.push_back(job)
-
-  Events.emit_signal("job_added", job)
+  add_job(job, job_location)

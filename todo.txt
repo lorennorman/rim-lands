@@ -1,10 +1,11 @@
 TODO:
+- [ ] reorganize Map for save/load
 - [ ] investigate RayCast as a node
-- [ ] implement Move job
-- [ ] apply aura particle system to a pawn
 - [ ] pawn name tags
 
 Done:
+- [x] implement Move job
+- [x] apply aura particle system to a pawn
 - [x] download particle system textures
 - [x] add custom fonts
 - [x] use a global event bus

@@ -1,0 +1,94 @@
+[gd_resource type="Resource" load_steps=18 format=2]
+
+[ext_resource path="res://game_state.gd" type="Script" id=1]
+[ext_resource path="res://pawn.gd" type="Script" id=2]
+[ext_resource path="res://job.gd" type="Script" id=3]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 3 )
+type = 1
+location = "20,20"
+percent_complete = 0
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 3 )
+type = 1
+location = "22,50"
+percent_complete = 0
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 3 )
+type = 1
+location = "50,22"
+percent_complete = 0
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 3 )
+type = 1
+location = "63,51"
+percent_complete = 0
+
+[sub_resource type="Resource" id=5]
+script = ExtResource( 3 )
+type = 1
+location = "30,25"
+percent_complete = 0
+
+[sub_resource type="Resource" id=6]
+script = ExtResource( 3 )
+type = 1
+location = "31,21"
+percent_complete = 0
+
+[sub_resource type="Resource" id=7]
+script = ExtResource( 3 )
+type = 1
+location = "31,22"
+percent_complete = 0
+
+[sub_resource type="Resource" id=8]
+script = ExtResource( 3 )
+type = 1
+location = "32,21"
+percent_complete = 0
+
+[sub_resource type="Resource" id=9]
+script = ExtResource( 3 )
+type = 1
+location = "32,22"
+percent_complete = 0
+
+[sub_resource type="Resource" id=10]
+script = ExtResource( 3 )
+type = 1
+location = "30,25"
+percent_complete = 0
+
+[sub_resource type="Resource" id=11]
+script = ExtResource( 2 )
+race = "Dwarf"
+character_name = "Thorben"
+location = "25,20"
+
+[sub_resource type="Resource" id=12]
+script = ExtResource( 2 )
+race = "Elf"
+character_name = "Zah Dir"
+location = "31,28"
+
+[sub_resource type="Resource" id=13]
+script = ExtResource( 2 )
+race = "Elf"
+character_name = "Zah Dra"
+location = "38,21"
+
+[sub_resource type="Resource" id=14]
+script = ExtResource( 2 )
+race = "Human"
+character_name = "Fardinand"
+location = "38,27"
+
+[resource]
+script = ExtResource( 1 )
+pawns = [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ]
+jobs = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ]

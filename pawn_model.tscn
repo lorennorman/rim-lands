@@ -4,7 +4,7 @@
 [ext_resource path="res://pawn_model.gd" type="Script" id=2]
 [ext_resource path="res://toon_shader_outline_pass.tres" type="Material" id=3]
 [ext_resource path="res://aura.tscn" type="PackedScene" id=4]
-[ext_resource path="res://assets/vector_style1.png" type="Texture" id=5]
+[ext_resource path="res://assets/pawn_emotes.png" type="Texture" id=5]
 
 [sub_resource type="SpatialMaterial" id=1]
 next_pass = ExtResource( 3 )

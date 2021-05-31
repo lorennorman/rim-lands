@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=2]
 [ext_resource path="res://gui.gd" type="Script" id=3]
 [ext_resource path="res://addons/zylann.hterrain_demo/textures/table_mountain_2_4k.hdr" type="Texture" id=4]
-[ext_resource path="res://map.tscn" type="PackedScene" id=5]
+[ext_resource path="res://map_terrain.tscn" type="PackedScene" id=5]
 [ext_resource path="res://girassol_font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://font_theme.tres" type="Theme" id=7]
 [ext_resource path="res://job_markers.gd" type="Script" id=8]
@@ -71,7 +71,7 @@ script = ExtResource( 9 )
 
 [node name="Jobs" type="Spatial" parent="."]
 
-[node name="Map" parent="." instance=ExtResource( 5 )]
+[node name="MapTerrain" parent="." instance=ExtResource( 5 )]
 
 [node name="GUI" type="Spatial" parent="."]
 script = ExtResource( 3 )

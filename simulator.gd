@@ -41,7 +41,7 @@ func assign_job_to_pawn(job: Job, pawn: Pawn) -> void:
 
 func move_pawn_to_job(pawn: Pawn, job: Job):
   # fetch the A* path
-  var move_path = game_state.map.get_move_path(pawn.location, job.location)
+  var move_path = game_state.map_grid.get_move_path(pawn.location, job.location)
   var next_index = 1
 
   while next_index < move_path.size():
@@ -56,7 +56,7 @@ func move_pawn_to_job(pawn: Pawn, job: Job):
     # get the next location
     var next_position = move_path[next_index]
     var current_cell = pawn.map_cell
-    var next_cell = game_state.map.map_grid.lookup_cell(next_position)
+    var next_cell = game_state.map_grid.lookup_cell(next_position)
 
     # retry if destination is already occupied by a pawn (pawn will freeze)
     if next_cell.pawn:

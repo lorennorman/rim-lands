@@ -2,12 +2,12 @@ extends Resource
 
 class_name Job
 
-var type setget _type
-var location setget _location
+export(Enums.Jobs) var type setget _type
+export(String) var location setget _location
 var area setget _area
 var map_cell
 var current_worker setget _current_worker
-var percent_complete = 0 setget _percent_complete
+export(int, 0, 100) var percent_complete = 0 setget _percent_complete
 
 signal updated(job)
 

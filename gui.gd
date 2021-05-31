@@ -39,7 +39,7 @@ func handle_cell_lclicked(location_key):
   if selected_location_key != location_key:
     selected_location_key = location_key
 
-    selected_cell = game_state.map.map_grid.lookup_cell(location_key)
+    selected_cell = game_state.map_grid.lookup_cell(location_key)
     $SelectIndicator.translation = selected_cell.position
 
     # select next entity: pawn, feature, terrain
@@ -75,7 +75,7 @@ func handle_cell_hovered(location_key):
   if location_key == last_hovered: return
 
   last_hovered = location_key
-  var cell = game_state.map.map_grid.lookup_cell(location_key)
+  var cell = game_state.map_grid.lookup_cell(location_key)
   if cell:
     self.hovered_pawn = cell.pawn
     self.hovered_feature = cell.feature

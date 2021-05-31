@@ -2,11 +2,15 @@ extends Resource
 
 class_name Pawn
 
+# RPG Stuff
+export(String) var race = "Dwarf"
+export(String) var character_name setget , _get_name
+
+# Real location on map
+export(String) var location = "0,0"
+# Derivable from location
 var map_cell setget _set_map_cell
-var location = "0,0"
 var translation = Vector3(0, 0, 0)
-var race = "Dwarf"
-var character_name setget , _get_name
 
 # Job Stuff
 var on_cooldown := false
