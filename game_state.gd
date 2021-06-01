@@ -2,14 +2,14 @@ extends Resource
 
 class_name GameState
 
+export(Resource) var map_grid setget _set_map_grid
 export(Array, Resource) var pawns setget _set_pawns
 export(Array, Resource) var jobs
-export(Resource) var map_grid setget _set_map
 
 signal map_ready
 
-func _set_map(new_map):
-  map_grid = new_map
+func _set_map_grid(new_map_grid: MapGrid):
+  map_grid = new_map_grid
   emit_signal("map_ready")
 
 func add_pawn(pawn: Pawn, location: String):
@@ -54,6 +54,6 @@ func make_pawn(type, name, node_key) -> void:
 
 func make_job(job_type, job_location) -> void:
   var job = Job.new()
-  job.type = job_type
+  job.job_type = job_type
   job.location = job_location
   add_job(job, job_location)

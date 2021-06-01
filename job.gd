@@ -2,7 +2,7 @@ extends Resource
 
 class_name Job
 
-export(Enums.Jobs) var type setget _type
+export(Enums.Jobs) var job_type setget _job_type
 export(String) var location setget _location
 var area setget _area
 var map_cell
@@ -11,8 +11,8 @@ export(int, 0, 100) var percent_complete = 0 setget _percent_complete
 
 signal updated(job)
 
-func _type(new_type):
-  type = new_type
+func _job_type(new_job_type):
+  job_type = new_job_type
   emit_signal("updated", self)
 
 func _location(new_location):
@@ -46,7 +46,7 @@ func as_text():
   var owner = current_worker.character_name if current_worker else ""
   var text
 
-  match type:
+  match job_type:
     Enums.Jobs.MOVE:
       text = "Move to:"
     Enums.Jobs.BUILD:

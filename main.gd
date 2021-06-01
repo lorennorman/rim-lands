@@ -9,11 +9,22 @@ var sim: Simulator
 func _ready():
   $MapTerrain.input_camera = $Camera
 
-  # var _nwrError = Events.connect("new_world_requested", self, "generate_new_world")
+  # var _nwrError = Events.connect("new_world_requested", self, "new_world")
   var _lwrError = Events.connect("load_world_requested", self, "load_world")
-  # var _swrError = Events.connect("save_world_requested", self, "save_world")
+  var _swrError = Events.connect("save_world_requested", self, "save_world")
 
-  generate_new_world()
+  new_world()
+
+
+func replace_game_state(new_game_state):
+  if game_state:
+    game_state.teardown()
+
+  game_state = new_game_state
+  $MapTerrain.map_grid = game_state.map_grid
+  $GUI.game_state = new_game_state
+  sim = Simulator.new(new_game_state)
+  print("Simulating!")
 
 
 func _process(delta):
@@ -34,7 +45,7 @@ func save_world():
     printerr("Error saving GameState")
 
 
-func generate_new_world():
+func new_world():
   # Create the world with GameState methods
   var generated_game_state = GameState.new()
 
@@ -64,14 +75,3 @@ func generate_new_world():
   #  make_job("Till Soil", "30,60")
 
   replace_game_state(generated_game_state)
-
-
-func replace_game_state(new_game_state):
-  if game_state:
-    game_state.teardown()
-
-  game_state = new_game_state
-  $MapTerrain.map_grid = game_state.map_grid
-  $GUI.game_state = new_game_state
-  sim = Simulator.new(new_game_state)
-  print("Simulating!")

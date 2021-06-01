@@ -20,14 +20,13 @@ var noise: OpenSimplexNoise
 var astar: AStar
 var omni_dict: Dictionary
 
-func _init():
+
+func generate_cells():
   astar = AStar.new()
   astar.reserve_space(map_size * map_size)
 
   omni_dict = {}
 
-
-func generate_cells():
   noise = OpenSimplexNoise.new()
   noise.seed = noise_seed
 

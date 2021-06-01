@@ -25,7 +25,7 @@ func assign_job_to_pawn(job: Job, pawn: Pawn) -> void:
   pawn.current_job = job
   job.current_worker = pawn
 
-  match job.type:
+  match job.job_type:
     Enums.Jobs.MOVE:
       if job.location != pawn.location:
         yield(move_pawn_to_job(pawn, job), "completed")
