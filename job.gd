@@ -6,10 +6,17 @@ export(Enums.Jobs) var job_type setget _job_type
 export(String) var location setget _location
 var area setget _area
 var map_cell
+var key setget , get_key
 var current_worker setget _current_worker
 export(int, 0, 100) var percent_complete = 0 setget _percent_complete
 
+# Job canceled or deleted
+var removed := false
+
 signal updated(job)
+
+func get_key():
+  return "%s:%s" % [job_type, location]
 
 func _job_type(new_job_type):
   job_type = new_job_type
@@ -35,7 +42,6 @@ func complete():
   if current_worker and current_worker.current_job == self:
     current_worker.current_job = null
   emit_signal("updated", self)
-  print("am i  called?")
   Events.emit_signal("job_completed", self)
 
 func is_claimed():

@@ -17,6 +17,13 @@ var on_cooldown := false
 var move_speed = 0.4
 var build_speed = 20
 
+var key setget , get_key
+# Removal
+var removed := false
+
+func get_key():
+  return character_name
+
 func _get_name():
   return character_name if character_name else race
 

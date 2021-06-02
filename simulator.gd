@@ -43,11 +43,11 @@ func move_pawn_to_job(pawn: Pawn, job: Job):
   # fetch the A* path
   var move_path = game_state.map_grid.get_move_path(pawn.location, job.location)
   var next_index = 1
-
   while next_index < move_path.size():
     # Not available yet?
-    if pawn.on_cooldown:
-      yield(pawn, "job_cooldown")
+    if pawn.on_cooldown: yield(pawn, "job_cooldown")
+    # Pawn removed or job canceled?
+    if pawn.removed or job.removed: break
 
     # Changed jobs before done?
     if pawn.current_job != job:
@@ -75,6 +75,8 @@ func move_pawn_to_job(pawn: Pawn, job: Job):
 
 func build_until_done(pawn: Pawn, job: Job):
   while job.percent_complete < 100:
+    # Pawn removed or job canceled
+    if pawn.removed or job.removed: break
     # build function :)
     job.percent_complete += pawn.applied_build_speed()
     yield(pawn, "job_cooldown")

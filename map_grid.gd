@@ -164,14 +164,8 @@ func get_move_path(from_key, to_key):
   var to_id = lookup_cell(to_key).astar_id
   return astar.get_point_path(from_id, to_id)
 
-class MapCell:
-  extends Resource
-
-  var position: Vector3
-  var disabled: bool
-  var astar_id: int
-  var location: String
-
-  var pawn: Pawn
-  var feature
-  var terrain
+func teardown():
+  # clear the map cells
+  omni_dict.clear()
+  # clear the astar network
+  astar.clear()

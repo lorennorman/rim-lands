@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://assets/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://pawn_models.gd" type="Script" id=9]
 [ext_resource path="res://timers.gd" type="Script" id=10]
 [ext_resource path="res://file_menu.gd" type="Script" id=11]
+[ext_resource path="res://job_labels.gd" type="Script" id=12]
 
 [sub_resource type="PanoramaSky" id=1]
 panorama = ExtResource( 4 )
@@ -221,15 +222,16 @@ margin_bottom = 21.0
 theme = ExtResource( 7 )
 text = "JOBS"
 
-[node name="JobsList" type="VBoxContainer" parent="GUI/Menus/Right/VBox/Jobs"]
+[node name="JobLabels" type="VBoxContainer" parent="GUI/Menus/Right/VBox/Jobs"]
 margin_top = 25.0
 margin_right = 204.0
 margin_bottom = 29.0
+script = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSeparator" type="HSeparator" parent="GUI/Menus/Right/VBox/Jobs/JobsList"]
+[node name="HSeparator" type="HSeparator" parent="GUI/Menus/Right/VBox/Jobs/JobLabels"]
 margin_right = 204.0
 margin_bottom = 4.0
 

@@ -4,39 +4,43 @@ const Simulator = preload("simulator.gd")
 
 var game_state: GameState
 var sim: Simulator
+var state = "loading"
 
 
 func _ready():
   $MapTerrain.input_camera = $Camera
 
-  # var _nwrError = Events.connect("new_world_requested", self, "new_world")
+  var _nwrError = Events.connect("new_world_requested", self, "new_world")
   var _lwrError = Events.connect("load_world_requested", self, "load_world")
   var _swrError = Events.connect("save_world_requested", self, "save_world")
 
-  new_world()
+  # new_world()
 
 
 func replace_game_state(new_game_state):
-  if game_state:
-    game_state.teardown()
-
   game_state = new_game_state
-  $MapTerrain.map_grid = game_state.map_grid
-  $GUI.game_state = new_game_state
-  sim = Simulator.new(new_game_state)
+
+  $MapTerrain.game_state = game_state
+  sim = Simulator.new(game_state)
+  state = "simulating"
   print("Simulating!")
 
 
 func _process(delta):
-  if sim:
-    sim._process(delta)
+  match state:
+    "simulating": if sim: sim._process(delta)
 
 
 func load_world():
-  var loaded_game_state = ResourceLoader.load("res://savegame.tres", "GameState")
-  # TODO: rebuild MapTerrain and Cells
-  # TODO: noise object? astar details?
-  # TODO: reconnect Jobs and Pawns
+  state = "loading"
+  $MapTerrain.game_state = null
+  if game_state: game_state.teardown()
+  game_state = null
+
+  var loaded_game_state = ResourceLoader.load("res://savegame1.tres", "GameState", true)
+  # # TODO: rebuild MapTerrain and Cells
+  # # TODO: noise object? astar details?
+  # # TODO: reconnect Jobs and Pawns
   replace_game_state(loaded_game_state)
 
 
@@ -46,12 +50,16 @@ func save_world():
 
 
 func new_world():
+  state = "loading"
+  $MapTerrain.game_state = null
+  if game_state: game_state.teardown()
+  game_state = null
+
   # Create the world with GameState methods
   var generated_game_state = GameState.new()
 
   # MapGrid
   var map_grid = MapGrid.new()
-  map_grid.generate_cells()
   generated_game_state.map_grid = map_grid
 
   # Put pawns onto the map

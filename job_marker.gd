@@ -6,7 +6,6 @@ func _ready():
   assert(job, "JobMarker became ready without a job")
   translation = job.map_cell.position
   scale.x = clamp(job.percent_complete/100.0, 0.1, 1.0)
-  var _job_completed = Events.connect("job_completed", self, "_on_job_completed")
   job.connect("updated", self, "_job_updated")
 
 func _job_updated(_updated_job):
@@ -15,7 +14,3 @@ func _job_updated(_updated_job):
     self.scale, Vector3(target_scale, self.scale.y, self.scale.z), 1,
     Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
   $Tween.start()
-
-func _on_job_completed(completed_job):
-  if job == completed_job:
-    queue_free()

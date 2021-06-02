@@ -1,4 +1,4 @@
-# I generate terrain by scripting the HTerrain plugin! I bring a few special
+ # I generate terrain by scripting the HTerrain plugin! I bring a few special
 # tools of my own, like the gradient-based terrain coloration, height weighting,
 # a pathfinding grid, and a collection on each pathfinding node
 extends Spatial
@@ -9,13 +9,23 @@ const HTerrainData = preload("res://addons/zylann.hterrain/hterrain_data.gd")
 
 # Camera's perspective to use when clicked
 var input_camera: Camera
-var map_grid: MapGrid setget _set_map_grid
+var game_state: GameState setget _set_game_state
+var map_grid: MapGrid
 
-func _set_map_grid(new_map_grid):
-  map_grid = new_map_grid
-  generate_from_map_grid()
+var input_state = "paused"
+
+func _set_game_state(new_game_state):
+  input_state = "paused"
+  game_state = new_game_state
+
+  if game_state:
+    map_grid = game_state.map_grid
+    generate_from_map_grid()
+    input_state = "listening"
+
 
 func generate_from_map_grid():
+  assert(map_grid, "Tried to generate MapTerrain with MapGrid")
   # Generate fresh terrain
   var terrain_data = HTerrainData.new()
 
@@ -70,6 +80,8 @@ var to_process = null
 var ray_length = 1000
 
 func _input(event):
+  if input_state != "listening": return
+
   if input_camera and (event is InputEventMouseButton and event.pressed) or (event is InputEventMouseMotion):
     # cast ray from the given camera
     var from = input_camera.project_ray_origin(event.position)
@@ -100,8 +112,9 @@ func _physics_process(_delta):
 
     # if the work worked, go!
     if result.get("position"):
-      var node_key = "%d,%d" % [result.position.x, result.position.z]
-      Events.emit_signal("node_%s" % action, node_key)
+      var location = "%d,%d" % [result.position.x, result.position.z]
+      var map_cell = map_grid.lookup_cell(location)
+      Events.emit_signal("node_%s" % action, map_cell)
 
     if result.get("collider") and result.collider is Pawn:
       print(result.collider)

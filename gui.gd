@@ -3,9 +3,8 @@ extends Spatial
 var hovered_pawn setget set_hovered_pawn
 var hovered_feature setget set_hovered_feature
 var hovered_terrain setget set_hovered_terrain
-var selected_entity# setget set_selected_entity
-var selected_location_key
-var selected_cell
+var selected_entity
+var selected_cell: MapCell
 var game_state: GameState
 
 func set_hovered_pawn(pawn):
@@ -23,23 +22,16 @@ func set_hovered_terrain(terrain):
   $Menus/Left/VSplitContainer/VBoxContainer/TerrainHoverLabel/ColorRect.color = color
 
 
-## Jobs
-var JobLabel = preload("res://job_label.gd")
-
-func add_job(job):
-  $Menus/Right/VBox/Jobs/JobsList.add_child(JobLabel.new(job))
-
 func _ready():
   var _node_rclicked = Events.connect("node_rclicked", self, "handle_cell_rclicked")
   var _node_lclicked = Events.connect("node_lclicked", self, "handle_cell_lclicked")
   var _node_hovered = Events.connect("node_hovered", self, "handle_cell_hovered")
-  var _job_added = Events.connect("job_added", self, "add_job")
 
-func handle_cell_lclicked(location_key):
-  if selected_location_key != location_key:
-    selected_location_key = location_key
+func handle_cell_lclicked(cell):
+  # new cell clicked
+  if selected_cell != cell:
+    selected_cell = cell
 
-    selected_cell = game_state.map_grid.lookup_cell(location_key)
     $SelectIndicator.translation = selected_cell.position
 
     # select next entity: pawn, feature, terrain
@@ -50,6 +42,7 @@ func handle_cell_lclicked(location_key):
     if not selected_entity:
       selected_entity = selected_cell.terrain
 
+  # already-selected cell clicked again
   else:
     if selected_entity is Color:
       return
@@ -64,21 +57,20 @@ func handle_cell_lclicked(location_key):
   else:
     $Menus/Left/VSplitContainer/Panel/MarginContainer/TargetFocus.text = "%s" % selected_entity
 
-func handle_cell_rclicked(location_key):
+func handle_cell_rclicked(cell):
   if selected_entity is Pawn:
-    # sim.make_job(Enums.Jobs.MOVE, location_key, selected_entity)
+    # sim.make_job(Enums.Jobs.MOVE, cell.location, selected_entity)
     pass
 
 
-var last_hovered
-func handle_cell_hovered(location_key):
-  if location_key == last_hovered: return
+var last_hovered_cell
+func handle_cell_hovered(cell):
+  if cell == last_hovered_cell: return
+  assert(cell, "Invalid cell passed to handle_cell_hovered: %s" % cell)
 
-  last_hovered = location_key
-  var cell = game_state.map_grid.lookup_cell(location_key)
-  if cell:
-    self.hovered_pawn = cell.pawn
-    self.hovered_feature = cell.feature
-    self.hovered_terrain = cell.terrain
+  last_hovered_cell = cell
+  self.hovered_pawn = cell.pawn
+  self.hovered_feature = cell.feature
+  self.hovered_terrain = cell.terrain
 
-    $HoverIndicator.translation = cell.position
+  $HoverIndicator.translation = cell.position
