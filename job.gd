@@ -4,6 +4,8 @@ class_name Job
 
 export(Enums.Jobs) var job_type setget _job_type
 export(String) var location setget _location
+var params setget _set_params
+var building_type
 var area setget _area
 var map_cell
 var key setget , get_key
@@ -17,6 +19,11 @@ signal updated(job)
 
 func get_key():
   return "%s:%s" % [job_type, location]
+
+func _set_params(new_params):
+  match job_type:
+    Enums.Jobs.BUILD:
+      building_type = new_params
 
 func _job_type(new_job_type):
   job_type = new_job_type

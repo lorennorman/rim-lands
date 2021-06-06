@@ -37,6 +37,7 @@ func assign_job_to_pawn(job: Job, pawn: Pawn) -> void:
         yield(move_pawn_to_job(pawn, job), "completed")
       # until done:
       yield(build_until_done(pawn, job), "completed")
+      game_state.make_building(job.building_type, job.location)
       job.complete()
 
 func move_pawn_to_job(pawn: Pawn, job: Job):

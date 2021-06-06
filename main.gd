@@ -69,16 +69,20 @@ func new_world():
   generated_game_state.make_pawn("Human", "Fardinand", "32,22")
 
   # Add some jobs to the job list
-  generated_game_state.make_job(Enums.Jobs.MOVE, "20,20")
-  generated_game_state.make_job(Enums.Jobs.MOVE, "22,50")
-  generated_game_state.make_job(Enums.Jobs.MOVE, "50,22")
-  generated_game_state.make_job(Enums.Jobs.MOVE, "63,51")
-  generated_game_state.make_job(Enums.Jobs.MOVE, "30,25")
-  generated_game_state.make_job(Enums.Jobs.MOVE, "31,21")
-  generated_game_state.make_job(Enums.Jobs.MOVE, "31,22")
-  generated_game_state.make_job(Enums.Jobs.MOVE, "32,21")
-  # generated_game_state.make_job(Enums.Jobs.BUILD, "32,22")
-  # generated_game_state.make_job(Enums.Jobs.BUILD, "30,25")
+  # Move orders
+  # generated_game_state.make_job(Enums.Jobs.MOVE, "20,20")
+  # generated_game_state.make_job(Enums.Jobs.MOVE, "22,50")
+  # generated_game_state.make_job(Enums.Jobs.MOVE, "50,22")
+  # generated_game_state.make_job(Enums.Jobs.MOVE, "63,51")
+
+  # Build orders
+  generated_game_state.make_job(Enums.Jobs.BUILD, "25,22", Enums.Buildings.WALL)
+  generated_game_state.make_job(Enums.Jobs.BUILD, "26,22", Enums.Buildings.WALL)
+  generated_game_state.make_job(Enums.Jobs.BUILD, "30,22", Enums.Buildings.WALL)
+  generated_game_state.make_job(Enums.Jobs.BUILD, "32,22", Enums.Buildings.WALL)
+  generated_game_state.make_job(Enums.Jobs.BUILD, "35,22", Enums.Buildings.WALL)
+
+  # Unimplemented orders
   #  make_job("Mine Ore", "55,55")
   #  make_job("Till Soil", "30,60")
 

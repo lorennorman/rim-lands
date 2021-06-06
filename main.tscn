@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://assets/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://timers.gd" type="Script" id=10]
 [ext_resource path="res://file_menu.gd" type="Script" id=11]
 [ext_resource path="res://job_labels.gd" type="Script" id=12]
+[ext_resource path="res://building_models.gd" type="Script" id=13]
 
 [sub_resource type="PanoramaSky" id=1]
 panorama = ExtResource( 4 )
@@ -69,6 +70,9 @@ local = false
 
 [node name="Pawns" type="Spatial" parent="."]
 script = ExtResource( 9 )
+
+[node name="Buildings" type="Spatial" parent="."]
+script = ExtResource( 13 )
 
 [node name="Jobs" type="Spatial" parent="."]
 

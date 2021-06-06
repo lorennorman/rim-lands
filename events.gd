@@ -26,3 +26,6 @@ signal pawn_removed(pawn)
 signal job_added(job)
 signal job_removed(job)
 signal job_completed(job)
+
+signal building_added(building)
+signal building_removed(building)

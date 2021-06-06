@@ -15,7 +15,7 @@ var translation = Vector3(0, 0, 0)
 # Job Stuff
 var on_cooldown := false
 var move_speed = 0.4
-var build_speed = 20
+var build_speed = 100
 
 var key setget , get_key
 # Removal

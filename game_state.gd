@@ -62,6 +62,11 @@ func destroy_job(job, erase=true):
   Events.emit_signal("job_removed", job)
 
 
+func add_building(building, location):
+  building["map_cell"] = map_grid.lookup_cell(location)
+  Events.emit_signal("building_added", building)
+
+
 func teardown():
   # destroy all jobs
   for job in jobs: destroy_job(job, false)
@@ -76,15 +81,23 @@ func teardown():
   # "destroy_*" signals will cascade through the scene tree and clean up
 
 # Helpers
-func make_pawn(type, name, node_key) -> void:
+func make_pawn(type, name, location) -> void:
   var pawn = Pawn.new()
   pawn.race = type
   pawn.character_name = name
-  add_pawn(pawn, node_key)
+  add_pawn(pawn, location)
 
 
-func make_job(job_type, job_location) -> void:
+func make_job(job_type, job_location, job_params) -> void:
   var job = Job.new()
   job.job_type = job_type
   job.location = job_location
+  if job_params: job.params = job_params
   add_job(job, job_location)
+
+func make_building(building_type, building_location) -> void:
+  var building = Building.new()
+  building.type = building_type
+  building.location = building_location
+
+  add_building(building, building_location)
