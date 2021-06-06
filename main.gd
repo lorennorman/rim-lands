@@ -37,10 +37,9 @@ func load_world():
   if game_state: game_state.teardown()
   game_state = null
 
+  # state is rehydrated by its own setters during load
   var loaded_game_state = ResourceLoader.load("res://savegame1.tres", "GameState", true)
-  # # TODO: rebuild MapTerrain and Cells
-  # # TODO: noise object? astar details?
-  # # TODO: reconnect Jobs and Pawns
+
   replace_game_state(loaded_game_state)
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://assets/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://file_menu.gd" type="Script" id=11]
 [ext_resource path="res://job_labels.gd" type="Script" id=12]
 [ext_resource path="res://building_models.gd" type="Script" id=13]
+[ext_resource path="res://build_button.gd" type="Script" id=14]
 
 [sub_resource type="PanoramaSky" id=1]
 panorama = ExtResource( 4 )
@@ -164,15 +165,14 @@ margin_right = 204.0
 margin_bottom = 89.0
 columns = 3
 
-[node name="Button4" type="MenuButton" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
+[node name="BuildButton" type="MenuButton" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
 margin_right = 50.0
 margin_bottom = 26.0
 custom_fonts/font = ExtResource( 6 )
 text = "Build"
-
-[node name="PopupMenu2" type="PopupMenu" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu/Button4"]
-margin_right = 20.0
-margin_bottom = 20.0
+flat = false
+items = [ "Wall", null, 0, false, false, 0, 0, null, "", false, "Door", null, 0, false, false, 1, 0, null, "", false ]
+script = ExtResource( 14 )
 
 [node name="Button5" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
 margin_left = 54.0

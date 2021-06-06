@@ -90,9 +90,9 @@ func _input(event):
     var action = "hovered" # default so we don't have to check for MouseMotion
     if event is InputEventMouseButton:
       if event.button_index == 1:
-        action = "lclicked"
+        action = "left_clicked"
       if event.button_index == 2:
-        action = "rclicked"
+        action = "right_clicked"
 
     if from and to:
       self.to_process = { "from": from, "to": to, "action": action }
@@ -114,7 +114,7 @@ func _physics_process(_delta):
     if result.get("position"):
       var location = "%d,%d" % [result.position.x, result.position.z]
       var map_cell = map_grid.lookup_cell(location)
-      Events.emit_signal("node_%s" % action, map_cell)
+      Events.emit_signal("cell_%s" % action, map_cell)
 
     if result.get("collider") and result.collider is Pawn:
       print(result.collider)

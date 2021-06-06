@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://enums.gd"
 }, {
 "base": "Resource",
+"class": "GUIState",
+"language": "GDScript",
+"path": "res://gui_state.gd"
+}, {
+"base": "Resource",
 "class": "GameState",
 "language": "GDScript",
 "path": "res://game_state.gd"
@@ -57,6 +62,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Building": "",
 "Enums": "",
+"GUIState": "",
 "GameState": "",
 "HTerrainDataLoader": "",
 "HTerrainDataSaver": "",

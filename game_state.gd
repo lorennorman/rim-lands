@@ -5,6 +5,8 @@ class_name GameState
 export(Array, Resource) var pawns setget _set_pawns
 export(Array, Resource) var jobs setget _set_jobs
 export(Resource) var map_grid setget _set_map_grid
+var gui_state := GUIState.new()
+
 
 var _jc = Events.connect("job_completed", self, "destroy_job")
 

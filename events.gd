@@ -15,9 +15,15 @@ signal save_world_requested
 signal start_timer
 
 # Inputs
-signal node_lclicked(key)
-signal node_rclicked(key)
-signal node_hovered(key)
+signal cell_left_clicked(key)
+signal cell_right_clicked(key)
+signal cell_hovered(key)
+
+# GUI State Machine
+signal selected_cell_updated
+signal selected_entity_updated
+signal hovered_cell_updated
+signal set_mode(mode_options)
 
 # Simulator changes
 signal pawn_added(pawn)
