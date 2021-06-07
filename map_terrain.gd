@@ -77,10 +77,27 @@ func extract_map_images(terrain_data, image_types, operator_func):
 
 # Mouse Input Tracking
 var to_process = null
-var ray_length = 1000
-
+var ray_length := 1000
+var left_dragging := false
+var right_dragging := false
 func _input(event):
   if input_state != "listening": return
+
+  if event is InputEventMouseButton:
+    if event.button_index == 1:
+      if left_dragging != event.pressed:
+        if event.pressed:
+          Events.emit_signal("left_drag_started")
+        else:
+          Events.emit_signal("left_drag_ended")
+      left_dragging = event.pressed
+    elif event.button_index == 2:
+      if right_dragging != event.pressed:
+        if event.pressed:
+          Events.emit_signal("right_drag_started")
+        else:
+          Events.emit_signal("right_drag_ended")
+      right_dragging = event.pressed
 
   if input_camera and (event is InputEventMouseButton and event.pressed) or (event is InputEventMouseMotion):
     # cast ray from the given camera

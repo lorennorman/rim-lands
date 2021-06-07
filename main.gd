@@ -14,13 +14,14 @@ func _ready():
   var _lwrError = Events.connect("load_world_requested", self, "load_world")
   var _swrError = Events.connect("save_world_requested", self, "save_world")
 
-  # new_world()
+  load_world()
 
 
 func replace_game_state(new_game_state):
   game_state = new_game_state
 
   $MapTerrain.game_state = game_state
+  $GUI.gui_state = game_state.gui_state
   sim = Simulator.new(game_state)
   state = "simulating"
   print("Simulating!")
