@@ -21,6 +21,7 @@ func replace_game_state(new_game_state):
   game_state = new_game_state
 
   $MapTerrain.game_state = game_state
+  $GUI.game_state = game_state
   $GUI.gui_state = game_state.gui_state
   sim = Simulator.new(game_state)
   state = "simulating"

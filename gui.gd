@@ -1,5 +1,6 @@
 extends Spatial
 
+var game_state
 var gui_state
 
 func _ready():
@@ -44,6 +45,9 @@ func dragged_cell_updated(cell: MapCell):
 
 func left_drag_ended():
   draggable_building_origin = null
+  for building_marker in building_markers:
+    var job = building_marker.job
+    game_state.add_job(job, job.map_cell.location)
   remove_job_markers()
 
 
@@ -59,8 +63,34 @@ func remove_job_markers():
   building_markers = []
 
 const JobMarker = preload("res://job_marker.tscn")
-func add_job_markers_between(x1y1, x2y2):
-  for cell in [x1y1, x2y2]:
+func add_job_markers_between(x1z1, x2z2):
+
+  var x1z1x = x1z1.position.x-0.5
+  var x2z2x = x2z2.position.x-0.5
+  var min_x = min(x1z1x, x2z2x)
+  var max_x = max(x1z1x, x2z2x)
+  var x1z1z = x1z1.position.z-0.5
+  var x2z2z = x2z2.position.z-0.5
+  var min_z = min(x1z1z, x2z2z)
+  var max_z = max(x1z1z, x2z2z)
+
+  var square_cells = []
+  for x in range(min_x, max_x+1):
+    # top wall
+    square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [x, min_z]))
+    if min_z != max_z:
+      # bottom wall
+      square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [x, max_z]))
+
+  if min_z != max_z:
+    for z in range(min_z+1, max_z):
+      # left wall
+      square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [min_x, z]))
+      if min_x != max_x:
+        # right wall
+        square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [max_x, z]))
+
+  for cell in square_cells:
     var job = Job.new()
     job.job_type = Enums.Jobs.BUILD
     job.map_cell = cell

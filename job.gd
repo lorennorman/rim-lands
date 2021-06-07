@@ -7,7 +7,7 @@ export(String) var location setget _location
 var params setget _set_params
 var building_type
 var area setget _area
-var map_cell
+var map_cell setget _set_map_cell
 var key setget , get_key
 var current_worker setget _current_worker
 export(int, 0, 100) var percent_complete = 0 setget _percent_complete
@@ -19,6 +19,10 @@ signal updated(job)
 
 func get_key():
   return "%s:%s" % [job_type, location]
+
+func _set_map_cell(new_map_cell):
+  map_cell = new_map_cell
+  location = map_cell.location
 
 func _set_params(new_params):
   match job_type:
