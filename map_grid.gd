@@ -112,6 +112,9 @@ func set_pawn(location: String, pawn: Pawn, force=false):
 func add_map_cell(position, x, z, terrain, disabled=false):
   var map_cell = MapCell.new()
 
+  # Supply the map to query
+  map_cell.map_grid = self
+
   # Apply the terrain
   map_cell.terrain = terrain
   map_cell.disabled = disabled

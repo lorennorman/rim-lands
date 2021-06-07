@@ -65,12 +65,12 @@ func remove_job_markers():
 const JobMarker = preload("res://job_marker.tscn")
 func add_job_markers_between(x1z1, x2z2):
 
-  var x1z1x = x1z1.position.x-0.5
-  var x2z2x = x2z2.position.x-0.5
+  var x1z1x = x1z1.x
+  var x2z2x = x2z2.x
   var min_x = min(x1z1x, x2z2x)
   var max_x = max(x1z1x, x2z2x)
-  var x1z1z = x1z1.position.z-0.5
-  var x2z2z = x2z2.position.z-0.5
+  var x1z1z = x1z1.z
+  var x2z2z = x2z2.z
   var min_z = min(x1z1z, x2z2z)
   var max_z = max(x1z1z, x2z2z)
 

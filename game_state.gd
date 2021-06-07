@@ -65,7 +65,9 @@ func destroy_job(job, erase=true):
 
 
 func add_building(building, location):
-  building["map_cell"] = map_grid.lookup_cell(location)
+  var cell = map_grid.lookup_cell(location)
+  building.map_cell = cell
+  cell.feature = building
   Events.emit_signal("building_added", building)
 
 
