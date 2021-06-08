@@ -1,22 +1,28 @@
 extends Spatial
 
-const Wall = preload("res://buildings/walls/none.tscn")
+const BuildingModel = preload("res://building_model.gd")
 var job
+var building_model
+
+
+func calculate_scale(percent): return clamp(percent/100.0, 0.08, 1.0)
+
 
 func _ready():
   assert(job, "JobMarker became ready without a job")
-  translation = job.map_cell.position
-  scale.y = clamp(job.percent_complete/100.0, 0.05, 1.0)
   job.connect("updated", self, "_job_updated")
 
   match job.job_type:
     Enums.Jobs.BUILD:
-      var wall = Wall.instance()
-      add_child(wall)
+      building_model = BuildingModel.new()
+      building_model.cell = job.map_cell
+      building_model.scale.y = calculate_scale(job.percent_complete)
+      add_child(building_model)
+
 
 func _job_updated(_updated_job):
-  var target_scale = clamp(job.percent_complete/100.0, 0.1, 1.0)
-  $Tween.interpolate_property(self, "scale",
-    self.scale, Vector3(self.scale.x, target_scale, self.scale.z), 1,
-    Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+  var target_scale_y = calculate_scale(job.percent_complete)
+  var target_scale = Vector3(building_model.scale.x, target_scale_y, building_model.scale.z)
+  $Tween.interpolate_property(building_model, "scale", building_model.scale,
+    target_scale, 1, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
   $Tween.start()

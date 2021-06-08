@@ -23,7 +23,7 @@ func _init():
 func set_mode(mode_params):
   mode = mode_params.mode
 
-  if mode == Enums.Jobs.BUILD:
+  if mode == Enums.Mode.BUILD:
     building = mode_params.building
     if building == Enums.Buildings.WALL:
       Events.emit_signal("mode_updated", mode_params)

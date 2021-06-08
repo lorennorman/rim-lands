@@ -14,7 +14,7 @@ func _ready():
   var _lwrError = Events.connect("load_world_requested", self, "load_world")
   var _swrError = Events.connect("save_world_requested", self, "save_world")
 
-  load_world()
+  new_world()
 
 
 func replace_game_state(new_game_state):
@@ -77,11 +77,11 @@ func new_world():
   # generated_game_state.make_job(Enums.Jobs.MOVE, "63,51")
 
   # Build orders
-  generated_game_state.make_job(Enums.Jobs.BUILD, "25,22", Enums.Buildings.WALL)
-  generated_game_state.make_job(Enums.Jobs.BUILD, "26,22", Enums.Buildings.WALL)
-  generated_game_state.make_job(Enums.Jobs.BUILD, "30,22", Enums.Buildings.WALL)
-  generated_game_state.make_job(Enums.Jobs.BUILD, "32,22", Enums.Buildings.WALL)
-  generated_game_state.make_job(Enums.Jobs.BUILD, "35,22", Enums.Buildings.WALL)
+  # generated_game_state.make_job(Enums.Jobs.BUILD, "25,22", Enums.Buildings.WALL)
+  # generated_game_state.make_job(Enums.Jobs.BUILD, "26,22", Enums.Buildings.WALL)
+  # generated_game_state.make_job(Enums.Jobs.BUILD, "30,22", Enums.Buildings.WALL)
+  # generated_game_state.make_job(Enums.Jobs.BUILD, "32,22", Enums.Buildings.WALL)
+  # generated_game_state.make_job(Enums.Jobs.BUILD, "35,22", Enums.Buildings.WALL)
 
   # Unimplemented orders
   #  make_job("Mine Ore", "55,55")

@@ -13,9 +13,9 @@ const button_map = {
 
 func _ready():
   var popup = get_popup()
-  popup.connect("id_pressed", self, "file_menu")
+  popup.connect("id_pressed", self, "building_menu_selected")
 
-func file_menu( id ):
+func building_menu_selected(id):
   var building = button_map[id]
 
-  Events.emit_signal("set_mode", { "mode": Enums.Jobs.BUILD, "building": building })
+  Events.emit_signal("set_mode", { "mode": Enums.Mode.BUILD, "building": building })

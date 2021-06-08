@@ -17,7 +17,7 @@ var pawn: Pawn
 var feature
 var terrain
 
-var neighborspace
+var neighborspace = [false, false, false, false]
 
 signal neighborspace_updated(cell)
 
@@ -37,7 +37,7 @@ func update_neighborspace():
     var bottom_key = "%d,%d" % [self.x, self.z+1]
     new_neighborspace[2] = map_grid.lookup_cell(bottom_key).feature is Building
 
-  if self.z > 0:
+  if self.x > 0:
     var left_key = "%d,%d" % [self.x-1, self.z]
     new_neighborspace[3] = map_grid.lookup_cell(left_key).feature is Building
 
