@@ -35,7 +35,7 @@ func selected_cell_updated(cell):
 
 var draggable_building_origin: MapCell
 func dragged_cell_updated(cell: MapCell):
-  if gui_state.mode == Enums.Jobs.BUILD:
+  if gui_state.mode == Enums.Mode.BUILD:
     remove_job_markers()
     if not draggable_building_origin: draggable_building_origin = cell
 

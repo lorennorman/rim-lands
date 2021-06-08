@@ -14,7 +14,7 @@ func _ready():
   var _lwrError = Events.connect("load_world_requested", self, "load_world")
   var _swrError = Events.connect("save_world_requested", self, "save_world")
 
-  new_world()
+  load_world()
 
 
 func replace_game_state(new_game_state):

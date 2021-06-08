@@ -26,8 +26,11 @@ func set_mode(mode_params):
   if mode == Enums.Mode.BUILD:
     building = mode_params.building
     if building == Enums.Buildings.WALL:
-      Events.emit_signal("mode_updated", mode_params)
+      pass
+  elif mode == Enums.Mode.SELECT:
+    pass
 
+  Events.emit_signal("mode_updated", mode_params)
 
 func cell_left_clicked(cell):
   # new cell clicked
