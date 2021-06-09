@@ -1,0 +1,32 @@
+[gd_resource type="Resource" load_steps=8 format=2]
+
+[ext_resource path="res://game/state/game_state.gd" type="Script" id=1]
+[ext_resource path="res://game/state/job.gd" type="Script" id=2]
+[ext_resource path="res://game/state/map_grid.gd" type="Script" id=3]
+[ext_resource path="res://game/state/pawn.gd" type="Script" id=4]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 2 )
+job_type = 0
+location = "28,22"
+percent_complete = 0
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 3 )
+map_size = 65
+maximum_height = 35.0
+use_random_noise_seed = false
+noise_seed = 2
+scale_grid_to_noise = 1.25
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 4 )
+race = "Dwarf"
+character_name = "Giblor"
+location = "8,8"
+
+[resource]
+script = ExtResource( 1 )
+pawns = [ SubResource( 3 ) ]
+jobs = [ SubResource( 1 ) ]
+map_grid = SubResource( 2 )

@@ -12,22 +12,22 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "Building",
 "language": "GDScript",
-"path": "res://building.gd"
+"path": "res://game/state/building.gd"
 }, {
 "base": "Object",
 "class": "Enums",
 "language": "GDScript",
-"path": "res://enums.gd"
+"path": "res://game/enums.gd"
 }, {
 "base": "Resource",
 "class": "GUIState",
 "language": "GDScript",
-"path": "res://gui_state.gd"
+"path": "res://game/state/gui_state.gd"
 }, {
 "base": "Resource",
 "class": "GameState",
 "language": "GDScript",
-"path": "res://game_state.gd"
+"path": "res://game/state/game_state.gd"
 }, {
 "base": "ResourceFormatLoader",
 "class": "HTerrainDataLoader",
@@ -42,22 +42,22 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "Job",
 "language": "GDScript",
-"path": "res://job.gd"
+"path": "res://game/state/job.gd"
 }, {
 "base": "Resource",
 "class": "MapCell",
 "language": "GDScript",
-"path": "res://map_cell.gd"
+"path": "res://game/state/map_cell.gd"
 }, {
 "base": "Resource",
 "class": "MapGrid",
 "language": "GDScript",
-"path": "res://map_grid.gd"
+"path": "res://game/state/map_grid.gd"
 }, {
 "base": "Resource",
 "class": "Pawn",
 "language": "GDScript",
-"path": "res://pawn.gd"
+"path": "res://game/state/pawn.gd"
 } ]
 _global_script_class_icons={
 "Building": "",
@@ -75,12 +75,12 @@ _global_script_class_icons={
 [application]
 
 config/name="RimLands"
-run/main_scene="res://main.tscn"
+run/main_scene="res://game/main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Events="*res://events.gd"
+Events="*res://game/events.gd"
 
 [display]
 
@@ -94,7 +94,3 @@ enabled=PoolStringArray( "zylann.hterrain" )
 [physics]
 
 3d/physics_engine="Bullet"
-
-[rendering]
-
-environment/default_environment="res://default_env.tres"

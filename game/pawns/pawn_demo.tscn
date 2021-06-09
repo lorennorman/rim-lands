@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://game/pawns/pawn_model.tscn" type="PackedScene" id=1]
+
+[node name="Pawn Demo" type="Spatial"]
+
+[node name="Dwarf" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00193906, 0, 0 )
+
+[node name="Elf" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
+presenting_race = "Elf"
+
+[node name="Human" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
+presenting_race = "Human"
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.853553, 0.146447, 0.5, -0.5, 0.5, 0.707107, -0.146447, -0.853553, 0.5, 2.38419e-07, 3.09288, 4.76837e-07 )
