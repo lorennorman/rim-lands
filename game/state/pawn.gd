@@ -3,7 +3,7 @@ extends Resource
 class_name Pawn
 
 # RPG Stuff
-export(String) var race = "Dwarf"
+export(String, "Dwarf", "Elf", "Human") var race = "Dwarf"
 export(String) var character_name setget , _get_name
 
 # Real location on map

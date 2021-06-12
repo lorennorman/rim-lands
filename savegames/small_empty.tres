@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://game/state/game_state.gd" type="Script" id=1]
+[ext_resource path="res://game/state/map_grid.gd" type="Script" id=2]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 2 )
+map_size = 65
+maximum_height = 35.0
+use_random_noise_seed = false
+noise_seed = 2
+scale_grid_to_noise = 1.25
+
+[resource]
+script = ExtResource( 1 )
+pawns = [  ]
+jobs = [  ]
+map_grid = SubResource( 1 )

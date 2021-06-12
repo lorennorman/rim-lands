@@ -1,12 +1,12 @@
 TODO:
+- [x] make multiple scenarios as savegames
+- [x] fix the camera
 - [ ] pawn stats
 - [ ] pawns display
 - [ ] pawn pathfinding
 - [ ] buildings block a*
 - [ ] fix loading: buildings don't wipe, double-load fails, etc
-- [ ] make multiple scenarios as savegames
 - [ ] make file selection loader
-- [ ] fix the camera
 - [ ] fast-teardown signals & implementations
 - [ ] build doors
 - [ ] add wooden material to walls

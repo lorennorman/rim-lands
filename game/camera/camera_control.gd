@@ -5,7 +5,7 @@ extends Spatial
 
 # RimLands edits
 onready var raycast = RayCast.new()
-onready var altitude = 50
+onready var altitude = 14
 const MINIMUM_ALTITUDE = 12
 const MAXIMUM_ALTITUDE = 140
 const MIN_MAX_SPEED = 0.66

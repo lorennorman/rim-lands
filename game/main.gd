@@ -39,8 +39,17 @@ func load_world():
   if game_state: game_state.teardown()
   game_state = null
 
+  # preset savegames:
+  # TODO: make a popover file load menu
+  # var game_state_to_load = "small_empty.tres"
+  # var game_state_to_load = "small_solo.tres"
+  # var game_state_to_load = "small_party.tres"
+  # var game_state_to_load = "small_party_busy.tres"
+  var game_state_to_load = "medium_party_busy.tres"
+  # var game_state_to_load = "large_party_busy.tres"
+
   # state is rehydrated by its own setters during load
-  var loaded_game_state = ResourceLoader.load("res://savegames/savegame1.tres", "GameState", true)
+  var loaded_game_state = ResourceLoader.load(game_state_to_load, "GameState", true)
 
   replace_game_state(loaded_game_state)
 
