@@ -116,6 +116,7 @@ visible = false
 playback_process_mode = 0
 
 [node name="Emote" type="Spatial" parent="."]
+visible = false
 
 [node name="Sprite3D" type="Sprite3D" parent="Emote"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67532, 0 )

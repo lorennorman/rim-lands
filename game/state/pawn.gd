@@ -3,14 +3,18 @@ extends Resource
 class_name Pawn
 
 # RPG Stuff
+export(int, -2, 2) var might
+export(int, -2, 2) var will
+export(int, -2, 2) var magic
+
 export(String, "Dwarf", "Elf", "Human") var race = "Dwarf" setget set_race
 func set_race(new_race):
   race = new_race
-  if not stats:
-    stats = PawnStats.by_race(race)
+  if not (might and will and magic):
+    default_stats_by_race()
 
 export(String) var character_name setget , _get_name
-export(Resource) var stats = stats as PawnStats
+export(Dictionary) var stats
 
 # Real location on map
 export(String) var location = "0,0"
@@ -68,28 +72,17 @@ func start_job_cooldown(time):
   on_cooldown = false
   self.emit_signal("job_cooldown")
 
-class PawnStats:
-  extends Resource
-
-  var might
-  var will
-  var magic
-
-  static func by_race(race):
-    var stats = PawnStats.new()
-
-    match race:
-      Enums.Race.DWARF:
-        stats.might = 1
-        stats.will = 1
-        stats.magic = -1
-      Enums.Race.ELF:
-        stats.might = -1
-        stats.will = 0
-        stats.magic = 2
-      Enums.Race.HUMAN:
-        stats.might = 0
-        stats.will = 2
-        stats.magic = 0
-
-    return stats
+func default_stats_by_race():
+  match race:
+    "Dwarf":
+      might = 1
+      will = 1
+      magic = -1
+    "Elf":
+      might = 1
+      will = 1
+      magic = 2
+    "Human":
+      might = 0
+      will = 2
+      magic = 0

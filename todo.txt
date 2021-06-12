@@ -1,8 +1,5 @@
 TODO:
-- [x] make multiple scenarios as savegames
-- [x] fix the camera
-- [ ] pawn stats
-- [ ] pawns display
+- [ ] pawn directory
 - [ ] pawn pathfinding
 - [ ] buildings block a*
 - [ ] fix loading: buildings don't wipe, double-load fails, etc
@@ -14,6 +11,9 @@ TODO:
 - [ ] RayCast as a node?
 
 Done:
+- [x] make multiple scenarios as savegames
+- [x] fix the camera
+- [x] pawn stats
 - [x] implement Move job
 - [x] apply aura particle system to a pawn
 - [x] download particle system textures
@@ -23,3 +23,4 @@ Done:
 - [x] experiment with terrain normal
 - [x] reorganize Map for save/load
 - [x] GameState resource, save/load, listeners, teardown routines
+- [x] implement build wall with interlocking wall models
