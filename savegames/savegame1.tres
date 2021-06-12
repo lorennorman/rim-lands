@@ -6,7 +6,7 @@
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 3 )
-map_size = 65
+map_size = 129
 maximum_height = 35.0
 use_random_noise_seed = false
 noise_seed = 2

@@ -12,6 +12,7 @@ var input_camera: Camera
 var game_state: GameState setget _set_game_state
 var map_grid: MapGrid
 
+export(float) var water_y = 11.4
 var input_state = "paused"
 
 func _set_game_state(new_game_state):
@@ -40,7 +41,7 @@ func generate_from_map_grid():
   terrain.set_data(terrain_data)
   terrain.update_collider() # super important if you want to click the terrain
   $Water.mesh.size = Vector2(map_grid.map_size, map_grid.map_size)
-  $Water.translation = Vector3(map_grid.map_size/2, 7.75, map_grid.map_size/2)
+  $Water.translation = Vector3(map_grid.map_size/2, water_y, map_grid.map_size/2)
   add_child(terrain)
 
 
