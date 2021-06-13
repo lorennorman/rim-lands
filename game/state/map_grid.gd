@@ -171,6 +171,7 @@ func get_move_path(from_key, to_key):
   var to_id = lookup_cell(to_key).astar_id
   return astar.get_point_path(from_id, to_id)
 
+
 func teardown():
   # clear the map cells
   omni_dict.clear()

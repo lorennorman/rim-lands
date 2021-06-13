@@ -1,18 +1,18 @@
 TODO:
-- [x] pawn directory
-- [x] pawn pathfinding
-- [x] pull jobs by proximity
-- [x] extend job radius to 8 surrounding
-- [x] buildings block a*
 - [ ] fix loading: buildings don't wipe, double-load fails, etc
 - [ ] make file selection loader
 - [ ] fast-teardown signals & implementations
 - [ ] build doors
 - [ ] add wooden material to walls
 - [ ] add a/v effects to construction
-- [ ] RayCast as a node?
+- [ ] node for ray cast
 
 Done:
+- [x] pawn directory
+- [x] pawn pathfinding
+- [x] pull jobs by proximity
+- [x] extend job radius to 8 surrounding
+- [x] buildings block a*
 - [x] make multiple scenarios as savegames
 - [x] fix the camera
 - [x] pawn stats

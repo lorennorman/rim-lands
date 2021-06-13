@@ -57,7 +57,7 @@ func move_pawn_to_job(pawn: Pawn, job: Job):
   # fetch the A* path
   var move_path = game_state.map_grid.get_move_path(pawn.location, job.location)
   var next_index = 1
-  # while next_index < move_path.size():
+  if move_path.size() == 0: printerr("TODO: block and bail on unpathable jobs")
   while not pawn_in_range_of_job(pawn, job):
     # Not available yet?
     if pawn.on_cooldown: yield(pawn, "job_cooldown")

@@ -44,8 +44,8 @@ func load_world():
   # var game_state_to_load = "small_empty.tres"
   # var game_state_to_load = "small_solo.tres"
   # var game_state_to_load = "small_party.tres"
-  # var game_state_to_load = "small_party_busy.tres"
-  var game_state_to_load = "medium_party_busy.tres"
+  var game_state_to_load = "small_party_busy.tres"
+  # var game_state_to_load = "medium_party_busy.tres"
   # var game_state_to_load = "large_party_busy.tres"
 
   # state is rehydrated by its own setters during load
