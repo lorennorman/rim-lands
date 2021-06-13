@@ -139,6 +139,10 @@ func add_map_cell(position, x, z, terrain, disabled=false):
   map_cell.astar_id = astar_id
   set_cell(astar_id, map_cell)
 
+  map_cell.connect("pathing_updated", self, "pathing_updated")
+
+func pathing_updated(astar_id: int, pathable: bool):
+  astar.set_point_disabled(astar_id, pathable)
 
 func add_astar_connections(astar_id, x, z):
   # Connect up, left, upper-left, and upper-right

@@ -40,6 +40,7 @@ func assign_job_to_pawn(job: Job, pawn: Pawn) -> void:
       game_state.make_building(job.building_type, job.location)
       job.complete()
 
+
 func move_pawn_to_job(pawn: Pawn, job: Job):
   # fetch the A* path
   var move_path = game_state.map_grid.get_move_path(pawn.location, job.location)
@@ -49,10 +50,8 @@ func move_pawn_to_job(pawn: Pawn, job: Job):
     if pawn.on_cooldown: yield(pawn, "job_cooldown")
     # Pawn removed or job canceled?
     if pawn.removed or job.removed: break
-
     # Changed jobs before done?
-    if pawn.current_job != job:
-      break
+    if pawn.current_job != job: break
 
     # get the next location
     var next_position = move_path[next_index]
@@ -61,18 +60,19 @@ func move_pawn_to_job(pawn: Pawn, job: Job):
 
     # retry if destination is already occupied by a pawn (pawn will freeze)
     if next_cell.pawn:
-      # TODO: recalculate the move path and go around
-      pawn.start_job_cooldown(0.250)
+      # recalculate the move path and go around
+      move_path = game_state.map_grid.get_move_path(pawn.location, job.location)
+      next_index = 1
       continue
 
     next_cell.pawn = pawn
     current_cell.pawn = null
-    # start the tween to the next location
-    pawn.map_cell = next_cell
+    pawn.map_cell = next_cell # triggers the move animation
     next_index += 1
 
-  if pawn.on_cooldown:
-    yield(pawn, "job_cooldown")
+  if not pawn.on_cooldown: pawn.start_job_cooldown(0.01)
+  yield(pawn, "job_cooldown")
+
 
 func build_until_done(pawn: Pawn, job: Job):
   while job.percent_complete < 100:

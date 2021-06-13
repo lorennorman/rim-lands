@@ -14,7 +14,6 @@ func set_race(new_race):
     default_stats_by_race()
 
 export(String) var character_name setget , _get_name
-export(Dictionary) var stats
 
 # Real location on map
 export(String) var location = "0,0"
@@ -34,16 +33,14 @@ var removed := false
 func get_key():
   return character_name
 
+
 func _get_name():
   return character_name if character_name else race
 
-var current_job setget _set_job
 
-func is_busy():
-  return current_job
+var current_job: Job
 
-func _set_job(job):
-  current_job = job
+func is_busy(): return !!current_job
 
 signal updated
 signal job_cooldown

@@ -2,6 +2,8 @@ extends Resource
 
 class_name MapCell
 
+signal pathing_updated(astar_id, pathable)
+
 var map_grid
 
 var position: Vector3
@@ -13,7 +15,11 @@ func get_x(): return position.x-0.5
 var z setget , get_z
 func get_z(): return position.z-0.5
 
-var pawn: Pawn
+var pawn: Pawn setget set_pawn
+func set_pawn(new_pawn):
+  pawn = new_pawn
+  emit_signal("pathing_updated", astar_id, !!pawn)
+
 var feature
 var terrain
 

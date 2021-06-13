@@ -1,6 +1,8 @@
 TODO:
-- [ ] pawn directory
-- [ ] pawn pathfinding
+- [x] pawn directory
+- [x] pawn pathfinding
+- [ ] pull jobs by proximity
+- [ ] extend job radius to 8 surrounding
 - [ ] buildings block a*
 - [ ] fix loading: buildings don't wipe, double-load fails, etc
 - [ ] make file selection loader
