@@ -47,6 +47,12 @@ func assign_job_to_pawn(job: Job, pawn: Pawn) -> void:
       game_state.make_building(job.building_type, job.location)
       job.complete()
 
+func pawn_in_range_of_job(pawn: Pawn, job: Job):
+  var pawn_pos: Vector2 = Vector2(pawn.map_cell.x, pawn.map_cell.z)
+  var job_pos: Vector2 = Vector2(job.map_cell.x, job.map_cell.z)
+  var distance = (pawn_pos - job_pos).length()
+  print(distance)
+  return distance < 2
 
 func move_pawn_to_job(pawn: Pawn, job: Job):
   # fetch the A* path
