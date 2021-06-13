@@ -13,10 +13,17 @@ func _process(_delta):
 
 # pawn/job queue, job acquisition, job completion, reacquisition
 func find_job_for_pawn(pawn: Pawn) -> void:
+  var shortest_distance: int = 100_000
+  var closest_job: Job
+
   for job in game_state.jobs:
     if not job.is_claimed():
-      assign_job_to_pawn(job, pawn)
-      return
+      var distance = game_state.map_grid.get_move_path(pawn.location, job.location).size()
+      if distance < shortest_distance:
+        shortest_distance = distance
+        closest_job = job
+
+  if closest_job: assign_job_to_pawn(closest_job, pawn)
 
 
 func assign_job_to_pawn(job: Job, pawn: Pawn) -> void:

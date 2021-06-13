@@ -83,6 +83,8 @@ func teardown():
   map_grid.teardown()
 
   # "destroy_*" signals will cascade through the scene tree and clean up
+  # TODO: instead of this, send one "gamestate_teardown" signal for all resource
+  # managers to listen to and implement special, fast logic in this case
 
 # Helpers
 func make_pawn(type, name, location) -> void:
