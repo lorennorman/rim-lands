@@ -82,6 +82,11 @@ config/icon="res://icon.png"
 
 Events="*res://game/events.gd"
 
+[debug]
+
+gdscript/warnings/unused_signal=false
+gdscript/warnings/return_value_discarded=false
+
 [display]
 
 window/size/width=1440

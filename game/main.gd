@@ -49,7 +49,7 @@ func load_world():
   # var game_state_to_load = "large_party_busy.tres"
 
   # state is rehydrated by its own setters during load
-  var loaded_game_state = ResourceLoader.load("res://savegames/%s" % game_state_to_load, "GameState", true)
+  var loaded_game_state = ResourceLoader.load("res://savegames/%s" % game_state_to_load, "Resource", true)
 
   replace_game_state(loaded_game_state)
 
