@@ -40,7 +40,7 @@ func assign_job_to_pawn(job: Job, pawn: Pawn) -> void:
 
     Enums.Jobs.BUILD:
       # move to the job site
-      if job.location != pawn.location:
+      if not pawn_in_range_of_job(pawn, job):
         yield(move_pawn_to_job(pawn, job), "completed")
       # until done:
       yield(build_until_done(pawn, job), "completed")
@@ -51,14 +51,14 @@ func pawn_in_range_of_job(pawn: Pawn, job: Job):
   var pawn_pos: Vector2 = Vector2(pawn.map_cell.x, pawn.map_cell.z)
   var job_pos: Vector2 = Vector2(job.map_cell.x, job.map_cell.z)
   var distance = (pawn_pos - job_pos).length()
-  print(distance)
   return distance < 2
 
 func move_pawn_to_job(pawn: Pawn, job: Job):
   # fetch the A* path
   var move_path = game_state.map_grid.get_move_path(pawn.location, job.location)
   var next_index = 1
-  while next_index < move_path.size():
+  # while next_index < move_path.size():
+  while not pawn_in_range_of_job(pawn, job):
     # Not available yet?
     if pawn.on_cooldown: yield(pawn, "job_cooldown")
     # Pawn removed or job canceled?

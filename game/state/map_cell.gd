@@ -18,10 +18,17 @@ func get_z(): return position.z-0.5
 var pawn: Pawn setget set_pawn
 func set_pawn(new_pawn):
   pawn = new_pawn
-  emit_signal("pathing_updated", astar_id, !!pawn)
+  update_pathing()
 
-var feature
+var feature setget set_feature
+func set_feature(new_feature):
+  feature = new_feature
+  update_pathing()
+
 var terrain
+
+func update_pathing():
+  emit_signal("pathing_updated", astar_id, (!pawn and !feature))
 
 var neighborspace = [false, false, false, false]
 
