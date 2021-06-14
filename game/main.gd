@@ -10,15 +10,23 @@ var state = "loading"
 func _ready():
   $MapTerrain.input_camera = $Camera
 
-  var _nwrError = Events.connect("new_world_requested", self, "new_world")
-  var _lwrError = Events.connect("load_world_requested", self, "load_world")
-  var _swrError = Events.connect("save_world_requested", self, "save_world")
+  Events.connect("new_world_requested", self, "new_world")
+  Events.connect("load_world_requested", self, "load_world")
+  Events.connect("save_world_requested", self, "save_world")
 
   load_world()
 
 
-func replace_game_state(new_game_state):
+func clear_running_game_state():
+  $MapTerrain.game_state = null
+  if game_state:
+    game_state.teardown()
+    game_state = null
+
+
+func start_running_game_state(new_game_state: GameState):
   game_state = new_game_state
+  game_state.buildup()
 
   $MapTerrain.game_state = game_state
   $GUI.game_state = game_state
@@ -33,26 +41,43 @@ func _process(delta):
     "simulating": if sim: sim._process(delta)
 
 
-func load_world():
+func load_world(game_state_file=null):
   state = "loading"
-  $MapTerrain.game_state = null
-  if game_state: game_state.teardown()
-  game_state = null
+  clear_running_game_state()
+  yield(get_tree(), "idle_frame") # superstition
 
-  # preset savegames:
-  # TODO: make a popover file load menu
-  # var game_state_to_load = "small_empty.tres"
-  # var game_state_to_load = "small_solo.tres"
-  # var game_state_to_load = "small_party.tres"
-  var game_state_to_load = "small_party_busy.tres"
-  # var game_state_to_load = "medium_party_busy.tres"
-  # var game_state_to_load = "large_party_busy.tres"
+  if not game_state_file:
+    # TODO: make a popover file load menu
+    # preset savegames:
+    # game_state_file = "small_empty.tres"
+    # game_state_file = "small_solo.tres"
+    # game_state_file = "small_party.tres"
+    game_state_file = "small_party_busy.tres"
+    # game_state_file = "medium_party_busy.tres"
+    # game_state_file = "large_party_busy.tres"
 
-  # state is rehydrated by its own setters during load
-  var loaded_game_state = ResourceLoader.load("res://savegames/%s" % game_state_to_load, "Resource", true)
+  var loaded_game_state = ResourceLoader.load("res://savegames/%s" % game_state_file, "Resource", false)
+  # from experience: we should not edit the GameState that is loaded, directly
+  # else we suffer from inability to unload/reload resources (might be a bug)
+  # instead we'll new up a GameState and duplicate the sub-resources
+  var duplicated_game_state := duplicate_game_state(loaded_game_state)
+  start_running_game_state(duplicated_game_state)
 
-  replace_game_state(loaded_game_state)
 
+func duplicate_game_state(game_state_to_copy) -> GameState:
+  # gets new()'d so we have a proper GameState class and our casting works
+  var duplicated_game_state = GameState.new()
+  # use duplicate() on the sub-resources
+  # keep this up to date as sub-resources are added
+  duplicated_game_state.pawns = []
+  for pawn in game_state_to_copy.pawns:
+    duplicated_game_state.pawns.push_back(pawn.duplicate())
+  duplicated_game_state.jobs = []
+  for job in game_state_to_copy.jobs:
+    duplicated_game_state.jobs.push_back(job.duplicate())
+  duplicated_game_state.map_grid = game_state_to_copy.map_grid.duplicate()
+
+  return duplicated_game_state
 
 func save_world():
   if ResourceSaver.save("res://savegames/savegame.tres", game_state) != OK:
@@ -60,40 +85,4 @@ func save_world():
 
 
 func new_world():
-  state = "loading"
-  $MapTerrain.game_state = null
-  if game_state: game_state.teardown()
-  game_state = null
-
-  # Create the world with GameState methods
-  var generated_game_state = GameState.new()
-
-  # MapGrid
-  var map_grid = MapGrid.new()
-  generated_game_state.map_grid = map_grid
-
-  # Put pawns onto the map
-  generated_game_state.make_pawn("Dwarf", "Thorben", "31,21")
-  generated_game_state.make_pawn("Elf", "Zah Dir", "31,22")
-  generated_game_state.make_pawn("Elf", "Zah Dra", "32,21")
-  generated_game_state.make_pawn("Human", "Fardinand", "32,22")
-
-  # Add some jobs to the job list
-  # Move orders
-  # generated_game_state.make_job(Enums.Jobs.MOVE, "20,20")
-  # generated_game_state.make_job(Enums.Jobs.MOVE, "22,50")
-  # generated_game_state.make_job(Enums.Jobs.MOVE, "50,22")
-  # generated_game_state.make_job(Enums.Jobs.MOVE, "63,51")
-
-  # Build orders
-  # generated_game_state.make_job(Enums.Jobs.BUILD, "25,22", Enums.Buildings.WALL)
-  # generated_game_state.make_job(Enums.Jobs.BUILD, "26,22", Enums.Buildings.WALL)
-  # generated_game_state.make_job(Enums.Jobs.BUILD, "30,22", Enums.Buildings.WALL)
-  # generated_game_state.make_job(Enums.Jobs.BUILD, "32,22", Enums.Buildings.WALL)
-  # generated_game_state.make_job(Enums.Jobs.BUILD, "35,22", Enums.Buildings.WALL)
-
-  # Unimplemented orders
-  #  make_job("Mine Ore", "55,55")
-  #  make_job("Till Soil", "30,60")
-
-  replace_game_state(generated_game_state)
+  load_world("new_world.tres")

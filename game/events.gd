@@ -11,6 +11,8 @@ signal new_world_requested
 signal load_world_requested
 signal save_world_requested
 
+signal game_state_teardown
+
 # Timer
 signal start_timer
 

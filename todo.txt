@@ -1,6 +1,9 @@
 TODO:
-- [ ] fix loading: buildings don't wipe, double-load fails, etc
-- [ ] fast-teardown signals & implementations
+- [ ] fix loading:
+  - fast-teardown signals & implementations
+  - clear/rebuild map_terrain
+  - remember buildings in game state
+  - truly unload/reload Resources (godot!!)
 - [ ] make file selection loader
 - [ ] wireframe shader for build job markers
 - [ ] build doors
@@ -8,6 +11,10 @@ TODO:
 - [ ] add a/v effects to construction
 - [ ] extract a scenario builder util from game state
 - [ ] make a gui scenario editor using scenario builder util
+- [ ] extract a Node version of the resource manager pattern we've been using:
+  - parameterize scene to instance
+  - customize the "key" function call to the signaled model
+  - teardown always same
 - [ ] node for ray cast
 - [ ] blow out job types, experiment
 

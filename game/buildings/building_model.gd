@@ -23,9 +23,7 @@ func set_cell(new_cell):
 
 func neighborspace_updated(_cell):
   # get the existing model, remove it
-  if model:
-    remove_child(model)
-    model.queue_free()
+  if model: model.queue_free()
 
   # determine the appropriate model, add it
   model = building_model_from_neighborspace(cell.neighborspace)

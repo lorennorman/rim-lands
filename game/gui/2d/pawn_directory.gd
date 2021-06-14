@@ -7,6 +7,8 @@ var pawn_directory_entries := {}
 func _ready():
   Events.connect("pawn_added", self, "pawn_added")
   Events.connect("pawn_removed", self, "pawn_removed")
+  Events.connect("game_state_teardown", self, "teardown")
+
 
 func pawn_added(pawn: Pawn):
   var new_entry = PawnDirectoryEntry.instance()
@@ -17,6 +19,7 @@ func pawn_added(pawn: Pawn):
     add_child(VSeparator.new())
   add_child(new_entry)
 
+
 func pawn_removed(pawn: Pawn):
   var related_entry = pawn_directory_entries[pawn.key]
   # conditionally remove the separator
@@ -25,6 +28,11 @@ func pawn_removed(pawn: Pawn):
     var separator = get_child(pawn_pos - 1)
     if not separator:
       separator = get_child(pawn_pos + 1)
-    remove_child(separator)
-  remove_child(related_entry)
+    separator.queue_free()
+  related_entry.queue_free()
   pawn_directory_entries.erase(pawn.key)
+
+
+func teardown():
+  for node in get_children(): node.queue_free()
+  pawn_directory_entries.clear()

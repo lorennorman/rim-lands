@@ -2,40 +2,15 @@ extends Resource
 
 class_name GameState
 
-export(Array, Resource) var pawns setget _set_pawns
-export(Array, Resource) var jobs setget _set_jobs
-export(Resource) var map_grid setget _set_map_grid
+export(Array, Resource) var pawns
+export(Array, Resource) var jobs
+export(Resource) var map_grid
 var gui_state := GUIState.new()
 
 
 var _jc = Events.connect("job_completed", self, "destroy_job")
 
-signal map_ready
 
-func _set_pawns(all_pawns):
-  pawns = []
-
-  if not map_grid:
-    yield(self, "map_ready")
-
-  for pawn in all_pawns:
-    add_pawn(pawn, pawn.location)
-
-
-func _set_jobs(all_jobs):
-  jobs = []
-
-  if not map_grid:
-    yield(self, "map_ready")
-
-  for job in all_jobs:
-    add_job(job, job.location)
-
-
-func _set_map_grid(new_map_grid: MapGrid):
-  map_grid = new_map_grid
-  map_grid.generate_cells()
-  emit_signal("map_ready")
 
 func add_pawn(pawn: Pawn, location: String):
   assert(map_grid, "Map must be set before Pawns can be added")
@@ -72,19 +47,33 @@ func add_building(building, location):
 
 
 func teardown():
-  # destroy all jobs
-  for job in jobs: destroy_job(job, false)
+  # yolo deletion: tell the whole world to teardown
+  # results in instant queue_free() on all scene tree listeners
+  Events.emit_signal("game_state_teardown")
+
+  # clear your local stuff
+  # may be superfluous, must study godot reference counting or profile
   jobs.clear()
-
-  # destroy all pawns
-  for pawn in pawns: destroy_pawn(pawn, false)
   pawns.clear()
-
   map_grid.teardown()
 
-  # "destroy_*" signals will cascade through the scene tree and clean up
-  # TODO: instead of this, send one "gamestate_teardown" signal for all resource
-  # managers to listen to and implement special, fast logic in this case
+func buildup():
+  # remake ephemeral connections
+  # rebuild map and put resources on it
+  map_grid.generate_cells()
+  for pawn in pawns:
+    map_grid.set_pawn(pawn.location, pawn)
+
+  for job in jobs:
+    job.map_cell = map_grid.lookup_cell(job.location)
+
+  # signal for all existing resources
+  for pawn in pawns:
+    Events.emit_signal("pawn_added", pawn)
+
+  for job in jobs:
+    Events.emit_signal("job_added", job)
+
 
 # Helpers
 func make_pawn(type, name, location) -> void:

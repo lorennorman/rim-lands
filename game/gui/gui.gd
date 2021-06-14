@@ -58,7 +58,6 @@ func left_drag_started():
 var building_markers = []
 func remove_job_markers():
   for marker in building_markers:
-    remove_child(marker)
     marker.queue_free()
   building_markers = []
 

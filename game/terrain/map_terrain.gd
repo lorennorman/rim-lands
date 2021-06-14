@@ -11,6 +11,7 @@ const HTerrainData = preload("res://addons/zylann.hterrain/hterrain_data.gd")
 var input_camera: Camera
 var game_state: GameState setget _set_game_state
 var map_grid: MapGrid
+var terrain: HTerrain
 
 export(float) var water_y = 11.4
 var input_state = "paused"
@@ -23,10 +24,14 @@ func _set_game_state(new_game_state):
     map_grid = game_state.map_grid
     generate_from_map_grid()
     input_state = "listening"
+  elif terrain:
+    terrain.queue_free()
+    terrain = null
 
 
 func generate_from_map_grid():
   assert(map_grid, "Tried to generate MapTerrain with MapGrid")
+  assert(!terrain, "Tried to generate MapTerrain without clearing previous terrain")
   # Generate fresh terrain
   var terrain_data = HTerrainData.new()
 
@@ -36,7 +41,7 @@ func generate_from_map_grid():
   var image_maps = [HTerrainData.CHANNEL_COLOR, HTerrainData.CHANNEL_HEIGHT] #, HTerrainData.CHANNEL_NORMAL, HTerrainData.CHANNEL_DETAIL]
   extract_map_images(terrain_data, image_maps, funcref(self, "generate_maps"))
 
-  var terrain = HTerrain.new()
+  terrain = HTerrain.new()
   terrain.set_shader_type(HTerrain.SHADER_LOW_POLY)
   terrain.set_data(terrain_data)
   terrain.update_collider() # super important if you want to click the terrain
