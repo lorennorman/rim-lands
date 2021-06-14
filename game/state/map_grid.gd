@@ -12,7 +12,6 @@ var terrain_height_color_map: Gradient = preload("res://game/terrain/height_colo
 var terrain_height_scale_map: Gradient = preload("res://game/terrain/noise_height_gradient.tres")
 
 # Noise Generator stuff
-export(bool) var use_random_noise_seed = false
 export(int) var noise_seed = 2
 export(float, 0.001, 1000) var scale_grid_to_noise = 1.25
 var noise: OpenSimplexNoise

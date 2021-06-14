@@ -23,6 +23,7 @@ func _ready():
 func _job_updated(_updated_job):
   var target_scale_y = calculate_scale(job.percent_complete)
   var target_scale = Vector3(building_model.scale.x, target_scale_y, building_model.scale.z)
+  var how_many_seconds = .5 # ask the job how long this should be somehow?
   $Tween.interpolate_property(building_model, "scale", building_model.scale,
-    target_scale, 1, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+    target_scale, how_many_seconds, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
   $Tween.start()

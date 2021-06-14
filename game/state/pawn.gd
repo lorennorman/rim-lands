@@ -23,7 +23,10 @@ var translation = Vector3(0, 0, 0)
 
 # Job Stuff
 var on_cooldown := false
-var move_speed = 0.4
+var move_speed: float setget , get_move_speed
+func get_move_speed():
+  return 0.4 + (might/5.0)
+
 var build_speed = 100
 
 var key setget , get_key
@@ -49,10 +52,10 @@ func _set_map_cell(cell):
   translation = cell.position
   location = cell.location
 
-  start_job_cooldown(move_speed)
+  start_job_cooldown(self.move_speed)
 
 func applied_build_speed():
-  start_job_cooldown(1.5)
+  start_job_cooldown(.5)
   return build_speed
 
 func start_job_cooldown(time):

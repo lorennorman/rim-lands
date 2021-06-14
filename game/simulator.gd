@@ -41,11 +41,21 @@ func assign_job_to_pawn(job: Job, pawn: Pawn) -> void:
     Enums.Jobs.BUILD:
       # move to the job site
       if not pawn_in_range_of_job(pawn, job):
-        yield(move_pawn_to_job(pawn, job), "completed")
-      # until done:
+        var movement_coroutine = move_pawn_to_job(pawn, job)
+        if movement_coroutine: yield(movement_coroutine, "completed")
+      # still not in range? can't path, drop this job
+      if not pawn_in_range_of_job(pawn, job):
+        unassign_job_from_pawn(pawn)
+        return
       yield(build_until_done(pawn, job), "completed")
       game_state.make_building(job.building_type, job.location)
       job.complete()
+
+
+func unassign_job_from_pawn(pawn):
+  pawn.current_job.current_worker = null
+  pawn.current_job = null
+
 
 func pawn_in_range_of_job(pawn: Pawn, job: Job):
   var pawn_pos: Vector2 = Vector2(pawn.map_cell.x, pawn.map_cell.z)
@@ -57,7 +67,8 @@ func move_pawn_to_job(pawn: Pawn, job: Job):
   # fetch the A* path
   var move_path = game_state.map_grid.get_move_path(pawn.location, job.location)
   var next_index = 1
-  if move_path.size() == 0: printerr("TODO: block and bail on unpathable jobs")
+  # can't get to job
+  if move_path.size() == 0: return
   while not pawn_in_range_of_job(pawn, job):
     # Not available yet?
     if pawn.on_cooldown: yield(pawn, "job_cooldown")

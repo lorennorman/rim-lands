@@ -1,13 +1,18 @@
 TODO:
 - [ ] fix loading: buildings don't wipe, double-load fails, etc
-- [ ] make file selection loader
 - [ ] fast-teardown signals & implementations
+- [ ] make file selection loader
+- [ ] wireframe shader for build job markers
 - [ ] build doors
 - [ ] add wooden material to walls
 - [ ] add a/v effects to construction
+- [ ] extract a scenario builder util from game state
+- [ ] make a gui scenario editor using scenario builder util
 - [ ] node for ray cast
+- [ ] blow out job types, experiment
 
 Done:
+- [x] bug: be resilient to pawns being unable to path jobs
 - [x] pawn directory
 - [x] pawn pathfinding
 - [x] pull jobs by proximity
