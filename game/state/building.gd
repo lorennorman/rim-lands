@@ -3,7 +3,7 @@ extends Resource
 class_name Building
 
 var type
-var location
+export(String) var location
 var map_cell
 
 var key setget , get_key

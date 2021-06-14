@@ -1,32 +1,123 @@
-[gd_resource type="Resource" load_steps=8 format=2]
+[gd_resource type="Resource" load_steps=28 format=2]
 
-[ext_resource path="res://game/state/game_state.gd" type="Script" id=1]
-[ext_resource path="res://game/state/job.gd" type="Script" id=2]
-[ext_resource path="res://game/state/map_grid.gd" type="Script" id=3]
-[ext_resource path="res://game/state/pawn.gd" type="Script" id=4]
+[ext_resource path="res://game/state/map_grid.gd" type="Script" id=1]
+[ext_resource path="res://game/state/game_state.gd" type="Script" id=2]
+[ext_resource path="res://game/state/pawn.gd" type="Script" id=3]
+[ext_resource path="res://game/state/building.gd" type="Script" id=4]
 
 [sub_resource type="Resource" id=1]
-script = ExtResource( 2 )
-job_type = 0
-location = "28,22"
-percent_complete = 0
+script = ExtResource( 4 )
+location = "29,18"
 
 [sub_resource type="Resource" id=2]
-script = ExtResource( 3 )
-map_size = 65
-maximum_height = 35.0
-use_random_noise_seed = false
-noise_seed = 2
-scale_grid_to_noise = 1.25
+script = ExtResource( 4 )
+location = "30,18"
 
 [sub_resource type="Resource" id=3]
 script = ExtResource( 4 )
+location = "32,18"
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 4 )
+location = "31,18"
+
+[sub_resource type="Resource" id=5]
+script = ExtResource( 4 )
+location = "28,18"
+
+[sub_resource type="Resource" id=6]
+script = ExtResource( 4 )
+location = "23,15"
+
+[sub_resource type="Resource" id=7]
+script = ExtResource( 4 )
+location = "23,16"
+
+[sub_resource type="Resource" id=8]
+script = ExtResource( 4 )
+location = "23,17"
+
+[sub_resource type="Resource" id=9]
+script = ExtResource( 4 )
+location = "23,18"
+
+[sub_resource type="Resource" id=10]
+script = ExtResource( 4 )
+location = "38,16"
+
+[sub_resource type="Resource" id=11]
+script = ExtResource( 4 )
+location = "38,17"
+
+[sub_resource type="Resource" id=12]
+script = ExtResource( 4 )
+location = "38,15"
+
+[sub_resource type="Resource" id=13]
+script = ExtResource( 4 )
+location = "38,18"
+
+[sub_resource type="Resource" id=14]
+script = ExtResource( 4 )
+location = "30,16"
+
+[sub_resource type="Resource" id=15]
+script = ExtResource( 4 )
+location = "30,15"
+
+[sub_resource type="Resource" id=16]
+script = ExtResource( 4 )
+location = "30,17"
+
+[sub_resource type="Resource" id=17]
+script = ExtResource( 4 )
+location = "30,21"
+
+[sub_resource type="Resource" id=18]
+script = ExtResource( 4 )
+location = "30,20"
+
+[sub_resource type="Resource" id=19]
+script = ExtResource( 4 )
+location = "30,19"
+
+[sub_resource type="Resource" id=20]
+script = ExtResource( 1 )
+map_size = 65
+maximum_height = 35.0
+noise_seed = 2
+scale_grid_to_noise = 1.25
+
+[sub_resource type="Resource" id=21]
+script = ExtResource( 3 )
+might = 1
+will = 1
+magic = -1
 race = "Dwarf"
-character_name = "Giblor"
-location = "8,8"
+character_name = "Brindolf"
+location = "31,19"
+
+[sub_resource type="Resource" id=22]
+script = ExtResource( 3 )
+might = 1
+will = 1
+magic = 2
+race = "Elf"
+character_name = "S'randra"
+location = "31,20"
+
+[sub_resource type="Resource" id=23]
+script = ExtResource( 3 )
+might = 0
+will = 2
+magic = 0
+race = "Human"
+character_name = "Conrad"
+location = "31,21"
 
 [resource]
-script = ExtResource( 1 )
-pawns = [ SubResource( 3 ) ]
-jobs = [ SubResource( 1 ) ]
-map_grid = SubResource( 2 )
+script = ExtResource( 2 )
+pawns = [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ]
+jobs = [  ]
+buildings = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ]
+map_grid = SubResource( 20 )

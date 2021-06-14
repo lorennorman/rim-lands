@@ -55,6 +55,7 @@ func load_world(game_state_file=null):
     game_state_file = "small_party_busy.tres"
     # game_state_file = "medium_party_busy.tres"
     # game_state_file = "large_party_busy.tres"
+    game_state_file = "savegame.tres"
 
   var loaded_game_state = ResourceLoader.load("res://savegames/%s" % game_state_file, "Resource", false)
   # from experience: we should not edit the GameState that is loaded, directly
@@ -75,9 +76,12 @@ func duplicate_game_state(game_state_to_copy) -> GameState:
   duplicated_game_state.jobs = []
   for job in game_state_to_copy.jobs:
     duplicated_game_state.jobs.push_back(job.duplicate())
+  for building in game_state_to_copy.buildings:
+    duplicated_game_state.buildings.push_back(building.duplicate())
   duplicated_game_state.map_grid = game_state_to_copy.map_grid.duplicate()
 
   return duplicated_game_state
+
 
 func save_world():
   if ResourceSaver.save("res://savegames/savegame.tres", game_state) != OK:

@@ -42,4 +42,5 @@ location = "28,16"
 script = ExtResource( 1 )
 pawns = [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ]
 jobs = [  ]
+buildings = [  ]
 map_grid = SubResource( 1 )

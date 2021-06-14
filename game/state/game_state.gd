@@ -4,6 +4,7 @@ class_name GameState
 
 export(Array, Resource) var pawns
 export(Array, Resource) var jobs
+export(Array, Resource) var buildings
 export(Resource) var map_grid
 var gui_state := GUIState.new()
 
@@ -40,6 +41,7 @@ func destroy_job(job, erase=true):
 
 
 func add_building(building, location):
+  buildings.push_back(building)
   var cell = map_grid.lookup_cell(location)
   building.map_cell = cell
   cell.feature = building
@@ -67,12 +69,20 @@ func buildup():
   for job in jobs:
     job.map_cell = map_grid.lookup_cell(job.location)
 
+  for building in buildings:
+    var cell = map_grid.lookup_cell(building.location)
+    building.map_cell = cell
+    cell.feature = building
+
   # signal for all existing resources
   for pawn in pawns:
     Events.emit_signal("pawn_added", pawn)
 
   for job in jobs:
     Events.emit_signal("job_added", job)
+
+  for building in buildings:
+    Events.emit_signal("building_added", building)
 
 
 # Helpers
