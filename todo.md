@@ -1,18 +1,18 @@
-TODO:
-Save/Load/Popover UI/File System
+# TODO:
+
+## Save/Load/Popover UI/File System
 - [ ] bug: loading is not yield-safe (active jobs in simulator crash after load)
 - [ ] make file selection loader
 - [ ] make file selection saver
 - [ ] make autosave system
 
-
-Simulation/Units/Ticks
+## Simulation/Units/Ticks
 - [ ] define ticks in terms of irl
 
-Time/Days/Nights/Seasons
+## Time/Days/Nights/Seasons
 - [ ] pause/resume/speeds +|++|+++
 
-Building
+## Building
 - [ ] wireframe shader for build job markers
 - [ ] build doors
 - [ ] add a/v effects to construction
@@ -20,30 +20,33 @@ Building
 - [ ] block double-building on same cell
 - [ ] evict pawn from cell upon building construction
 
-GameState & Scenarios
+## GameState & Scenarios
 - [ ] extract a scenario builder util from game state
 - [ ] make a gui scenario editor using scenario builder util
 - [ ] extract a Node version of the resource manager pattern we've been using:
-  - parameterize scene to instance
+  - parameterize scene to be .instance()'d
   - customize the "key" function call to the signaled model
-  - teardown always same
+  - common teardown func
 
-GUI
+## GUI
 - [ ] move save/load/new into pause menu popover
 - [ ] make UI big (theme?), easy to splash around and get things done
 
-Bugs/Refactors
+## Bugs/Refactors
 - [ ] node for ray cast
 
-Pawns
-- [ ] animate walk/work
+## Pawns
+- [ ] animate walk
+- [ ] generic "working" animation
 
-Generators
+## Generators
 - [ ] blow out job types, experiment
 - [ ] blow out skills, stat-skill formulas for job proficiency
 - [ ] blow out item types
 
-Done:
+
+
+## Done:
 - [x] add wooden material to walls
 - [x] fix save/load/gamestate-buildup/-teardown:
   - fast-teardown signals & implementations

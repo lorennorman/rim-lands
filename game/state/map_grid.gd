@@ -98,8 +98,7 @@ func set_pawn(location: String, pawn: Pawn, force=false):
   var map_cell: MapCell = lookup_cell(location)
 
   # bail if exists and we're not forcing
-  if map_cell.pawn and not force:
-    return false
+  if map_cell.pawn and not force: return false
 
   # set or force-evict
   map_cell.pawn = pawn
