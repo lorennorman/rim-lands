@@ -30,6 +30,12 @@
   - parameterize scene to be .instance()'d
   - customize the "key" function call to the signaled model
   - common teardown func
+- [ ] observable resource generation utils
+  - use a common query/update pattern
+  - all updates signal with delta information
+  - subscribe to individual attributes support
+  - always preserves save/load-ability
+
 
 ## GUI
 - [ ] move save/load/new into pause menu popover
