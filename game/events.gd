@@ -6,6 +6,9 @@
 
 extends Node
 
+# Menu
+signal menu_pressed
+
 # New/Load/Save Data
 signal new_world_requested
 signal load_world_requested

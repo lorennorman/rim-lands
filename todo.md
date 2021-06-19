@@ -2,6 +2,7 @@
 
 ## Save/Load/Popover UI/File System
 - [ ] bug: loading is not yield-safe (active jobs in simulator crash after load)
+- [x] make popover main menu
 - [ ] make file selection loader
 - [ ] make file selection saver
 - [ ] make autosave system

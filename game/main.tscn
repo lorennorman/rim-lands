@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://game/main.gd" type="Script" id=1]
 [ext_resource path="res://game/camera/camera_control.gd" type="Script" id=2]
@@ -15,34 +15,35 @@
 [ext_resource path="res://addons/zylann.hterrain_demo/textures/table_mountain_2_4k.hdr" type="Texture" id=13]
 [ext_resource path="res://game/buildings/building_models.gd" type="Script" id=14]
 [ext_resource path="res://game/gui/2d/font_theme.tres" type="Theme" id=15]
+[ext_resource path="res://game/main_menu.gd" type="Script" id=16]
 [ext_resource path="res://game/gui/2d/pawn_directory.gd" type="Script" id=17]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+flags_do_not_receive_shadows = true
+albedo_color = Color( 1, 1, 1, 0.176471 )
+
+[sub_resource type="CubeMesh" id=2]
+material = SubResource( 1 )
+flip_faces = true
+size = Vector3( 1, 2, 1 )
 
 [sub_resource type="SpatialMaterial" id=3]
 flags_transparent = true
 flags_do_not_receive_shadows = true
-albedo_color = Color( 1, 1, 1, 0.176471 )
+albedo_color = Color( 0.835294, 0.823529, 0.0784314, 0.309804 )
 
 [sub_resource type="CubeMesh" id=4]
 material = SubResource( 3 )
 flip_faces = true
 size = Vector3( 1, 2, 1 )
 
-[sub_resource type="SpatialMaterial" id=5]
-flags_transparent = true
-flags_do_not_receive_shadows = true
-albedo_color = Color( 0.835294, 0.823529, 0.0784314, 0.309804 )
-
-[sub_resource type="CubeMesh" id=6]
-material = SubResource( 5 )
-flip_faces = true
-size = Vector3( 1, 2, 1 )
-
-[sub_resource type="PanoramaSky" id=7]
+[sub_resource type="PanoramaSky" id=5]
 panorama = ExtResource( 13 )
 
-[sub_resource type="Environment" id=8]
+[sub_resource type="Environment" id=6]
 background_mode = 2
-background_sky = SubResource( 7 )
+background_sky = SubResource( 5 )
 ambient_light_color = Color( 0.501961, 0.501961, 0.501961, 1 )
 ambient_light_energy = 3.0
 ambient_light_sky_contribution = 0.2
@@ -102,26 +103,11 @@ margin_right = 204.0
 margin_bottom = 59.0
 columns = 3
 
-[node name="SaveButton" type="Button" parent="GUI/Menus/Right/VBox/File/FileMenu"]
-margin_right = 42.0
-margin_bottom = 26.0
-theme = ExtResource( 15 )
-custom_fonts/font = ExtResource( 8 )
-text = "Save"
-
-[node name="LoadButton" type="Button" parent="GUI/Menus/Right/VBox/File/FileMenu"]
-margin_left = 46.0
-margin_right = 87.0
+[node name="MenuButton" type="Button" parent="GUI/Menus/Right/VBox/File/FileMenu"]
+margin_right = 49.0
 margin_bottom = 26.0
 custom_fonts/font = ExtResource( 8 )
-text = "Load"
-
-[node name="NewButton" type="Button" parent="GUI/Menus/Right/VBox/File/FileMenu"]
-margin_left = 91.0
-margin_right = 130.0
-margin_bottom = 26.0
-custom_fonts/font = ExtResource( 8 )
-text = "New"
+text = "Menu"
 
 [node name="Tools" type="VBoxContainer" parent="GUI/Menus/Right/VBox"]
 margin_top = 63.0
@@ -339,31 +325,114 @@ anchor_right = 0.5
 margin_left = -20.0
 margin_right = 20.0
 margin_bottom = 40.0
+grow_horizontal = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/PawnDirectory"]
 margin_top = 15.0
+grow_horizontal = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/Menus/PawnDirectory/MarginContainer"]
-margin_right = 174.0
-margin_bottom = 50.0
 grow_horizontal = 2
 script = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="MainMenu" type="WindowDialog" parent="GUI/Menus"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -240.0
+margin_top = -200.0
+margin_right = 240.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+window_title = "Main Menu"
+script = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/MainMenu"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -65.0
+margin_top = 20.0
+margin_right = 65.0
+margin_bottom = 26.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Menus/MainMenu/MarginContainer"]
+margin_right = 130.0
+margin_bottom = 26.0
+grow_horizontal = 2
+
+[node name="SaveButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/HBoxContainer"]
+margin_right = 42.0
+margin_bottom = 26.0
+theme = ExtResource( 15 )
+custom_fonts/font = ExtResource( 8 )
+text = "Save"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoadButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/HBoxContainer"]
+margin_left = 46.0
+margin_right = 87.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 8 )
+text = "Load"
+
+[node name="NewButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/HBoxContainer"]
+margin_left = 91.0
+margin_right = 130.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 8 )
+text = "New"
+
+[node name="SaveDialog" type="FileDialog" parent="GUI/Menus/MainMenu"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -208.0
+margin_top = -92.0
+margin_right = 208.0
+margin_bottom = 92.0
+rect_min_size = Vector2( 400, 140 )
+
+[node name="LoadDialog" type="FileDialog" parent="GUI/Menus/MainMenu"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -208.0
+margin_top = -92.0
+margin_right = 208.0
+margin_bottom = 92.0
+rect_min_size = Vector2( 400, 140 )
+window_title = "Load a File"
+
 [node name="HoverIndicator" type="Spatial" parent="GUI"]
 
 [node name="TransparentWhiteCube" type="MeshInstance" parent="GUI/HoverIndicator"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 cast_shadow = 0
-mesh = SubResource( 4 )
+mesh = SubResource( 2 )
 material/0 = null
 
 [node name="SelectIndicator" type="Spatial" parent="GUI"]
@@ -371,14 +440,14 @@ material/0 = null
 [node name="TransparentYellowCube" type="MeshInstance" parent="GUI/SelectIndicator"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 cast_shadow = 0
-mesh = SubResource( 6 )
+mesh = SubResource( 4 )
 material/0 = null
 
 [node name="JobMarkers" type="Spatial" parent="GUI"]
 script = ExtResource( 11 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 8 )
+environment = SubResource( 6 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.632138, -1.41294e-08, -0.774856, 0.116016, 0.988728, 0.0946469, 0.766122, -0.149725, 0.625012, -9.02886, 40.5833, 0 )

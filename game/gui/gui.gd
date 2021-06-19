@@ -4,12 +4,12 @@ var game_state
 var gui_state
 
 func _ready():
-  var _hcu = Events.connect("hovered_cell_updated", self, "hovered_cell_updated")
-  var _scu = Events.connect("selected_cell_updated", self, "selected_cell_updated")
-  var _seu = Events.connect("selected_entity_updated", self, "selected_entity_updated")
-  var _dcu = Events.connect("dragged_cell_updated", self, "dragged_cell_updated")
-  var _lds = Events.connect("left_drag_started", self, "left_drag_started")
-  var _lde = Events.connect("left_drag_ended", self, "left_drag_ended")
+  Events.connect("hovered_cell_updated", self, "hovered_cell_updated")
+  Events.connect("selected_cell_updated", self, "selected_cell_updated")
+  Events.connect("selected_entity_updated", self, "selected_entity_updated")
+  Events.connect("dragged_cell_updated", self, "dragged_cell_updated")
+  Events.connect("left_drag_started", self, "left_drag_started")
+  Events.connect("left_drag_ended", self, "left_drag_ended")
 
 func hovered_cell_updated(cell):
   var pawn_name = cell.pawn.character_name if cell.pawn else ""

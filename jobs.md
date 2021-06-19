@@ -69,6 +69,31 @@ Effect: Identify Exposed Vein
 ## Haul
 ## Relax/Heal/Regenerate/Downtime
 
+
+First Playable elements:
+- items
+  - wood
+  - simple gear
+- chop wood
+- plant/harvest crops
+- cook/serve meals
+- build:
+  - walls and doors
+  - bedroom
+  - kitchen
+  - dining
+- meal schedule
+- day/night
+  - daily encounters
+    - Core Tax Collectors
+    - hungry/sleepy visitors
+    - trader caravans
+  - nightly raids
+    - attack crops
+    - then buildings
+    - then people
+
+
 What "small groups of pawns" get up to:
 (small groups of pawns are 1 - 10)
 
