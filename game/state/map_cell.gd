@@ -30,6 +30,12 @@ var terrain
 func update_pathing():
   emit_signal("pathing_updated", astar_id, (!pawn and !feature))
 
+func can_take_job(job_to_take):
+  if job_to_take.job_type == Enums.Jobs.BUILD:
+    return !feature
+
+  return true
+
 var neighborspace = [false, false, false, false]
 
 signal neighborspace_updated(cell)

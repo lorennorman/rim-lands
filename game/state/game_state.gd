@@ -29,9 +29,11 @@ func destroy_pawn(pawn, erase=true):
 
 func add_job(job: Job, location: String):
   assert(map_grid, "Map must be set before Jobs can be added")
-  jobs.push_back(job)
-  job.map_cell = map_grid.lookup_cell(location)
-  Events.emit_signal("job_added", job)
+  var cell = map_grid.lookup_cell(location)
+  if cell.can_take_job(job):
+    jobs.push_back(job)
+    job.map_cell = cell
+    Events.emit_signal("job_added", job)
 
 
 func destroy_job(job, erase=true):

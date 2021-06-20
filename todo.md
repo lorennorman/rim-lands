@@ -30,9 +30,6 @@
 ## Building: "give them blueprints"
 - [ ] build doors
 ### Bugs
-  - [ ] double-building
-  - [ ] max size of build job marker square
-  - [ ] min size: 3
   - [ ] evict pawn from cell upon building construction
 ### VFX
   - [ ] wireframe shader for build job markers
@@ -74,6 +71,9 @@
 
 
 # Done:
+- [x] double-building
+- [x] max size of build job marker square
+- [x] min size: 3
 - [x] bug: loading is not yield-safe (active jobs in simulator crash after load)
 - [x] move save/load/new into pause menu popover
 - [x] spacebar to pause/play
