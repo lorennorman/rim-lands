@@ -11,8 +11,6 @@
 
 ## Simulation/Units/Ticks
 - [ ] define ticks in terms of irl
-
-## Time/Days/Nights/Seasons
 - [ ] speeds +|++|+++
 
 ## Areas
@@ -28,13 +26,14 @@
 - [ ] bug: double-building
 - [ ] set maximum size of build job marker square
 - [ ] min size: 3
-- [ ] wireframe shader for build job markers
-- [ ] build doors
-- [ ] add a/v effects to construction
-- [ ] remodel wall sections in CSG maybe?
-- [ ] block double-building on same cell
 - [ ] evict pawn from cell upon building construction
-- [ ] "give them blueprints and they will adore you"
+- [ ] build doors
+- [ ] "give them blueprints and they will adore you as they abuse them"
+### VFX
+  - [ ] wireframe shader for build job markers
+  - [ ] add a/v effects to construction
+  - [ ] remodel wall sections in CSG maybe?
+
 
 ## GameState & Scenarios
 - [ ] extract a scenario builder util from game state
