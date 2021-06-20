@@ -6,29 +6,34 @@
   - take over at any time
   - screen saver? fun to really watch?
 
+
 ## Save/Load/Popover UI/File System
 - [ ] autosave, quicksave, hotkeys
+
 
 ## Simulation/Units/Ticks
 - [ ] define ticks in terms of irl
 - [ ] speeds +|++|+++
+
 
 ## Areas
 - [ ] farmland
 - [ ] stockpile
 - [ ] building interiors
 
+
 ## Items
 - [ ] simple food
 - [ ] lumber
 
-## Building
-- [ ] bug: double-building
-- [ ] set maximum size of build job marker square
-- [ ] min size: 3
-- [ ] evict pawn from cell upon building construction
+
+## Building: "give them blueprints"
 - [ ] build doors
-- [ ] "give them blueprints and they will adore you as they abuse them"
+### Bugs
+  - [ ] double-building
+  - [ ] max size of build job marker square
+  - [ ] min size: 3
+  - [ ] evict pawn from cell upon building construction
 ### VFX
   - [ ] wireframe shader for build job markers
   - [ ] add a/v effects to construction
@@ -52,21 +57,23 @@
 ## GUI
 - [ ] make UI big (theme?), easy to splash around and get things done
 
+
 ## Bugs/Refactors
 - [ ] node for ray cast
+
 
 ## Pawns
 - [ ] name tags
 - [ ] animate walk
 - [ ] generic "working" animation
 
+
 ## Generators
 - [ ] blow out skills, stat-skill formulas for job proficiency
 - [ ] blow out item types
 
 
-
-## Done:
+# Done:
 - [x] bug: loading is not yield-safe (active jobs in simulator crash after load)
 - [x] move save/load/new into pause menu popover
 - [x] spacebar to pause/play

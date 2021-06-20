@@ -5,11 +5,11 @@ var gui_state
 
 func _ready():
   Events.connect("hovered_cell_updated", self, "hovered_cell_updated")
-  Events.connect("selected_cell_updated", self, "selected_cell_updated")
   Events.connect("selected_entity_updated", self, "selected_entity_updated")
   Events.connect("dragged_cell_updated", self, "dragged_cell_updated")
   Events.connect("left_drag_started", self, "left_drag_started")
   Events.connect("left_drag_ended", self, "left_drag_ended")
+
 
 func hovered_cell_updated(cell):
   var pawn_name = cell.pawn.character_name if cell.pawn else ""
@@ -21,16 +21,10 @@ func hovered_cell_updated(cell):
   var color = cell.terrain if cell.terrain else Color(0)
   $Menus/Left/VSplitContainer/VBoxContainer/TerrainHoverLabel/ColorRect.color = color
 
-  $HoverIndicator.translation = cell.position
-
 
 func selected_entity_updated(entity):
   var focus_text = entity.character_name if entity is Pawn else entity
   $Menus/Left/VSplitContainer/Panel/MarginContainer/TargetFocus.text = "%s" % focus_text
-
-
-func selected_cell_updated(cell):
-  $SelectIndicator.translation = cell.position
 
 
 var draggable_building_origin: MapCell
@@ -60,6 +54,7 @@ func remove_job_markers():
   for marker in building_markers:
     marker.queue_free()
   building_markers = []
+
 
 const JobMarker = preload("res://game/gui/3d/job_marker.tscn")
 func add_job_markers_between(x1z1, x2z2):

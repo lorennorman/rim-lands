@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://game/main.gd" type="Script" id=1]
 [ext_resource path="res://game/camera/camera_control.gd" type="Script" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://game/gui/2d/font_theme.tres" type="Theme" id=15]
 [ext_resource path="res://game/main_menu.gd" type="Script" id=16]
 [ext_resource path="res://game/gui/2d/pawn_directory.gd" type="Script" id=17]
+[ext_resource path="res://game/gui/3d/map_indicators.gd" type="Script" id=18]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
@@ -456,17 +457,20 @@ window_title = "Open a File"
 resizable = true
 mode = 0
 
-[node name="HoverIndicator" type="Spatial" parent="GUI"]
+[node name="MapIndicators" type="Spatial" parent="GUI"]
+script = ExtResource( 18 )
 
-[node name="TransparentWhiteCube" type="MeshInstance" parent="GUI/HoverIndicator"]
+[node name="HoverIndicator" type="Spatial" parent="GUI/MapIndicators"]
+
+[node name="TransparentWhiteCube" type="MeshInstance" parent="GUI/MapIndicators/HoverIndicator"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 cast_shadow = 0
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="SelectIndicator" type="Spatial" parent="GUI"]
+[node name="SelectIndicator" type="Spatial" parent="GUI/MapIndicators"]
 
-[node name="TransparentYellowCube" type="MeshInstance" parent="GUI/SelectIndicator"]
+[node name="TransparentYellowCube" type="MeshInstance" parent="GUI/MapIndicators/SelectIndicator"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 cast_shadow = 0
 mesh = SubResource( 4 )
