@@ -2,13 +2,29 @@
 # can use timer yield()s
 extends Spatial
 
-func _ready():
-  Events.connect("start_timer", self, "handle_start_timer")
+var timers = []
+var clearing = false
 
-func handle_start_timer(timer):
+func _ready():
+  Events.connect("start_timer", self, "start_timer")
+  Events.connect("game_state_teardown", self, "game_state_teardown")
+
+func start_timer(timer):
   # Thank you for the timer, we'll throw it on the scene tree until it goes off
   add_child(timer)
+  timers.push_back(timer)
   # -- make sure you (the caller) listen for this too! --
   yield(timer, "timeout")
   # ...then clean it up once it goes off
-  remove_child(timer)
+
+  timers.erase(timer)
+  timer.queue_free()
+
+func game_state_teardown():
+  # ignore all timers
+  for timer in timers:
+    timer.stop()
+    timer.queue_free()
+
+  timers.clear()
+  clearing = true

@@ -4,7 +4,11 @@ const Simulator = preload("res://game/simulator.gd")
 
 var game_state: GameState
 var sim: Simulator
-var state = "loading"
+var simulator_state = "loading" setget set_simulator_state
+func set_simulator_state(new_state):
+  if simulator_state != new_state:
+    simulator_state = new_state
+    Events.emit_signal("simulator_state_updated", simulator_state)
 
 
 func _ready():
@@ -13,6 +17,7 @@ func _ready():
   Events.connect("new_world_requested", self, "new_world")
   Events.connect("load_world_requested", self, "load_world")
   Events.connect("save_world_requested", self, "save_world")
+  Events.connect("pause_requested", self, "pause_requested")
 
   load_world()
 
@@ -32,18 +37,29 @@ func start_running_game_state(new_game_state: GameState):
   $GUI.game_state = game_state
   $GUI.gui_state = game_state.gui_state
   sim = Simulator.new(game_state)
-  state = "simulating"
+  self.simulator_state = "simulating"
   print("Simulating!")
 
 
+func pause_requested(): set_pause(true)
+
+
+func _input(event):
+  if event.is_action_pressed("ui_select"):
+    set_pause(not get_tree().paused)
+
+func set_pause(new_paused):
+  get_tree().paused = new_paused
+  self.simulator_state = "paused" if get_tree().paused else "simulating"
+
+
 func _process(delta):
-  match state:
+  match simulator_state:
     "simulating": if sim: sim._process(delta)
 
 
 func load_world(game_state_file="res://savegames/savegame.tres"):
-  print("loading,", game_state_file)
-  state = "loading"
+  self.simulator_state = "loading"
   clear_running_game_state()
   yield(get_tree(), "idle_frame") # superstition
 

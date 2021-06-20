@@ -1,22 +1,31 @@
 # TODO:
 
+## Hair-brained Schemes
+- [ ] Game can play itself?
+  - background of main menu just starts a colony
+  - take over at any time
+  - screen saver? fun to really watch?
+
 ## Save/Load/Popover UI/File System
-- [ ] bug: loading is not yield-safe (active jobs in simulator crash after load)
-- [x] make popover main menu
-- [x] make file selection loader: games & scenarios
-- [x] make file selection saver: games only
-- [ ] make autosave system
-- [ ] quicksave, otr kbd srtcts
+- [ ] autosave, quicksave, hotkeys
 
 ## Simulation/Units/Ticks
 - [ ] define ticks in terms of irl
 
 ## Time/Days/Nights/Seasons
-- [ ] spacebar to pause/play
-- [ ] opening main menu pauses
 - [ ] speeds +|++|+++
 
+## Areas
+- [ ] farmland
+- [ ] stockpile
+- [ ] building interiors
+
+## Items
+- [ ] simple food
+- [ ] lumber
+
 ## Building
+- [ ] bug: double-building
 - [ ] set maximum size of build job marker square
 - [ ] min size: 3
 - [ ] wireframe shader for build job markers
@@ -42,24 +51,31 @@
 
 
 ## GUI
-- [ ] move save/load/new into pause menu popover
 - [ ] make UI big (theme?), easy to splash around and get things done
 
 ## Bugs/Refactors
 - [ ] node for ray cast
 
 ## Pawns
+- [ ] name tags
 - [ ] animate walk
 - [ ] generic "working" animation
 
 ## Generators
-- [ ] blow out job types, experiment
 - [ ] blow out skills, stat-skill formulas for job proficiency
 - [ ] blow out item types
 
 
 
 ## Done:
+- [x] bug: loading is not yield-safe (active jobs in simulator crash after load)
+- [x] move save/load/new into pause menu popover
+- [x] spacebar to pause/play
+- [x] opening main menu pauses
+- [x] blow out job types, experiment
+- [x] make popover main menu
+- [x] make file selection loader: games & scenarios
+- [x] make file selection saver: games only
 - [x] add wooden material to walls
 - [x] fix save/load/gamestate-buildup/-teardown:
   - fast-teardown signals & implementations

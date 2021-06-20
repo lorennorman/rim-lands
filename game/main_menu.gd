@@ -3,8 +3,9 @@ extends WindowDialog
 const savegame_dir = "res://savegames"
 const scenario_dir = "res://scenarios"
 
+
 func _ready():
-  Events.connect("menu_pressed", self, "popup")
+  Events.connect("menu_pressed", self, "pause_and_popup")
   # New Game
   $MarginContainer/VBoxContainer/NewGameButton.connect("pressed", self, "new_game_clicked")
   # Load Game
@@ -17,9 +18,16 @@ func _ready():
   $MarginContainer/VBoxContainer/SaveGameButton.connect("pressed", self, "save_game_clicked")
   $SaveGameDialog.connect("file_selected", self, "save_game_file_selected")
 
+
+func pause_and_popup():
+  Events.emit_signal("pause_requested")
+  popup()
+
+
 func new_game_clicked():
   visible = false
   Events.emit_signal("new_world_requested")
+
 
 func load_scenario_clicked():
   visible = false
