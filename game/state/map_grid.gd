@@ -19,6 +19,8 @@ var noise: OpenSimplexNoise
 var astar: AStar
 var omni_dict: Dictionary
 
+var torndown = false
+
 
 func generate_cells():
   astar = AStar.new()
@@ -86,6 +88,10 @@ func color_from_noise(_x, _z, noise_value):
 
 
 func lookup_cell(omni_id):
+  if torndown:
+    printerr("lookup_cell called after torndown at: %s" % omni_id)
+    return MapCell.new()
+
   assert(omni_dict.has(omni_id), "Omni Dict doesn't have ID: '%s'" % omni_id)
   return omni_dict[omni_id]
 
@@ -173,3 +179,4 @@ func get_move_path(from_key, to_key):
 func teardown():
   omni_dict.clear() # clear the map cells
   astar.clear() # clear the astar network
+  torndown = true

@@ -41,23 +41,14 @@ func _process(delta):
     "simulating": if sim: sim._process(delta)
 
 
-func load_world(game_state_file=null):
+func load_world(game_state_file="res://savegames/savegame.tres"):
+  print("loading,", game_state_file)
   state = "loading"
   clear_running_game_state()
   yield(get_tree(), "idle_frame") # superstition
 
-  if not game_state_file:
-    # TODO: make a popover file load menu
-    # preset savegames:
-    # game_state_file = "small_empty.tres"
-    # game_state_file = "small_solo.tres"
-    # game_state_file = "small_party.tres"
-    game_state_file = "small_party_busy.tres"
-    # game_state_file = "medium_party_busy.tres"
-    # game_state_file = "large_party_busy.tres"
-    game_state_file = "savegame.tres"
-
-  var loaded_game_state = ResourceLoader.load("res://savegames/%s" % game_state_file, "Resource", false)
+  # TODO: filesystem safety concerns? directory locking?
+  var loaded_game_state = ResourceLoader.load(game_state_file, "Resource", false)
   # from experience: we should not edit the GameState that is loaded, directly
   # else we suffer from inability to unload/reload resources (might be a bug)
   # instead we'll new up a GameState and duplicate the sub-resources
@@ -83,10 +74,10 @@ func duplicate_game_state(game_state_to_copy) -> GameState:
   return duplicated_game_state
 
 
-func save_world():
-  if ResourceSaver.save("res://savegames/savegame.tres", game_state) != OK:
+func save_world(game_state_file="res://savegames/savegame.tres"):
+  if ResourceSaver.save(game_state_file, game_state) != OK:
     printerr("Error saving GameState")
 
 
 func new_world():
-  load_world("new_world.tres")
+  load_world("res://scenarios/new_world.tres")

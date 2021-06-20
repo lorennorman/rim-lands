@@ -3,15 +3,18 @@
 ## Save/Load/Popover UI/File System
 - [ ] bug: loading is not yield-safe (active jobs in simulator crash after load)
 - [x] make popover main menu
-- [ ] make file selection loader
-- [ ] make file selection saver
+- [x] make file selection loader: games & scenarios
+- [x] make file selection saver: games only
 - [ ] make autosave system
+- [ ] quicksave, otr kbd srtcts
 
 ## Simulation/Units/Ticks
 - [ ] define ticks in terms of irl
 
 ## Time/Days/Nights/Seasons
-- [ ] pause/resume/speeds +|++|+++
+- [ ] spacebar to pause/play
+- [ ] opening main menu pauses
+- [ ] speeds +|++|+++
 
 ## Building
 - [ ] set maximum size of build job marker square

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=21 format=2]
+[gd_resource type="Resource" load_steps=14 format=2]
 
 [ext_resource path="res://game/state/map_grid.gd" type="Script" id=1]
 [ext_resource path="res://game/state/game_state.gd" type="Script" id=2]
@@ -7,89 +7,61 @@
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 4 )
-location = "36,18"
+location = "29,18"
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 4 )
-location = "36,16"
+location = "30,18"
 
 [sub_resource type="Resource" id=3]
 script = ExtResource( 4 )
-location = "36,14"
+location = "32,18"
 
 [sub_resource type="Resource" id=4]
 script = ExtResource( 4 )
-location = "36,17"
+location = "31,18"
 
 [sub_resource type="Resource" id=5]
 script = ExtResource( 4 )
-location = "36,13"
+location = "28,18"
 
 [sub_resource type="Resource" id=6]
-script = ExtResource( 4 )
-location = "36,15"
-
-[sub_resource type="Resource" id=7]
-script = ExtResource( 4 )
-location = "24,18"
-
-[sub_resource type="Resource" id=8]
-script = ExtResource( 4 )
-location = "24,17"
-
-[sub_resource type="Resource" id=9]
-script = ExtResource( 4 )
-location = "24,16"
-
-[sub_resource type="Resource" id=10]
-script = ExtResource( 4 )
-location = "24,13"
-
-[sub_resource type="Resource" id=11]
-script = ExtResource( 4 )
-location = "24,15"
-
-[sub_resource type="Resource" id=12]
-script = ExtResource( 4 )
-location = "24,14"
-
-[sub_resource type="Resource" id=13]
 script = ExtResource( 1 )
 map_size = 65
 maximum_height = 35.0
-noise_seed = 5
+noise_seed = 2
 scale_grid_to_noise = 1.25
 
-[sub_resource type="Resource" id=14]
+[sub_resource type="Resource" id=7]
 script = ExtResource( 3 )
 might = 1
 will = 1
 magic = -1
 race = "Dwarf"
 character_name = "Brindolf"
-location = "25,14"
+location = "28,17"
 
-[sub_resource type="Resource" id=15]
+[sub_resource type="Resource" id=8]
 script = ExtResource( 3 )
 might = 1
 will = 1
 magic = 2
 race = "Elf"
 character_name = "S'randra"
-location = "25,15"
+location = "31,17"
 
-[sub_resource type="Resource" id=16]
+[sub_resource type="Resource" id=9]
 script = ExtResource( 3 )
 might = 0
 will = 2
 magic = 0
 race = "Human"
 character_name = "Conrad"
-location = "25,16"
+location = "30,18"
 
 [resource]
 script = ExtResource( 2 )
-pawns = [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ]
+pawns = [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ]
 jobs = [  ]
-buildings = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ]
-map_grid = SubResource( 13 )
+buildings = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ]
+map_grid = SubResource( 6 )
