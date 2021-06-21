@@ -46,3 +46,6 @@ signal job_completed(job)
 
 signal building_added(building)
 signal building_removed(building)
+
+signal item_added(item)
+signal item_removed(item)

@@ -19,7 +19,8 @@ func _ready():
   Events.connect("save_world_requested", self, "save_world")
   Events.connect("pause_requested", self, "pause_requested")
 
-  load_world()
+  new_world()
+  # load_world()
 
 
 func clear_running_game_state():
@@ -101,4 +102,16 @@ func new_world():
   var item = Item.new()
   item.type = Enums.Items.LUMBER
   item.location = "5,5"
+  game_state.add_item(item)
+  item = Item.new()
+  item.type = Enums.Items.LUMBER
+  item.location = "5,7"
+  game_state.add_item(item)
+  item = Item.new()
+  item.type = Enums.Items.LUMBER
+  item.location = "6,8"
+  game_state.add_item(item)
+  item = Item.new()
+  item.type = Enums.Items.LUMBER
+  item.location = "4,10"
   game_state.add_item(item)

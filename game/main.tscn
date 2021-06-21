@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://game/main.gd" type="Script" id=1]
 [ext_resource path="res://game/camera/camera_control.gd" type="Script" id=2]
@@ -18,6 +18,8 @@
 [ext_resource path="res://game/main_menu.gd" type="Script" id=16]
 [ext_resource path="res://game/gui/2d/pawn_directory.gd" type="Script" id=17]
 [ext_resource path="res://game/gui/3d/map_indicators.gd" type="Script" id=18]
+[ext_resource path="res://game/items/item_model.tscn" type="PackedScene" id=19]
+[ext_resource path="res://game/util/model_boss.tscn" type="PackedScene" id=20]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
@@ -512,3 +514,7 @@ script = ExtResource( 14 )
 pause_mode = 1
 
 [node name="MapTerrain" parent="." instance=ExtResource( 12 )]
+
+[node name="ItemBoss" parent="." instance=ExtResource( 20 )]
+scene_to_instance = ExtResource( 19 )
+resource_to_observe = "item"

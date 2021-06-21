@@ -51,7 +51,8 @@ func add_building(building, location):
 
 
 func add_item(item):
-  print("adding item: ", item, " at ", item.location)
+  item.cell = map_grid.lookup_cell(item.location)
+  Events.emit_signal("item_added", item)
 
 func teardown():
   # yolo deletion: tell the whole world to teardown
