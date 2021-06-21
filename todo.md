@@ -24,17 +24,18 @@
 
 ## Items
 - [ ] simple food
-- [ ] lumber
+1 [ ] lumber
 
 
 ## Building: "give them blueprints"
-- [ ] build doors
+1 [ ] build doors
+1 [ ] haul-to-build jobs
 ### Bugs
   - [ ] evict pawn from cell upon building construction
 ### VFX
   - [ ] wireframe shader for build job markers
   - [ ] add a/v effects to construction
-  - [ ] remodel wall sections in CSG maybe?
+  1 [ ] remodel wall sections in CSG maybe?
 
 
 ## GameState & Scenarios

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/pawn_emotes.png-ede48b120e3f5cdcb2e2baf58ce5bd78.stex"
+path="res://.import/pawn_emotes.png-0b471d3fc099190d1eba60daa6aeba9e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/pawn_emotes.png"
-dest_files=[ "res://.import/pawn_emotes.png-ede48b120e3f5cdcb2e2baf58ce5bd78.stex" ]
+source_file="res://game/pawns/pawn_emotes.png"
+dest_files=[ "res://.import/pawn_emotes.png-0b471d3fc099190d1eba60daa6aeba9e.stex" ]
 
 [params]
 

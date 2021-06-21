@@ -96,4 +96,9 @@ func save_world(game_state_file="res://savegames/savegame.tres"):
 
 
 func new_world():
-  load_world("res://scenarios/new_world.tres")
+  yield(load_world("res://scenarios/new_world.tres"), "completed")
+
+  var item = Item.new()
+  item.type = Enums.Items.LUMBER
+  item.location = "5,5"
+  game_state.add_item(item)

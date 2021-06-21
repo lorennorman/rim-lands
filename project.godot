@@ -40,6 +40,11 @@ _global_script_classes=[ {
 "path": "res://addons/zylann.hterrain/hterrain_resource_saver.gd"
 }, {
 "base": "Resource",
+"class": "Item",
+"language": "GDScript",
+"path": "res://game/state/item.gd"
+}, {
+"base": "Resource",
 "class": "Job",
 "language": "GDScript",
 "path": "res://game/state/job.gd"
@@ -66,6 +71,7 @@ _global_script_class_icons={
 "GameState": "",
 "HTerrainDataLoader": "",
 "HTerrainDataSaver": "",
+"Item": "",
 "Job": "",
 "MapCell": "",
 "MapGrid": "",

@@ -50,6 +50,9 @@ func add_building(building, location):
   Events.emit_signal("building_added", building)
 
 
+func add_item(item):
+  print("adding item: ", item, " at ", item.location)
+
 func teardown():
   # yolo deletion: tell the whole world to teardown
   # results in instant queue_free() on all scene tree listeners
@@ -108,3 +111,10 @@ func make_building(building_type, building_location) -> void:
   building.location = building_location
 
   add_building(building, building_location)
+
+func make_item(item_type, item_location) -> void:
+  var item = Item.new()
+  item.type = item_type
+  item.location = item_location
+
+  add_item(item)
