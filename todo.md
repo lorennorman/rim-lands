@@ -41,10 +41,8 @@
 ## GameState & Scenarios
 - [ ] extract a scenario builder util from game state
 - [ ] make a gui scenario editor using scenario builder util
-- [ ] extract a Node version of the resource manager pattern we've been using:
-  - parameterize scene to be .instance()'d
-  - customize the "key" function call to the signaled model
-  - common teardown func
+- [x] extract ModelBoss: the resource manager pattern we've been using
+
 - [ ] observable resource generation utils
   - use a common query/update pattern
   - all updates signal with delta information

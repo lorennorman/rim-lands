@@ -1,5 +1,7 @@
 extends Spatial
 
+class_name ModelBoss
+
 export(PackedScene) var scene_to_instance
 export(String) var resource_to_observe
 export(String) var key_method = "to_string"
@@ -18,17 +20,21 @@ func get_key(resource):
   return funcref(resource, key_method).call_func()
 
 
+func after_added(_resource, _scene): pass
 func add_scene(resource) -> void:
   var scene = scene_to_instance.instance()
   scene[resource_to_observe] = resource
   scenes[get_key(resource)] = scene
   add_child(scene)
+  after_added(resource, scene)
 
 
+func after_removed(_resource): pass
 func remove_scene(resource) -> void:
   var scene = scenes[get_key(resource)]
   scenes.erase(get_key(resource))
   scene.queue_free()
+  after_removed(resource)
 
 
 func teardown():

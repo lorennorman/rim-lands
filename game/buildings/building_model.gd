@@ -9,15 +9,18 @@ const Four := preload("./walls/4_way.tscn")
 
 var cell: MapCell setget set_cell
 var model: Spatial
+var building: Resource
 
 func _ready():
-  assert(cell, "BuildingModel became _ready() without a Cell")
+  assert(building or cell, "BuildingModel became _ready() without a Building nor a Cell")
+  if not cell:
+    self.cell = building.map_cell
   cell.update_neighborspace()
   neighborspace_updated(cell)
 
 func set_cell(new_cell):
   cell = new_cell
-  var _nu = cell.connect("neighborspace_updated", self, "neighborspace_updated")
+  cell.connect("neighborspace_updated", self, "neighborspace_updated")
   # cell.update_neighborspace()
   neighborspace_updated(cell)
 

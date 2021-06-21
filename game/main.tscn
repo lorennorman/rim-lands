@@ -1,9 +1,9 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://game/main.gd" type="Script" id=1]
 [ext_resource path="res://game/camera/camera_control.gd" type="Script" id=2]
 [ext_resource path="res://game/gui/2d/build_button.gd" type="Script" id=3]
-[ext_resource path="res://game/pawns/pawn_models.gd" type="Script" id=4]
+[ext_resource path="res://game/buildings/building_boss.gd" type="Script" id=4]
 [ext_resource path="res://game/gui/2d/mode_label.gd" type="Script" id=5]
 [ext_resource path="res://game/gui/2d/job_labels.gd" type="Script" id=6]
 [ext_resource path="res://game/gui/2d/file_menu.gd" type="Script" id=7]
@@ -13,13 +13,14 @@
 [ext_resource path="res://game/gui/3d/job_markers.gd" type="Script" id=11]
 [ext_resource path="res://game/terrain/map_terrain.tscn" type="PackedScene" id=12]
 [ext_resource path="res://addons/zylann.hterrain_demo/textures/table_mountain_2_4k.hdr" type="Texture" id=13]
-[ext_resource path="res://game/buildings/building_models.gd" type="Script" id=14]
+[ext_resource path="res://game/buildings/building_model.tscn" type="PackedScene" id=14]
 [ext_resource path="res://game/gui/2d/font_theme.tres" type="Theme" id=15]
 [ext_resource path="res://game/main_menu.gd" type="Script" id=16]
 [ext_resource path="res://game/gui/2d/pawn_directory.gd" type="Script" id=17]
 [ext_resource path="res://game/gui/3d/map_indicators.gd" type="Script" id=18]
 [ext_resource path="res://game/items/item_model.tscn" type="PackedScene" id=19]
 [ext_resource path="res://game/util/model_boss.tscn" type="PackedScene" id=20]
+[ext_resource path="res://game/pawns/pawn_model.tscn" type="PackedScene" id=21]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
@@ -502,13 +503,9 @@ distance = 20.0
 average_max_speed = Vector3( 40, 40, 40 )
 local = false
 
-[node name="Pawns" type="Spatial" parent="."]
-pause_mode = 1
-script = ExtResource( 4 )
-
-[node name="Buildings" type="Spatial" parent="."]
-pause_mode = 1
-script = ExtResource( 14 )
+[node name="PawnBoss" parent="." instance=ExtResource( 20 )]
+scene_to_instance = ExtResource( 21 )
+resource_to_observe = "pawn"
 
 [node name="Jobs" type="Spatial" parent="."]
 pause_mode = 1
@@ -518,3 +515,8 @@ pause_mode = 1
 [node name="ItemBoss" parent="." instance=ExtResource( 20 )]
 scene_to_instance = ExtResource( 19 )
 resource_to_observe = "item"
+
+[node name="BuildingBoss" parent="." instance=ExtResource( 20 )]
+script = ExtResource( 4 )
+scene_to_instance = ExtResource( 14 )
+resource_to_observe = "building"
