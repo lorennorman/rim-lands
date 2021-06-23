@@ -24,7 +24,7 @@
 
 ## Items
 - [ ] simple food
-1 [ ] lumber
+1 [ ] lumber: graphic, label, quantity
 
 
 ## Building: "give them blueprints"
@@ -35,13 +35,15 @@
 ### VFX
   - [ ] wireframe shader for build job markers
   - [ ] add a/v effects to construction
-  1 [ ] remodel wall sections in CSG maybe?
+  1 [ ] modeling:
+    - remodel wall sections
+    - model doors and doors-with-walls
+    - CSG maybe?
 
 
 ## GameState & Scenarios
 - [ ] extract a scenario builder util from game state
 - [ ] make a gui scenario editor using scenario builder util
-- [x] extract ModelBoss: the resource manager pattern we've been using
 
 - [ ] observable resource generation utils
   - use a common query/update pattern
@@ -62,6 +64,8 @@
 - [ ] name tags
 - [ ] animate walk
 - [ ] generic "working" animation
+- [ ] idle decision-making
+- [ ] panicked decision-making
 
 
 ## Generators
@@ -70,6 +74,8 @@
 
 
 # Done:
+- [x] extract ModelBoss: the resource manager pattern we've been using
+- [x] make PawnBoss, BuildingBoss, ItemBoss
 - [x] double-building
 - [x] max size of build job marker square
 - [x] min size: 3

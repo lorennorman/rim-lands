@@ -101,17 +101,17 @@ func new_world():
 
   var item = Item.new()
   item.type = Enums.Items.LUMBER
-  item.location = "5,5"
+  item.location = "25,15"
   game_state.add_item(item)
   item = Item.new()
   item.type = Enums.Items.LUMBER
-  item.location = "5,7"
+  item.location = "25,17"
   game_state.add_item(item)
   item = Item.new()
   item.type = Enums.Items.LUMBER
-  item.location = "6,8"
+  item.location = "26,18"
   game_state.add_item(item)
   item = Item.new()
   item.type = Enums.Items.LUMBER
-  item.location = "4,10"
+  item.location = "24,20"
   game_state.add_item(item)

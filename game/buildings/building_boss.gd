@@ -1,4 +1,4 @@
-extends "res://game/util/model_boss.gd"
+extends ModelBoss
 
 func after_added(_resource, _scene):
   update_neighborspaces()

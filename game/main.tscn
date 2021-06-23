@@ -487,8 +487,9 @@ environment = SubResource( 6 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 pause_mode = 1
-transform = Transform( 0.632138, -1.41294e-08, -0.774856, 0.116016, 0.988728, 0.0946469, 0.766122, -0.149725, 0.625012, -9.02886, 40.5833, 0 )
+transform = Transform( 0.447717, 0.82203, -0.351876, -0.544102, 0.562734, 0.622321, 0.709579, -0.0871673, 0.699213, -9.02886, 40.5833, 0 )
 light_energy = 2.0
+shadow_enabled = true
 shadow_color = Color( 0.6, 0.6, 0.6, 1 )
 
 [node name="Camera" type="Camera" parent="."]
