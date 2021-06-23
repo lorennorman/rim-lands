@@ -67,166 +67,30 @@ script = ExtResource( 9 )
 
 [node name="Menus" type="CanvasLayer" parent="GUI"]
 
-[node name="Right" type="Control" parent="GUI/Menus"]
-modulate = Color( 1, 1, 1, 0.784314 )
-anchor_left = 0.827
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 0.151978
-grow_horizontal = 0
+[node name="Top" type="Control" parent="GUI/Menus"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_right = 20.0
+margin_bottom = 40.0
+grow_horizontal = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBox" type="VBoxContainer" parent="GUI/Menus/Right"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 45.0
-margin_right = 0.0319824
+[node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/Top"]
+margin_top = 15.0
+grow_horizontal = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="File" type="VBoxContainer" parent="GUI/Menus/Right/VBox"]
-margin_right = 204.0
-margin_bottom = 59.0
-script = ExtResource( 7 )
-
-[node name="FileLabel" type="Label" parent="GUI/Menus/Right/VBox/File"]
-margin_right = 204.0
-margin_bottom = 21.0
-theme = ExtResource( 15 )
-text = "FILE"
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Menus/Right/VBox/File"]
-margin_top = 25.0
-margin_right = 204.0
-margin_bottom = 29.0
-
-[node name="FileMenu" type="GridContainer" parent="GUI/Menus/Right/VBox/File"]
-margin_top = 33.0
-margin_right = 204.0
-margin_bottom = 59.0
-columns = 3
-
-[node name="MenuButton" type="Button" parent="GUI/Menus/Right/VBox/File/FileMenu"]
-margin_right = 49.0
-margin_bottom = 26.0
-custom_fonts/font = ExtResource( 8 )
-text = "Menu"
-
-[node name="Tools" type="VBoxContainer" parent="GUI/Menus/Right/VBox"]
-margin_top = 63.0
-margin_right = 204.0
-margin_bottom = 152.0
-
-[node name="ToolsLabel" type="Label" parent="GUI/Menus/Right/VBox/Tools"]
-margin_right = 204.0
-margin_bottom = 21.0
-theme = ExtResource( 15 )
-text = "TOOLS"
-
-[node name="HSeparator2" type="HSeparator" parent="GUI/Menus/Right/VBox/Tools"]
-margin_top = 25.0
-margin_right = 204.0
-margin_bottom = 29.0
-
-[node name="ToolsMenu" type="GridContainer" parent="GUI/Menus/Right/VBox/Tools"]
-margin_top = 33.0
-margin_right = 204.0
-margin_bottom = 89.0
-columns = 3
-
-[node name="BuildButton" type="MenuButton" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
-margin_right = 50.0
-margin_bottom = 26.0
-custom_fonts/font = ExtResource( 8 )
-text = "Build"
-flat = false
-items = [ "Wall", null, 0, false, false, 0, 0, null, "", false, "Door", null, 0, false, false, 1, 0, null, "", false ]
-script = ExtResource( 3 )
-
-[node name="Button5" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
-margin_left = 54.0
-margin_right = 122.0
-margin_bottom = 26.0
-custom_fonts/font = ExtResource( 8 )
-text = "Weave"
-
-[node name="Button6" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
-margin_left = 126.0
-margin_right = 168.0
-margin_bottom = 26.0
-custom_fonts/font = ExtResource( 8 )
-text = "Fell"
-
-[node name="Button7" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
-margin_top = 30.0
-margin_right = 50.0
-margin_bottom = 56.0
-custom_fonts/font = ExtResource( 8 )
-text = "Forge"
-
-[node name="Button8" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
-margin_left = 54.0
-margin_top = 30.0
-margin_right = 122.0
-margin_bottom = 56.0
-custom_fonts/font = ExtResource( 8 )
-text = "Enchant"
-
-[node name="Button9" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
-visible = false
-margin_left = 97.0
-margin_top = 48.0
-margin_right = 151.0
-margin_bottom = 68.0
-custom_fonts/font = ExtResource( 8 )
-text = "Dig"
-
-[node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/Right/VBox"]
-margin_top = 156.0
-margin_right = 204.0
-margin_bottom = 177.0
-custom_constants/margin_left = 9
+[node name="PawnDirectory" type="HBoxContainer" parent="GUI/Menus/Top/MarginContainer"]
+grow_horizontal = 2
+script = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="ModeLabel" type="Label" parent="GUI/Menus/Right/VBox/MarginContainer"]
-margin_left = 9.0
-margin_right = 204.0
-margin_bottom = 21.0
-theme = ExtResource( 15 )
-text = "Mode: Building Walls"
-script = ExtResource( 5 )
-
-[node name="Jobs" type="VBoxContainer" parent="GUI/Menus/Right/VBox"]
-margin_top = 181.0
-margin_right = 204.0
-margin_bottom = 210.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="JobsLabel" type="Label" parent="GUI/Menus/Right/VBox/Jobs"]
-margin_right = 204.0
-margin_bottom = 21.0
-theme = ExtResource( 15 )
-text = "JOBS"
-
-[node name="JobLabels" type="VBoxContainer" parent="GUI/Menus/Right/VBox/Jobs"]
-margin_top = 25.0
-margin_right = 204.0
-margin_bottom = 29.0
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Menus/Right/VBox/Jobs/JobLabels"]
-margin_right = 204.0
-margin_bottom = 4.0
 
 [node name="Left" type="Control" parent="GUI/Menus"]
 modulate = Color( 1, 1, 1, 0.784314 )
@@ -242,22 +106,22 @@ __meta__ = {
 [node name="VSplitContainer" type="VSplitContainer" parent="GUI/Menus/Left"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 24.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/Menus/Left/VSplitContainer"]
 margin_right = 171.0
-margin_bottom = 71.0
+margin_bottom = 195.0
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PawnHoverLabel" type="Label" parent="GUI/Menus/Left/VSplitContainer/VBoxContainer"]
+margin_top = 20.0
 margin_right = 171.0
-margin_bottom = 21.0
+margin_bottom = 41.0
 theme = ExtResource( 15 )
 text = "Pawn:"
 __meta__ = {
@@ -265,9 +129,9 @@ __meta__ = {
 }
 
 [node name="FeatureHoverLabel" type="Label" parent="GUI/Menus/Left/VSplitContainer/VBoxContainer"]
-margin_top = 25.0
+margin_top = 45.0
 margin_right = 171.0
-margin_bottom = 46.0
+margin_bottom = 66.0
 theme = ExtResource( 15 )
 text = "Feature:"
 __meta__ = {
@@ -275,9 +139,9 @@ __meta__ = {
 }
 
 [node name="TerrainHoverLabel" type="Label" parent="GUI/Menus/Left/VSplitContainer/VBoxContainer"]
-margin_top = 50.0
+margin_top = 70.0
 margin_right = 171.0
-margin_bottom = 71.0
+margin_bottom = 91.0
 theme = ExtResource( 15 )
 text = "Terrain:"
 __meta__ = {
@@ -294,29 +158,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="GUI/Menus/Left/VSplitContainer"]
-margin_top = 83.0
+[node name="Panel" type="Panel" parent="GUI/Menus/Left/VSplitContainer/VBoxContainer"]
+margin_top = 95.0
 margin_right = 171.0
-margin_bottom = 183.0
+margin_bottom = 195.0
 rect_min_size = Vector2( 0, 100 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/Left/VSplitContainer/Panel"]
+[node name="TargetFocus" type="Label" parent="GUI/Menus/Left/VSplitContainer/VBoxContainer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = 10.0
-margin_right = -10.0
-margin_bottom = -10.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TargetFocus" type="Label" parent="GUI/Menus/Left/VSplitContainer/Panel/MarginContainer"]
-margin_right = 151.0
-margin_bottom = 100.0
 rect_min_size = Vector2( 8, 100 )
 theme = ExtResource( 15 )
 text = "This Person
@@ -325,30 +178,167 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PawnDirectory" type="Control" parent="GUI/Menus"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -20.0
-margin_right = 20.0
-margin_bottom = 40.0
-grow_horizontal = 2
+[node name="Right" type="Control" parent="GUI/Menus"]
+modulate = Color( 1, 1, 1, 0.784314 )
+anchor_left = 0.827
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.151978
+grow_horizontal = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/PawnDirectory"]
-margin_top = 15.0
-grow_horizontal = 2
+[node name="VBox" type="VBoxContainer" parent="GUI/Menus/Right"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 45.0
+margin_right = 0.0319824
+grow_horizontal = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Menus/PawnDirectory/MarginContainer"]
-grow_horizontal = 2
-script = ExtResource( 17 )
+[node name="File" type="VBoxContainer" parent="GUI/Menus/Right/VBox"]
+margin_right = 284.0
+margin_bottom = 78.0
+script = ExtResource( 7 )
+
+[node name="FileLabel" type="Label" parent="GUI/Menus/Right/VBox/File"]
+margin_right = 284.0
+margin_bottom = 21.0
+theme = ExtResource( 15 )
+text = "FILE"
+
+[node name="HSeparator" type="HSeparator" parent="GUI/Menus/Right/VBox/File"]
+margin_top = 25.0
+margin_right = 284.0
+margin_bottom = 29.0
+
+[node name="FileMenu" type="GridContainer" parent="GUI/Menus/Right/VBox/File"]
+margin_top = 33.0
+margin_right = 284.0
+margin_bottom = 78.0
+columns = 3
+
+[node name="MenuButton" type="Button" parent="GUI/Menus/Right/VBox/File/FileMenu"]
+margin_right = 84.0
+margin_bottom = 45.0
+custom_fonts/font = ExtResource( 8 )
+text = "Menu"
+
+[node name="Tools" type="VBoxContainer" parent="GUI/Menus/Right/VBox"]
+margin_top = 82.0
+margin_right = 284.0
+margin_bottom = 209.0
+
+[node name="ToolsLabel" type="Label" parent="GUI/Menus/Right/VBox/Tools"]
+margin_right = 284.0
+margin_bottom = 21.0
+theme = ExtResource( 15 )
+text = "TOOLS"
+
+[node name="HSeparator2" type="HSeparator" parent="GUI/Menus/Right/VBox/Tools"]
+margin_top = 25.0
+margin_right = 284.0
+margin_bottom = 29.0
+
+[node name="ToolsMenu" type="GridContainer" parent="GUI/Menus/Right/VBox/Tools"]
+margin_top = 33.0
+margin_right = 284.0
+margin_bottom = 127.0
+columns = 3
+
+[node name="BuildButton" type="MenuButton" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
+margin_right = 86.0
+margin_bottom = 45.0
+custom_fonts/font = ExtResource( 8 )
+text = "Build"
+flat = false
+items = [ "Wall", null, 0, false, false, 0, 0, null, "", false, "Door", null, 0, false, false, 1, 0, null, "", false ]
+script = ExtResource( 3 )
+
+[node name="Button5" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
+margin_left = 90.0
+margin_right = 210.0
+margin_bottom = 45.0
+custom_fonts/font = ExtResource( 8 )
+text = "Weave"
+
+[node name="Button6" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
+margin_left = 214.0
+margin_right = 284.0
+margin_bottom = 45.0
+custom_fonts/font = ExtResource( 8 )
+text = "Fell"
+
+[node name="Button7" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
+margin_top = 49.0
+margin_right = 86.0
+margin_bottom = 94.0
+custom_fonts/font = ExtResource( 8 )
+text = "Forge"
+
+[node name="Button8" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
+margin_left = 90.0
+margin_top = 49.0
+margin_right = 210.0
+margin_bottom = 94.0
+custom_fonts/font = ExtResource( 8 )
+text = "Enchant"
+
+[node name="Button9" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
+visible = false
+margin_left = 97.0
+margin_top = 48.0
+margin_right = 151.0
+margin_bottom = 68.0
+custom_fonts/font = ExtResource( 8 )
+text = "Dig"
+
+[node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/Right/VBox"]
+margin_top = 213.0
+margin_right = 284.0
+margin_bottom = 234.0
+custom_constants/margin_left = 9
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ModeLabel" type="Label" parent="GUI/Menus/Right/VBox/MarginContainer"]
+margin_left = 9.0
+margin_right = 284.0
+margin_bottom = 21.0
+theme = ExtResource( 15 )
+text = "Mode: Building Walls"
+script = ExtResource( 5 )
+
+[node name="Jobs" type="VBoxContainer" parent="GUI/Menus/Right/VBox"]
+margin_top = 238.0
+margin_right = 284.0
+margin_bottom = 267.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JobsLabel" type="Label" parent="GUI/Menus/Right/VBox/Jobs"]
+margin_right = 284.0
+margin_bottom = 21.0
+theme = ExtResource( 15 )
+text = "JOBS"
+
+[node name="JobLabels" type="VBoxContainer" parent="GUI/Menus/Right/VBox/Jobs"]
+margin_top = 25.0
+margin_right = 284.0
+margin_bottom = 29.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSeparator" type="HSeparator" parent="GUI/Menus/Right/VBox/Jobs/JobLabels"]
+margin_right = 284.0
+margin_bottom = 4.0
 
 [node name="MainMenu" type="WindowDialog" parent="GUI/Menus"]
 anchor_left = 0.5
@@ -382,8 +372,8 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/Menus/MainMenu/MarginContainer"]
-margin_right = 130.0
-margin_bottom = 146.0
+margin_right = 211.0
+margin_bottom = 241.0
 
 [node name="NewGameButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/VBoxContainer"]
 margin_right = 130.0
