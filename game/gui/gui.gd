@@ -24,7 +24,7 @@ func hovered_cell_updated(cell):
 
 func selected_entity_updated(entity):
   var focus_text = entity.character_name if entity is Pawn else entity
-  $Menus/Left/VSplitContainer/Panel/MarginContainer/TargetFocus.text = "%s" % focus_text
+  $Menus/Left/VSplitContainer/VBoxContainer/Panel/TargetFocus.text = "%s" % focus_text
 
 
 var draggable_building_origin: MapCell
