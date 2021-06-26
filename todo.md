@@ -24,7 +24,7 @@
 
 ## Items
 - [ ] simple food
-1 [ ] lumber: graphic, label, quantity
+1 [x] lumber: graphic, label, quantity
 
 
 ## Building: "give them blueprints"

@@ -21,25 +21,19 @@ albedo_texture = SubResource( 2 )
 
 [node name="ItemModel" type="Spatial"]
 script = ExtResource( 1 )
+quantity_label = NodePath("ItemLabel/ItemLabelViewport/QuantityLabel")
 
 [node name="ItemLabel" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.544978, 0 )
 
 [node name="ItemLabelViewport" type="Viewport" parent="ItemLabel"]
-size = Vector2( 71, 80 )
+size = Vector2( 80, 80 )
 transparent_bg = true
 usage = 0
 render_target_v_flip = true
 
-[node name="QuantityLabel" type="Label" parent="ItemLabel/ItemLabelViewport"]
-margin_top = 39.0
-margin_right = 55.0
-margin_bottom = 39.0
-custom_fonts/font = ExtResource( 4 )
-custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-text = "x 25"
-align = 1
-
 [node name="NameLabel" type="Label" parent="ItemLabel/ItemLabelViewport"]
+visible = false
 margin_right = 71.0
 margin_bottom = 78.0
 custom_fonts/font = ExtResource( 4 )
@@ -47,8 +41,17 @@ custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "Wood	"
 align = 1
 
+[node name="QuantityLabel" type="Label" parent="ItemLabel/ItemLabelViewport"]
+margin_left = 5.0
+margin_top = 39.0
+margin_right = 60.0
+margin_bottom = 78.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "x 25"
+align = 1
+
 [node name="ViewportQuad" type="MeshInstance" parent="ItemLabel"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000424862, 0.872511, 0.00094986 )
 mesh = SubResource( 1 )
 material/0 = SubResource( 3 )
 
