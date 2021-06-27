@@ -61,7 +61,7 @@ func add_building(building, location):
 
 func add_item(item):
   items.push_back(item)
-  item.cell = map_grid.lookup_cell(item.location)
+  item.map_cell = map_grid.lookup_cell(item.location)
   Events.emit_signal("item_added", item)
 
 
