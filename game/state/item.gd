@@ -1,10 +1,23 @@
 extends Resource
-
 class_name Item
 
 signal updated
 
-export(Enums.Items) var type
+export(int) var type
 export(String) var location
-var cell: MapCell
-var quantity: int = 1
+var map_cell: MapCell
+var quantity: int = 1 setget set_quantity
+func set_quantity(new_quantity):
+  quantity = new_quantity
+  emit_signal("updated", self)
+
+var claimant setget set_claimant
+func set_claimant(new_claimant) -> void:
+  claimant = new_claimant
+
+
+func _init(mass_assignments: Dictionary = {}):
+  Util.mass_assign(self, mass_assignments)
+
+
+func is_claimed(): return !!claimant

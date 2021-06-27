@@ -24,12 +24,15 @@ func _init(mass_assignments: Dictionary = {}):
 
   var lacking_materials = get_lacking_materials()
   for material in lacking_materials:
-    sub_jobs.push_back(
-      HaulJob.new({
-        "location": self.location,
-        "material": material,
-        "quantity": lacking_materials[material]
-      }))
+    var haul_job =  HaulJob.new({
+      "parent": self,
+      "location": self.location,
+      "material": material,
+      "quantity": lacking_materials[material]
+    })
+
+    sub_jobs.push_back(haul_job)
+    haul_job.connect("completed", self, "sub_job_completed")
 
 
 func get_lacking_materials():
@@ -41,5 +44,11 @@ func get_lacking_materials():
 
   return lacking
 
+
+func add_materials(material):
+  materials_present[material.type] += material.quantity
+
+
 func can_be_completed():
+  # return true # skip hauling
   return sub_jobs.size() <= 0

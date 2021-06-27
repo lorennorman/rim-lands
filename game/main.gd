@@ -101,26 +101,27 @@ func new_world():
 
   game_state.add_job(
     BuildJob.new({
-      "location": "30,20",
+      "location": "25,20",
       "building_type": Enums.Buildings.WALL,
       "materials_required": {
         Enums.Items.LUMBER: 20
       }
     }))
 
-  var item = Item.new()
-  item.type = Enums.Items.LUMBER
-  item.location = "25,15"
-  game_state.add_item(item)
-  item = Item.new()
-  item.type = Enums.Items.LUMBER
-  item.location = "25,17"
-  game_state.add_item(item)
-  item = Item.new()
-  item.type = Enums.Items.LUMBER
-  item.location = "26,18"
-  game_state.add_item(item)
-  item = Item.new()
-  item.type = Enums.Items.LUMBER
-  item.location = "24,20"
-  game_state.add_item(item)
+  game_state.add_item(Item.new({
+    "type": Enums.Items.LUMBER,
+    "location": "25,15",
+    "quantity": 20
+  }))
+  game_state.add_item(Item.new({
+    "type": Enums.Items.LUMBER,
+    "location": "25,17"
+  }))
+  game_state.add_item(Item.new({
+    "type": Enums.Items.LUMBER,
+    "location": "26,18"
+  }))
+  game_state.add_item(Item.new({
+    "type": Enums.Items.LUMBER,
+    "location": "24,20"
+  }))

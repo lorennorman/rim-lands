@@ -6,6 +6,7 @@ var removed := false
 var sub_jobs = []
 
 signal updated(job)
+signal completed(job)
 
 export(Enums.Jobs) var job_type setget set_job_type
 func set_job_type(new_job_type):
@@ -60,7 +61,12 @@ func complete():
   if current_worker and current_worker.current_job == self:
     current_worker.current_job = null
   emit_signal("updated", self)
+  emit_signal("completed", self)
   Events.emit_signal("job_completed", self)
+
+
+func sub_job_completed(sub_job):
+  sub_jobs.erase(sub_job)
 
 
 func as_text():

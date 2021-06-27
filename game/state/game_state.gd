@@ -1,5 +1,4 @@
 extends Resource
-
 class_name GameState
 
 export(Array, Resource) var pawns
@@ -65,6 +64,36 @@ func add_item(item):
   Events.emit_signal("item_added", item)
 
 
+func destroy_item(item):
+  items.erase(item)
+  Events.emit_signal("item_removed", item)
+
+
+func find_closest_available_material_to(material_type, origin_cell: MapCell):
+  var closest_item = null
+  var distance = 100_000
+  for item in items:
+    if item.type != material_type or item.is_claimed(): continue
+
+    var item_distance = map_grid.get_move_path(origin_cell, item.map_cell).size()
+    if item_distance < distance:
+      closest_item = item
+      distance = item_distance
+
+  return closest_item
+
+
+func pawn_pick_up_material_quantity(pawn: Pawn, material, quantity: int):
+  var taken_item = material.duplicate()
+  taken_item.quantity = quantity
+  # add item to pawn
+  pawn.add_item(taken_item)
+  # remove item quantity from item on map
+  material.quantity -= quantity
+  # if remaining quantity is zero, remove item from map
+  if material.quantity <= 0:
+    destroy_item(material)
+
 func teardown():
   # yolo deletion: tell the whole world to teardown
   # results in instant queue_free() on all scene tree listeners
@@ -128,8 +157,9 @@ func make_building(building_type, building_location) -> void:
 
 
 func make_item(item_type, item_location) -> void:
-  var item = Item.new()
-  item.type = item_type
-  item.location = item_location
+  var item = Item.new({
+    "type": item_type,
+    "location": item_location,
+  })
 
   add_item(item)

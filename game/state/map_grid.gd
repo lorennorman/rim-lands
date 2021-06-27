@@ -95,6 +95,7 @@ func lookup_cell(omni_id):
   assert(omni_dict.has(omni_id), "Omni Dict doesn't have ID: '%s'" % omni_id)
   return omni_dict[omni_id]
 
+
 func set_cell(omni_id, cell):
   omni_dict[omni_id] = cell
 
@@ -145,8 +146,10 @@ func add_map_cell(position, x, z, terrain, disabled=false):
 
   map_cell.connect("pathing_updated", self, "pathing_updated")
 
+
 func pathing_updated(astar_id: int, pathable: bool):
   astar.set_point_disabled(astar_id, !pathable)
+
 
 func add_astar_connections(astar_id, x, z):
   # Connect up, left, upper-left, and upper-right
@@ -160,6 +163,7 @@ func add_astar_connections(astar_id, x, z):
   if z > 0 and x < map_size - 2:
     add_astar_connection(astar_id, "%d,%d" % [x+1, z-1]) # upright
 
+
 func add_astar_connection(astar_id, location_key):
   var cell = lookup_cell(location_key)
   # Blow up if we get something we don't expect
@@ -171,8 +175,8 @@ func add_astar_connection(astar_id, location_key):
 
 
 func get_move_path(from_key, to_key):
-  var from_id = lookup_cell(from_key).astar_id
-  var to_id = lookup_cell(to_key).astar_id
+  var from_id = lookup_cell(from_key).astar_id if from_key is String else from_key.astar_id
+  var to_id = lookup_cell(to_key).astar_id if to_key is String else to_key.astar_id
   return astar.get_point_path(from_id, to_id)
 
 
