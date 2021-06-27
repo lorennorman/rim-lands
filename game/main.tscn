@@ -494,6 +494,8 @@ distance = 20.0
 average_max_speed = Vector3( 40, 40, 40 )
 local = false
 
+[node name="Tween" type="Tween" parent="Camera"]
+
 [node name="PawnBoss" parent="." instance=ExtResource( 20 )]
 scene_to_instance = ExtResource( 21 )
 resource_to_observe = "pawn"

@@ -5,11 +5,11 @@ extends Spatial
 
 # RimLands edits
 onready var raycast = RayCast.new()
-onready var altitude = 14
+var current_altitude
 const MINIMUM_ALTITUDE = 12
-const MAXIMUM_ALTITUDE = 140
-const MIN_MAX_SPEED = 0.66
-const MAX_MAX_SPEED = 2.5
+const MAXIMUM_ALTITUDE = 90
+const MIN_MAX_SPEED = 0.3
+const MAX_MAX_SPEED = 2.0
 # User settings:
 # General settings
 export var enabled = true setget set_enabled
@@ -128,29 +128,29 @@ func _input(event):
     # RimLands edits
     if event is InputEventMouseButton and event.pressed:
       if event.button_index == BUTTON_WHEEL_DOWN:
-        altitude += 5
-        altitude = min(altitude, MAXIMUM_ALTITUDE)
-        altitude_affects_max_speed()
+        $Tween.stop_all()
+        $Tween.interpolate_property(self, "translation", translation,
+          translation + Vector3(0, +6, 0), .75, Tween.TRANS_EXPO, Tween.EASE_OUT)
+        $Tween.start()
+
       elif event.button_index == BUTTON_WHEEL_UP:
-        altitude -= 5
-        altitude = max(altitude, MINIMUM_ALTITUDE)
-        altitude_affects_max_speed()
+        $Tween.stop_all()
+        $Tween.interpolate_property(self, "translation", translation,
+          translation + Vector3(0, -6, 0), .75, Tween.TRANS_EXPO, Tween.EASE_OUT)
+        $Tween.start()
 
     if event is InputEventMagnifyGesture:
-      altitude /= event.factor
-      altitude = clamp(altitude, MINIMUM_ALTITUDE, MAXIMUM_ALTITUDE)
-      altitude_affects_max_speed()
+      pass
+      # translation.y /= event.factor
 
     if event is InputEventPanGesture:
       translate(Vector3(event.delta.x, 0, event.delta.y))
-#      _speed.x = event.delta.x * 7 * max_speed.x
-#      _speed.z = event.delta.y * 7 * max_speed.y
 
-func altitude_affects_max_speed():
-  var altitude_scale = inverse_lerp(MINIMUM_ALTITUDE, MAXIMUM_ALTITUDE, altitude)
-  var speed_modifier = lerp(MIN_MAX_SPEED, MAX_MAX_SPEED, altitude_scale)
-
-  max_speed = average_max_speed * Vector3(speed_modifier, 1, speed_modifier)
+    if current_altitude:
+      # altitue affects max speed!
+      var altitude_scale = inverse_lerp(MINIMUM_ALTITUDE, MAXIMUM_ALTITUDE, current_altitude)
+      var speed_modifier = lerp(MIN_MAX_SPEED, MAX_MAX_SPEED, altitude_scale)
+      max_speed = average_max_speed * Vector3(speed_modifier, 1, speed_modifier)
 
 
 func _process(delta):
@@ -159,7 +159,8 @@ func _process(delta):
 
   var collision = raycast.get_collision_point()
   if collision:
-    self.translation.y = collision.y + altitude
+    current_altitude = translation.y - collision.y
+    self.translation.y = clamp(current_altitude, MINIMUM_ALTITUDE, MAXIMUM_ALTITUDE) + collision.y
 
 
 func _update_views(delta):
