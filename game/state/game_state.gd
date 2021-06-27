@@ -5,6 +5,7 @@ class_name GameState
 export(Array, Resource) var pawns
 export(Array, Resource) var jobs
 export(Array, Resource) var buildings
+export(Array, Resource) var items
 export(Resource) var map_grid
 var gui_state := GUIState.new()
 
@@ -51,8 +52,10 @@ func add_building(building, location):
 
 
 func add_item(item):
+  items.push_back(item)
   item.cell = map_grid.lookup_cell(item.location)
   Events.emit_signal("item_added", item)
+
 
 func teardown():
   # yolo deletion: tell the whole world to teardown
@@ -64,6 +67,7 @@ func teardown():
   jobs.clear()
   pawns.clear()
   map_grid.teardown()
+
 
 func buildup():
   # remake ephemeral connections
@@ -106,12 +110,14 @@ func make_job(job_type, job_location, job_params) -> void:
   if job_params: job.params = job_params
   add_job(job, job_location)
 
+
 func make_building(building_type, building_location) -> void:
   var building = Building.new()
   building.type = building_type
   building.location = building_location
 
   add_building(building, building_location)
+
 
 func make_item(item_type, item_location) -> void:
   var item = Item.new()

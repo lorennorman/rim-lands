@@ -24,18 +24,18 @@
 
 ## Items
 - [ ] simple food
-1 [x] lumber: graphic, label, quantity
+- [x] lumber graphic, label, quantity
 
 
 ## Building: "give them blueprints"
-1 [ ] build doors
-1 [ ] haul-to-build jobs
+- [.] haul-to-build jobs
+- [.] build doors
 ### Bugs
   - [ ] evict pawn from cell upon building construction
 ### VFX
   - [ ] wireframe shader for build job markers
   - [ ] add a/v effects to construction
-  1 [ ] modeling:
+  - [.] modeling:
     - remodel wall sections
     - model doors and doors-with-walls
     - CSG maybe?
