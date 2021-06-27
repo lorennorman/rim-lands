@@ -19,7 +19,7 @@ func find_job_for_pawn(pawn: Pawn) -> void:
   var closest_job: Job
 
   for job in game_state.jobs:
-    if not job.is_claimed():
+    if job.can_be_completed() and not job.is_claimed():
       var distance = game_state.map_grid.get_move_path(pawn.location, job.location).size()
       if distance < shortest_distance:
         shortest_distance = distance

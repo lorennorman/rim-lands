@@ -99,7 +99,14 @@ func save_world(game_state_file="res://savegames/savegame.tres"):
 func new_world():
   yield(load_world("res://scenarios/new_world.tres"), "completed")
 
-  game_state.add_job(BuildJob.new({ "location": "30,20" }))
+  game_state.add_job(
+    BuildJob.new({
+      "location": "30,20",
+      "building_type": Enums.Buildings.WALL,
+      "materials_required": {
+        Enums.Items.LUMBER: 20
+      }
+    }))
 
   var item = Item.new()
   item.type = Enums.Items.LUMBER

@@ -1,11 +1,9 @@
 extends Resource
-
 class_name Job
-
-var building_type
 
 # Job canceled or deleted
 var removed := false
+var sub_jobs = []
 
 signal updated(job)
 
@@ -20,10 +18,8 @@ func set_location(new_location):
   emit_signal("updated", self)
 
 var params setget set_params
-func set_params(new_params):
-  match job_type:
-    Enums.Jobs.BUILD:
-      building_type = new_params
+func set_params(_new_params):
+  pass
 
 var area setget set_area
 func set_area(new_area):
@@ -77,5 +73,7 @@ func as_text():
       text = "Move to:"
     Enums.Jobs.BUILD:
       text = "Build at:"
+    Enums.Jobs.HAUL:
+      text = "Haul to:"
 
   return "[%s] %s @ %s -%s" % [claim_status, text, location, owner]

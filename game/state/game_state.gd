@@ -37,7 +37,7 @@ func add_job(job: Job):
     Events.emit_signal("job_added", job)
 
     if not job.can_be_completed():
-      for sub_job in job.sub_jobs():
+      for sub_job in job.sub_jobs:
         add_job(sub_job)
 
 
