@@ -10,9 +10,11 @@ func _process(_delta):
     if not pawn.is_busy():
       find_job_for_pawn(pawn)
 
-
 # pawn/job queue, job acquisition, job completion, reacquisition
 func find_job_for_pawn(pawn: Pawn) -> void:
+  # TODO: have jobs generate job requests that can be:
+  # - claimed with a job proposal, also laying claim to items in proposal
+  # - fulfilled
   var shortest_distance: int = 100_000
   var closest_job: Job
 
@@ -62,6 +64,7 @@ func pawn_in_range_of_job(pawn: Pawn, job: Job):
   var job_pos: Vector2 = Vector2(job.map_cell.x, job.map_cell.z)
   var distance = (pawn_pos - job_pos).length()
   return distance < 2
+
 
 func move_pawn_to_job(pawn: Pawn, job: Job):
   # fetch the A* path

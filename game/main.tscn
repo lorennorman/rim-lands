@@ -500,11 +500,6 @@ local = false
 scene_to_instance = ExtResource( 21 )
 resource_to_observe = "pawn"
 
-[node name="Jobs" type="Spatial" parent="."]
-pause_mode = 1
-
-[node name="MapTerrain" parent="." instance=ExtResource( 12 )]
-
 [node name="ItemBoss" parent="." instance=ExtResource( 20 )]
 scene_to_instance = ExtResource( 19 )
 resource_to_observe = "item"
@@ -513,3 +508,8 @@ resource_to_observe = "item"
 script = ExtResource( 4 )
 scene_to_instance = ExtResource( 14 )
 resource_to_observe = "building"
+
+[node name="Jobs" type="Spatial" parent="."]
+pause_mode = 1
+
+[node name="MapTerrain" parent="." instance=ExtResource( 12 )]

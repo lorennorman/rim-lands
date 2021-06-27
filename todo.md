@@ -22,10 +22,33 @@
 - [ ] building interiors
 
 
+## Environment
+- [ ] add noise bias curve to MapTerrain
+- [ ] create The Three Rims:
+  - core's edge
+  - the rim eternal
+  - the voidlands
+
+
 ## Items
 - [ ] simple food
 - [x] lumber graphic, label, quantity
 
+
+## Jobs
+- job materials/ingredients/reagents/skills/race
+- sub-jobs
+  - move to job site job
+  - build:
+    - haul n materials
+- job requests
+  - job materials become haul jobs
+  - haul jobs become move/pickup/move/dropoff jobs?
+  - all jobs are themselves requests, and they generate sub-requests
+  - sub-requests may generate sub-requests?
+  - signal up when fulfilled
+  - cascading job completion
+- pawns generate proposals to open jobs?
 
 ## Building: "give them blueprints"
 - [.] haul-to-build jobs
@@ -35,10 +58,9 @@
 ### VFX
   - [ ] wireframe shader for build job markers
   - [ ] add a/v effects to construction
-  - [.] modeling:
-    - remodel wall sections
-    - model doors and doors-with-walls
-    - CSG maybe?
+  - [.] CSG YES!
+    - remodel wall sections as a masked CSG
+    - model doors
 
 
 ## GameState & Scenarios
