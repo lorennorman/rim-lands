@@ -10,7 +10,7 @@ export(Resource) var map_grid
 var gui_state := GUIState.new()
 
 
-var _jc = Events.connect("job_completed", self, "destroy_job")
+var _jc = Events.connect("job_completed", self, "complete_job")
 
 
 
@@ -41,7 +41,11 @@ func add_job(job: Job):
         add_job(sub_job)
 
 
-func destroy_job(job, erase=true):
+func complete_job(job, erase=true):
+  match job.job_type:
+    Enums.Jobs.BUILD:
+      make_building(job.building_type, job.location)
+
   if erase: jobs.erase(job)
   job.removed = true
   Events.emit_signal("job_removed", job)

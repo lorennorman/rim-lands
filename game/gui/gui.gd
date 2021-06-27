@@ -101,9 +101,14 @@ func add_job_markers_between(x1z1, x2z2):
         square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [large_x, z]))
 
   for cell in square_cells:
-    var job = Job.new()
-    job.job_type = Enums.Jobs.BUILD
-    job.map_cell = cell
+    var job = BuildJob.new({
+      "location": cell.location,
+      "map_cell": cell,
+      "building_type": Enums.Buildings.WALL,
+      "materials_required": {
+        Enums.Items.LUMBER: 20
+      }
+    })
     var job_marker = JobMarker.instance()
     job_marker.job = job
     building_markers.push_back(job_marker)
