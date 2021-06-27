@@ -28,13 +28,17 @@ func destroy_pawn(pawn, erase=true):
   Events.emit_signal("pawn_removed", pawn)
 
 
-func add_job(job: Job, location: String):
+func add_job(job: Job):
   assert(map_grid, "Map must be set before Jobs can be added")
-  var cell = map_grid.lookup_cell(location)
+  var cell = map_grid.lookup_cell(job.location)
   if cell.can_take_job(job):
     jobs.push_back(job)
     job.map_cell = cell
     Events.emit_signal("job_added", job)
+
+    if not job.can_be_completed():
+      for sub_job in job.sub_jobs():
+        add_job(sub_job)
 
 
 func destroy_job(job, erase=true):
@@ -108,7 +112,7 @@ func make_job(job_type, job_location, job_params) -> void:
   job.job_type = job_type
   job.location = job_location
   if job_params: job.params = job_params
-  add_job(job, job_location)
+  add_job(job)
 
 
 func make_building(building_type, building_location) -> void:

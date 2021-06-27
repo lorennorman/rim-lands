@@ -27,7 +27,7 @@ var move_speed: float setget , get_move_speed
 func get_move_speed():
   return 0.4 + (might/5.0)
 
-var build_speed = 10
+var build_speed = 100
 
 var key setget , get_key
 # Removal

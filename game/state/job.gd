@@ -2,52 +2,63 @@ extends Resource
 
 class_name Job
 
-export(Enums.Jobs) var job_type setget _job_type
-export(String) var location setget _location
-var params setget _set_params
 var building_type
-var area setget _area
-var map_cell setget _set_map_cell
-var key setget , get_key
-var current_worker setget _current_worker
-export(int, 0, 100) var percent_complete = 0 setget _percent_complete
 
 # Job canceled or deleted
 var removed := false
 
 signal updated(job)
 
-func get_key():
-  return "%s:%s" % [job_type, location]
+export(Enums.Jobs) var job_type setget set_job_type
+func set_job_type(new_job_type):
+  job_type = new_job_type
+  emit_signal("updated", self)
 
-func _set_map_cell(new_map_cell):
-  map_cell = new_map_cell
-  location = map_cell.location
+export(String) var location setget set_location
+func set_location(new_location):
+  location = new_location
+  emit_signal("updated", self)
 
-func _set_params(new_params):
+var params setget set_params
+func set_params(new_params):
   match job_type:
     Enums.Jobs.BUILD:
       building_type = new_params
 
-func _job_type(new_job_type):
-  job_type = new_job_type
-  emit_signal("updated", self)
-
-func _location(new_location):
-  location = new_location
-  emit_signal("updated", self)
-
-func _area(new_area):
+var area setget set_area
+func set_area(new_area):
   area = new_area
   emit_signal("updated", self)
 
-func _current_worker(new_worker):
+var map_cell setget set_map_cell
+func set_map_cell(new_map_cell):
+  map_cell = new_map_cell
+  location = map_cell.location
+
+var key setget , get_key
+func get_key(): return "%s:%s" % [job_type, location]
+
+var current_worker setget set_current_worker
+func set_current_worker(new_worker):
   current_worker = new_worker
   emit_signal("updated", self)
 
-func _percent_complete(new_percent_complete):
+export(int, 0, 100) var percent_complete = 0 setget set_percent_complete
+func set_percent_complete(new_percent_complete):
   percent_complete = new_percent_complete
   emit_signal("updated", self)
+
+### CONSTRUCTOR ###
+func _init(mass_assignments: Dictionary = {}):
+  Util.mass_assign(self, mass_assignments)
+
+
+### METHODS ###
+func can_be_completed():
+  return true
+
+func is_claimed():
+  return current_worker
 
 func complete():
   if current_worker and current_worker.current_job == self:
@@ -55,8 +66,6 @@ func complete():
   emit_signal("updated", self)
   Events.emit_signal("job_completed", self)
 
-func is_claimed():
-  return current_worker
 
 func as_text():
   var claim_status = "x" if is_claimed() else " "

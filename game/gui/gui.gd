@@ -41,7 +41,8 @@ func left_drag_ended():
   draggable_building_origin = null
   for building_marker in building_markers:
     var job = building_marker.job
-    game_state.add_job(job, job.map_cell.location)
+    job.location = job.map_cell.location
+    game_state.add_job(job)
   remove_job_markers()
 
 
