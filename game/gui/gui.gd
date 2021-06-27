@@ -23,7 +23,13 @@ func hovered_cell_updated(cell):
 
 
 func selected_entity_updated(entity):
-  var focus_text = entity.character_name if entity is Pawn else entity
+  var focus_text
+  if entity is Pawn:
+    focus_text = entity.character_name
+    for item in entity.items:
+      focus_text += "\n%s: %s" % [item, entity.items[item]]
+  else:
+    focus_text = entity
   $Menus/Left/VSplitContainer/VBoxContainer/Panel/TargetFocus.text = "%s" % focus_text
 
 
