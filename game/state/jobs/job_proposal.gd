@@ -6,7 +6,7 @@ var game_state#: GameState # circuluar dependency bug
 var job: Job
 var pawn
 var execution_plan: Array
-
+var execution_failure_reason: String
 
 func _init(mass_assignments: Dictionary = {}):
   Util.mass_assign(self, mass_assignments)
@@ -29,7 +29,9 @@ func generate_execution_plan():
         # locate fitting material
         var found_material = game_state.find_closest_available_material_to(job.material, pawn.map_cell)
         if not found_material:
-          break
+          execution_failure("Not enough material")
+          job.uncompletable_until(["item_added", "item_updated"])
+          return
 
         found_material.claimant = self
         var quantity_to_take = min(found_material.quantity, remaining_quantity)
@@ -41,18 +43,13 @@ func generate_execution_plan():
           "quantity": quantity_to_take
         }})
 
+      if remaining_quantity == job.quantity: return
       # move_to job
       add_task({ "move_to": { "location": job.map_cell }})
       # dropoff
       var item_to_drop_off = Item.new({ "type": job.material, "quantity": (job.quantity - remaining_quantity) })
       add_task({ "drop_off": { "target": job.parent, "material": item_to_drop_off }})
 
-      # execution_plan = [
-      #   { "move_to_material": {} },
-      #   { "pick_up_material": {} },
-      #   { "move_to_job": {} },
-      #   { "drop_off_material": {} },
-      # ]
     Enums.Jobs.BUILD:
       # move to the job site
       if not pawn_in_range(job.map_cell):
@@ -61,8 +58,18 @@ func generate_execution_plan():
       add_task({ "build": {} })
 
 
+func execution_failure(reason: String):
+  execution_failure_reason = reason
+  pawn.current_job = null
+  job.current_worker = null
+
+  for task in execution_plan:
+    if task.has("material"):
+      task.material.unclaim()
+
 func execute():
   for task in execution_plan:
+    if execution_failure_reason: return
     var task_coroutine = execute_task(task)
     if task_coroutine: yield(task_coroutine, "completed")
 
@@ -96,8 +103,7 @@ func move_to(args: Dictionary):
   # fetch the A* path
   var move_path = game_state.map_grid.get_move_path(pawn.map_cell, args.location)
   var next_index = 1
-  # can't get to job
-  if move_path.size() == 0: return
+
   while not pawn_in_range(args.location):
     # Not available yet?
     if pawn.on_cooldown: yield(pawn, "job_cooldown")
@@ -107,6 +113,9 @@ func move_to(args: Dictionary):
     if pawn.current_job != job: break
 
     # get the next location
+    if next_index >= move_path.size():
+      execution_failure("Unnavigable")
+      return
     var next_position = move_path[next_index]
     var current_cell = pawn.map_cell
     var next_cell = game_state.map_grid.lookup_cell(next_position)
@@ -142,6 +151,4 @@ func pick_up(args: Dictionary):
 
 func drop_off(args: Dictionary):
   pawn.remove_item(args.material)
-  # pawn.remove_material(args.material, args.quantity)
   args.target.add_materials(args.material)
-  pass

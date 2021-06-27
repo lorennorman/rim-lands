@@ -46,9 +46,7 @@ func dragged_cell_updated(cell: MapCell):
 func left_drag_ended():
   draggable_building_origin = null
   for building_marker in building_markers:
-    var job = building_marker.job
-    job.location = job.map_cell.location
-    game_state.add_job(job)
+    game_state.add_job(building_marker.job)
   remove_job_markers()
 
 

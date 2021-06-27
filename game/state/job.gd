@@ -33,7 +33,7 @@ func set_map_cell(new_map_cell):
   location = map_cell.location
 
 var key setget , get_key
-func get_key(): return "%s:%s" % [job_type, location]
+func get_key(): return to_string() #"%s:%s" % [job_type, location]
 
 var current_worker setget set_current_worker
 func set_current_worker(new_worker):
@@ -52,7 +52,26 @@ func _init(mass_assignments: Dictionary = {}):
 
 ### METHODS ###
 func can_be_completed():
-  return true
+  return completable
+
+var completable_signals = []
+var completable = true
+func uncompletable_until(signals_to_watch):
+  completable = false
+  clear_completable_signals()
+  completable_signals = signals_to_watch
+  for watch_signal in signals_to_watch:
+    Events.connect(watch_signal, self, "set_completable")
+
+func set_completable(_args):
+  completable = true
+  clear_completable_signals()
+
+func clear_completable_signals():
+  for watch_signal in completable_signals:
+    Events.disconnect(watch_signal, self, "set_completable")
+  completable_signals.clear()
+
 
 func is_claimed():
   return current_worker

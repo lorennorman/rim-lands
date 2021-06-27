@@ -32,7 +32,6 @@
 
 ## Items
 - [ ] simple food
-- [x] lumber graphic, label, quantity
 
 
 ## Jobs
@@ -51,7 +50,6 @@
 - pawns generate proposals to open jobs?
 
 ## Building: "give them blueprints"
-- [.] haul-to-build jobs
 - [.] build doors
 ### Bugs
   - [ ] evict pawn from cell upon building construction
@@ -96,6 +94,8 @@
 
 
 # Done:
+- [x] haul to build jobs
+- [x] lumber graphic, label, quantity
 - [x] extract ModelBoss: the resource manager pattern we've been using
 - [x] make PawnBoss, BuildingBoss, ItemBoss
 - [x] double-building

@@ -31,13 +31,17 @@ func add_job(job: Job):
   assert(map_grid, "Map must be set before Jobs can be added")
   var cell = map_grid.lookup_cell(job.location)
   if cell.can_take_job(job):
-    jobs.push_back(job)
     job.map_cell = cell
     Events.emit_signal("job_added", job)
 
     if not job.can_be_completed():
       for sub_job in job.sub_jobs:
         add_job(sub_job)
+
+    jobs.push_back(job)
+
+  else:
+    printerr("Attempted to assign job to ineligible cell: %s -> %s" % [job, cell])
 
 
 func complete_job(job, erase=true):
@@ -90,6 +94,7 @@ func pawn_pick_up_material_quantity(pawn: Pawn, material, quantity: int):
   pawn.add_item(taken_item)
   # remove item quantity from item on map
   material.quantity -= quantity
+  material.unclaim()
   # if remaining quantity is zero, remove item from map
   if material.quantity <= 0:
     destroy_item(material)

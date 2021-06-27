@@ -31,4 +31,6 @@ func propose_job_by_pawn(job, pawn):
   var job_proposal = JobProposal.new({ "game_state": game_state, "pawn": pawn, "job": job })
   var execution_coroutine = job_proposal.execute()
   if execution_coroutine: yield(execution_coroutine, "completed")
-  job.complete()
+  if not job_proposal.execution_failure_reason:
+    job.complete()
+  else: printerr(job_proposal.execution_failure_reason)

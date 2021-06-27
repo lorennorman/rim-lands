@@ -10,6 +10,7 @@ var quantity: int = 1 setget set_quantity
 func set_quantity(new_quantity):
   quantity = new_quantity
   emit_signal("updated", self)
+  Events.emit_signal("item_updated", self)
 
 var claimant setget set_claimant
 func set_claimant(new_claimant) -> void:
@@ -21,3 +22,5 @@ func _init(mass_assignments: Dictionary = {}):
 
 
 func is_claimed(): return !!claimant
+
+func unclaim(): claimant = null

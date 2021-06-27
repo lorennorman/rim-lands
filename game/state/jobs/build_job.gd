@@ -22,18 +22,6 @@ func _init(mass_assignments: Dictionary = {}):
 
   assert(building_type != null, "BuildJob created without a building_type.")
 
-  var lacking_materials = get_lacking_materials()
-  for material in lacking_materials:
-    var haul_job =  HaulJob.new({
-      "parent": self,
-      "location": self.location,
-      "material": material,
-      "quantity": lacking_materials[material]
-    })
-
-    sub_jobs.push_back(haul_job)
-    haul_job.connect("completed", self, "sub_job_completed")
-
 
 func get_lacking_materials():
   var lacking = {}
@@ -47,8 +35,38 @@ func get_lacking_materials():
 
 func add_materials(material):
   materials_present[material.type] += material.quantity
+  dirty = true
 
+var dirty = true
+func ensure_sub_jobs():
+  if not dirty: return
+  var lacking_materials = get_lacking_materials()
+
+  for material in lacking_materials:
+    if find_haul_job_by_material(material): continue
+
+    var haul_job =  HaulJob.new({
+      "parent": self,
+      "location": self.location,
+      "material": material,
+      "quantity": lacking_materials[material]
+    })
+
+    sub_jobs.push_back(haul_job)
+    haul_job.connect("completed", self, "sub_job_completed")
+
+  dirty = false
+
+func sub_job_completed(sub_job):
+  .sub_job_completed(sub_job)
+  dirty = true
+
+func find_haul_job_by_material(material):
+  for job in sub_jobs:
+    if job.material == material:
+      return job
 
 func can_be_completed():
+  ensure_sub_jobs()
   # return true # skip hauling
-  return sub_jobs.size() <= 0
+  return sub_jobs.size() <= 0 and completable
