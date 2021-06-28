@@ -23,11 +23,10 @@
 
 
 ## Environment
-- [ ] add noise bias curve to MapTerrain
-- [ ] create The Three Rims:
-  - core's edge
-  - the rim eternal
-  - the voidlands
+- [.] create The Three Rims:
+  - [x] core's edge
+  - [.] the rim eternal
+  - [x] the voidlands
 
 
 ## Items
@@ -39,7 +38,7 @@
 ### Bugs
   - [ ] evict pawn from cell upon building construction
 ### VFX
-  - [ ] wireframe shader for build job markers
+  - [ ] better build job markers
   - [ ] add a/v effects to construction
   - [.] CSG YES!
     - remodel wall sections as a masked CSG
@@ -47,8 +46,24 @@
 
 
 ## GameState & Scenarios
-- [ ] extract a scenario builder util from game state
-- [ ] make a gui scenario editor using scenario builder util
+- [ ] Interactive New Game
+  - scenario builder: operates game state
+  - steps:
+    - [.] terrain
+      - fiddle with inputs
+      - fast topography preview
+      - quick random seed regen
+    - stuff on the map
+      - pawns, buildings, items
+      - fiddle with inputs
+      - fast 3d preview
+      - click terrain to easily place
+      - common builder interface
+    - environment
+      - time of day
+      - calendar date
+      - weather conditions
+
 - [ ] observable resource generation utils
   - use a common query/update pattern
   - all updates signal with delta information
@@ -78,6 +93,7 @@
 
 
 # Done:
+- [x] elevation curves for terrain contour
 - [x] allow selection of features
 - [x] haul to build jobs
 - [x] lumber graphic, label, quantity
