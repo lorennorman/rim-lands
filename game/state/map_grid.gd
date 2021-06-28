@@ -6,12 +6,17 @@ class_name MapGrid
 export(int) var map_size = 129
 # How high the highest theoretical mountain can be
 export(float) var maximum_height = 35.0
-# Set noise-based color gradient in the editor
-# var terrain_height_color_map: Gradient = preload("res://game/terrain/res/height_color_gradient.tres")
-var terrain_height_color_map: Gradient = preload("res://game/terrain/res/voidlands_color_gradient.tres")
-# Elevation Curve
-# var terrain_elevation_curve: Curve = preload("res://game/terrain/res/elevation_curve.tres")
-var terrain_elevation_curve: Curve = preload("res://game/terrain/res/voidlands_elevation_curve.tres")
+
+# Core's Edge
+var terrain_gradient: Gradient = preload("res://game/terrain/res/cores_edge_color_gradient.tres")
+var terrain_elevation_curve: Curve = preload("res://game/terrain/res/cores_edge_elevation_curve.tres")
+
+# The Rim Eternal
+# TODO
+
+# Voidlands
+# var terrain_gradient: Gradient = preload("res://game/terrain/res/voidlands_color_gradient.tres")
+# var terrain_elevation_curve: Curve = preload("res://game/terrain/res/voidlands_elevation_curve.tres")
 
 
 # Noise Generator stuff
@@ -83,8 +88,8 @@ func height_from_noise(_x, _z, noise_value):
 
 
 func color_from_noise(_x, _z, noise_value):
-  # Use a Gradient to match color to elevation (easy to edit in the editor)
-  var color = terrain_height_color_map.interpolate(noise_value)
+  # Tool: Use a gradient to assign colors to the contour curve
+  var color = terrain_gradient.interpolate(noise_value)
   return color
 
 
