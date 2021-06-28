@@ -26,7 +26,7 @@ func selected_entity_updated(entity):
   var focus_text
   if entity is Pawn:
     # Name
-    focus_text = entity.character_name
+    focus_text = "%s\n  %s" % [entity.character_name, entity.race]
     # Inventory
     for item in entity.items:
       focus_text += "\n%s: %s" % [item, entity.items[item]]
@@ -46,6 +46,7 @@ func selected_entity_updated(entity):
 
   else:
     focus_text = entity
+
   $Menus/Left/VSplitContainer/VBoxContainer/Panel/TargetFocus.text = "%s" % focus_text
 
 
