@@ -7,9 +7,10 @@ export(int) var map_size = 129
 # How high the highest theoretical mountain can be
 export(float) var maximum_height = 35.0
 # Set noise-based color gradient in the editor
-var terrain_height_color_map: Gradient = preload("res://game/terrain/height_color_gradient.tres")
-# Set noise-based elevation gradient in the editor
-var terrain_height_scale_map: Gradient = preload("res://game/terrain/noise_height_gradient.tres")
+var terrain_height_color_map: Gradient = preload("res://game/terrain/res/height_color_gradient.tres")
+# Elevation Curve
+var terrain_elevation_curve: Curve = preload("res://game/terrain/res/elevation_curve.tres")
+
 
 # Noise Generator stuff
 export(int) var noise_seed = 2
@@ -70,13 +71,11 @@ func add_map_grid_cell(x, z, height, color):
 
 
 func height_from_noise(_x, _z, noise_value):
-  # map our noise to the supplied grayscale gradient, easy height scale mutation
-  var height_color = terrain_height_scale_map.interpolate(noise_value)
-  # any channel should do but pull out red (following HTerrain's convention)
-  var height = height_color.r * maximum_height
-
-  # or just do a simple height modifier
+  # Simple: amplify noise value to a maximum
   # var height = maximum_height * noise_value
+
+  # Tool: Use a Curve to draw the contour of your terrain
+  var height = maximum_height * terrain_elevation_curve.interpolate(noise_value)
 
   return height
 
