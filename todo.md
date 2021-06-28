@@ -34,21 +34,6 @@
 - [ ] simple food
 
 
-## Jobs
-- job materials/ingredients/reagents/skills/race
-- sub-jobs
-  - move to job site job
-  - build:
-    - haul n materials
-- job requests
-  - job materials become haul jobs
-  - haul jobs become move/pickup/move/dropoff jobs?
-  - all jobs are themselves requests, and they generate sub-requests
-  - sub-requests may generate sub-requests?
-  - signal up when fulfilled
-  - cascading job completion
-- pawns generate proposals to open jobs?
-
 ## Building: "give them blueprints"
 - [.] build doors
 ### Bugs
@@ -64,7 +49,6 @@
 ## GameState & Scenarios
 - [ ] extract a scenario builder util from game state
 - [ ] make a gui scenario editor using scenario builder util
-
 - [ ] observable resource generation utils
   - use a common query/update pattern
   - all updates signal with delta information
@@ -94,6 +78,7 @@
 
 
 # Done:
+- [x] allow selection of features
 - [x] haul to build jobs
 - [x] lumber graphic, label, quantity
 - [x] extract ModelBoss: the resource manager pattern we've been using

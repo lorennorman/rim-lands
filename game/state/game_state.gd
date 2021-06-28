@@ -32,6 +32,7 @@ func add_job(job: Job):
   var cell = map_grid.lookup_cell(job.location)
   if cell.can_take_job(job):
     job.map_cell = cell
+    cell.feature = job
     Events.emit_signal("job_added", job)
 
     if not job.can_be_completed():
@@ -64,7 +65,9 @@ func add_building(building, location):
 
 func add_item(item):
   items.push_back(item)
-  item.map_cell = map_grid.lookup_cell(item.location)
+  var cell = map_grid.lookup_cell(item.location)
+  item.map_cell = cell
+  cell.feature = item
   Events.emit_signal("item_added", item)
 
 

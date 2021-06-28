@@ -28,7 +28,7 @@ func set_feature(new_feature):
 var terrain
 
 func update_pathing():
-  emit_signal("pathing_updated", astar_id, (!pawn and !feature))
+  emit_signal("pathing_updated", astar_id, (!pawn and feature != Building))
 
 func can_take_job(job_to_take):
   if job_to_take.job_type == Enums.Jobs.BUILD:

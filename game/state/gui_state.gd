@@ -11,13 +11,13 @@ var building
 var left_dragging
 
 func _init():
-  var _cl = Events.connect("cell_left_clicked", self, "cell_left_clicked")
-  var _cr = Events.connect("cell_right_clicked", self, "cell_right_clicked")
-  var _ch = Events.connect("cell_hovered", self, "cell_hovered")
-  var _lds = Events.connect("left_drag_started", self, "left_drag_started")
-  var _lde = Events.connect("left_drag_ended", self, "left_drag_ended")
+  Events.connect("cell_left_clicked", self, "cell_left_clicked")
+  Events.connect("cell_right_clicked", self, "cell_right_clicked")
+  Events.connect("cell_hovered", self, "cell_hovered")
+  Events.connect("left_drag_started", self, "left_drag_started")
+  Events.connect("left_drag_ended", self, "left_drag_ended")
 
-  var _sm = Events.connect("set_mode", self, "set_mode")
+  Events.connect("set_mode", self, "set_mode")
 
 
 func set_mode(mode_params):
