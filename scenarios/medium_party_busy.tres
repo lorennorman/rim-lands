@@ -41,7 +41,7 @@ map_size = 129
 maximum_height = 35.0
 use_random_noise_seed = false
 noise_seed = 2
-scale_grid_to_noise = 1.25
+scale_grid_to_noise = 0.6
 
 [sub_resource type="Resource" id=7]
 script = ExtResource( 3 )
