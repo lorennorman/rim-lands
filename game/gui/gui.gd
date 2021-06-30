@@ -41,8 +41,9 @@ func selected_entity_updated(entity):
 
   elif entity is Job:
     focus_text = "%s Job\n" % entity.job_type
-    focus_text += "  Location: %s" % entity.location
-    focus_text += "  %s/100" % entity.percent_complete
+    focus_text += "  Location: %s\n" % entity.location
+    focus_text += "  %s/100\n" % entity.percent_complete
+    focus_text += "  Completable: %s" % ("Yes" if entity.completable else "No")
 
   else:
     focus_text = entity
