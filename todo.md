@@ -31,18 +31,19 @@
 
 ## Items
 - [ ] simple food
-
+- [.] bug: failure to `unclaim()` materials
 
 ## Building: "give them blueprints"
 - [.] build doors
+- [ ] perf: "neighborspace" audit
 ### Bugs
-  - [ ] evict pawn from cell upon building construction
+  - [ ] evict pawn from cell upon building
 ### VFX
   - [ ] better build job markers
   - [ ] add a/v effects to construction
   - [.] CSG YES!
-    - remodel wall sections as a masked CSG
-    - model doors
+    - [x] re-model walls as masked CSG
+    - [.] model doors
 
 
 ## GameState & Scenarios

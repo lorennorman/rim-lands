@@ -3,7 +3,7 @@
 [ext_resource path="res://game/buildings/walls/res/wooden_material.tres" type="Material" id=1]
 [ext_resource path="res://game/buildings/walls/walls.gd" type="Script" id=2]
 
-[node name="Walls" type="Spatial"]
+[node name="WallModel" type="Spatial"]
 script = ExtResource( 2 )
 
 [node name="South" type="CSGBox" parent="."]
@@ -32,6 +32,7 @@ material = ExtResource( 1 )
 
 [node name="None" type="CSGBox" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+visible = false
 width = 0.2
 depth = 0.2
 material = ExtResource( 1 )

@@ -6,7 +6,7 @@
 [ext_resource path="res://game/buildings/walls/2_angle.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/buildings/walls/2_across.tscn" type="PackedScene" id=5]
 [ext_resource path="res://game/buildings/walls/3_perpendicular.tscn" type="PackedScene" id=6]
-[ext_resource path="res://game/buildings/walls/walls.tscn" type="PackedScene" id=7]
+[ext_resource path="res://game/buildings/walls/wall_model.tscn" type="PackedScene" id=7]
 
 [node name="Spatial" type="Spatial"]
 

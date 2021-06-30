@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://game/buildings/building_model.gd" type="Script" id=1]
+[ext_resource path="res://game/buildings/walls/wall_model.tscn" type="PackedScene" id=2]
 
-[node name="Spatial" type="Spatial"]
+[node name="BuildingModel" type="Spatial"]
 script = ExtResource( 1 )
+
+[node name="WallModel" parent="." instance=ExtResource( 2 )]

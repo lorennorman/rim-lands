@@ -1,6 +1,6 @@
 extends Spatial
 
-const BuildingModel = preload("res://game/buildings/building_model.gd")
+const BuildingModel = preload("res://game/buildings/building_model.tscn")
 
 var job
 var building_model
@@ -15,12 +15,14 @@ func _ready():
 
   match job.job_type:
     Enums.Jobs.BUILD:
-      building_model = BuildingModel.new()
+      building_model = BuildingModel.instance()
       building_model.cell = job.map_cell
       building_model.scale.y = calculate_scale(job.percent_complete)
       add_child(building_model)
+
     Enums.Jobs.HAUL:
       pass
+
     _: printerr("JobMarker created for unknown job_type: %s" % job.job_type)
 
 
@@ -33,5 +35,6 @@ func _job_updated(_updated_job):
       $Tween.interpolate_property(building_model, "scale", building_model.scale,
         target_scale, how_many_seconds, Tween.TRANS_EXPO, Tween.EASE_OUT)
       $Tween.start()
+
     Enums.Jobs.HAUL:
       pass
