@@ -8,6 +8,7 @@ func set_item(new_item):
   item_updated(item)
 
 func _ready():
+  assert(item, "ItemModel called _ready() without an Item")
   item.connect("updated", self, "item_updated")
 
 func item_updated(updated_item):

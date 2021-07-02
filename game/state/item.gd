@@ -6,6 +6,7 @@ signal updated
 export(int) var type
 export(String) var location
 var map_cell: MapCell
+
 var quantity: int = 1 setget set_quantity
 func set_quantity(new_quantity):
   quantity = new_quantity

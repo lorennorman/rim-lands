@@ -33,7 +33,7 @@ func generate_execution_plan():
           job.uncompletable_until(["item_added", "item_updated"])
           return
 
-        found_material.claimant = self
+        found_material.claimant = pawn # self
         var quantity_to_take = min(found_material.quantity, remaining_quantity)
         remaining_quantity -= quantity_to_take
 

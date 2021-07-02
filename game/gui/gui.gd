@@ -33,11 +33,12 @@ func selected_entity_updated(entity):
 
   elif entity is Building:
     focus_text = "Building: %s\n" % entity.type
-    focus_text += "  Location: %s" % entity.location
+    focus_text += "  Location: %s\n" % entity.location
 
   elif entity is Item:
     focus_text = "Item: %s (x%s)\n" % [entity.type, entity.quantity]
-    focus_text += "  Location: %s" % entity.location
+    focus_text += "  Location: %s\n" % entity.location
+    focus_text += "  Claimed: %s\n" % entity.claimant.character_name if entity.is_claimed() else "No"
 
   elif entity is Job:
     focus_text = "%s Job\n" % entity.job_type

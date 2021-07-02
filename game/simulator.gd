@@ -33,4 +33,4 @@ func propose_job_by_pawn(job, pawn):
   if execution_coroutine: yield(execution_coroutine, "completed")
   if not job_proposal.execution_failure_reason:
     job.complete()
-  else: printerr(job_proposal.execution_failure_reason)
+  else: printerr(job_proposal.execution_failure_reason, ": ", job_proposal.pawn.character_name)
