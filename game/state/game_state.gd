@@ -102,6 +102,15 @@ func pawn_pick_up_material_quantity(pawn: Pawn, material, quantity: int):
   if material.quantity <= 0:
     destroy_item(material)
 
+
+func pawn_drop_material(pawn: Pawn, material, quantity):
+  if pawn.has_item(material):
+    pawn.remove_item(material, quantity)
+    var new_item = material.duplicate()
+    new_item.location = pawn.location
+    new_item.quantity = quantity
+    add_item(new_item)
+
 func teardown():
   # yolo deletion: tell the whole world to teardown
   # results in instant queue_free() on all scene tree listeners
