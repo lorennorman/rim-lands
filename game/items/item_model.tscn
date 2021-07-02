@@ -56,7 +56,7 @@ mesh = SubResource( 1 )
 material/0 = SubResource( 3 )
 
 [node name="log_stack" parent="." instance=ExtResource( 3 )]
-transform = Transform( 0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, 0.906308, 0, 0, 0 )
+transform = Transform( 0.906308, 0, 0.422618, -0.124556, 0.955582, 0.267111, -0.403846, -0.294724, 0.866052, 0, -0.000122726, 0 )
 
 [node name="Placeholder" type="Sprite3D" parent="."]
 transform = Transform( 0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0 )

@@ -89,17 +89,22 @@ func default_stats_by_race():
       will = 2
       magic = 0
 
+
 func add_item(item_to_add):
   if not items.has(item_to_add.type):
     items[item_to_add.type] = 0
 
   items[item_to_add.type] += item_to_add.quantity
 
-func remove_item(item_to_remove):
-  assert(items.has(item_to_remove.type), "Pawn was asked to remove an Item it didn't have: %s" % item_to_remove)
-  assert(items[item_to_remove.type] >= item_to_remove.quantity, "Pawn was asked to remove more of an item than it had: %s < %s" % [items[item_to_remove.type], item_to_remove.quantity])
 
-  if items[item_to_remove.type] == item_to_remove.quantity:
+func has_item(item_to_check):
+  return items.has(item_to_check.type)
+
+func remove_item(item_to_remove, quantity):
+  assert(items.has(item_to_remove.type), "Pawn was asked to remove an Item it didn't have: %s" % item_to_remove)
+  assert(items[item_to_remove.type] >= quantity, "Pawn was asked to remove more of an item than it had: %s < %s" % [items[item_to_remove.type], quantity])
+
+  if items[item_to_remove.type] == quantity:
     items.erase(item_to_remove.type)
   else:
-    items[item_to_remove.type] -= item_to_remove.quantity
+    items[item_to_remove.type] -= quantity
