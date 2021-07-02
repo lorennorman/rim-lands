@@ -15,6 +15,7 @@ func set_quantity(new_quantity):
 var claimant setget set_claimant
 func set_claimant(new_claimant) -> void:
   claimant = new_claimant
+  Events.emit_signal("item_updated", self)
 
 
 func _init(mass_assignments: Dictionary = {}):
@@ -23,4 +24,4 @@ func _init(mass_assignments: Dictionary = {}):
 
 func is_claimed(): return !!claimant
 
-func unclaim(): claimant = null
+func unclaim(): self.claimant = null

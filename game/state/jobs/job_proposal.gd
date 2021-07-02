@@ -64,8 +64,9 @@ func execution_failure(reason: String):
   job.current_worker = null
 
   for task in execution_plan:
-    if task.has("material"):
-      task.material.unclaim()
+    if task.has("pick_up"):
+      game_state.pawn_drop_material(pawn, task.pick_up.material, task.pick_up.quantity)
+      task.pick_up.material.unclaim()
 
 func execute():
   for task in execution_plan:
@@ -147,8 +148,9 @@ func build(_args: Dictionary):
 
 func pick_up(args: Dictionary):
   game_state.pawn_pick_up_material_quantity(pawn, args.material, args.quantity)
+  args.material.unclaim()
 
 
 func drop_off(args: Dictionary):
-  pawn.remove_item(args.material)
+  pawn.remove_item(args.material, args.material.quantity)
   args.target.add_materials(args.material)

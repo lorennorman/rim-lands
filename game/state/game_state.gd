@@ -91,13 +91,13 @@ func find_closest_available_material_to(material_type, origin_cell: MapCell):
 
 
 func pawn_pick_up_material_quantity(pawn: Pawn, material, quantity: int):
+  # make a new item
   var taken_item = material.duplicate()
+  # add quantity to the new from the old
   taken_item.quantity = quantity
+  material.quantity -= quantity
   # add item to pawn
   pawn.add_item(taken_item)
-  # remove item quantity from item on map
-  material.quantity -= quantity
-  material.unclaim()
   # if remaining quantity is zero, remove item from map
   if material.quantity <= 0:
     destroy_item(material)
