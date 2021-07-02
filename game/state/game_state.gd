@@ -12,7 +12,48 @@ var gui_state := GUIState.new()
 var _jc = Events.connect("job_completed", self, "complete_job")
 
 
+### Actions API
 
+## use these to choose when to "turn the state on/off"
+func buildup():
+  # remake ephemeral connections
+  # rebuild map and put resources on it
+  map_grid.generate_cells()
+  for pawn in pawns:
+    map_grid.set_pawn(pawn.location, pawn)
+
+  for job in jobs:
+    job.map_cell = map_grid.lookup_cell(job.location)
+
+  for building in buildings:
+    var cell = map_grid.lookup_cell(building.location)
+    building.map_cell = cell
+    cell.feature = building
+
+  # signal for all existing resources
+  for pawn in pawns:
+    Events.emit_signal("pawn_added", pawn)
+
+  for job in jobs:
+    Events.emit_signal("job_added", job)
+
+  for building in buildings:
+    Events.emit_signal("building_added", building)
+
+
+func teardown():
+  # yolo deletion: tell the whole world to teardown
+  # results in instant queue_free() on all scene tree listeners
+  Events.emit_signal("game_state_teardown")
+
+  # clear your local stuff
+  # may be superfluous, must study godot reference counting or profile
+  jobs.clear()
+  pawns.clear()
+  map_grid.teardown()
+
+
+## Pawns
 func add_pawn(pawn: Pawn, location: String):
   assert(map_grid, "Map must be set before Pawns can be added")
   pawns.push_back(pawn)
@@ -27,6 +68,7 @@ func destroy_pawn(pawn, erase=true):
   Events.emit_signal("pawn_removed", pawn)
 
 
+## Jobs
 func add_job(job: Job):
   assert(map_grid, "Map must be set before Jobs can be added")
   var cell = map_grid.lookup_cell(job.location)
@@ -48,21 +90,26 @@ func add_job(job: Job):
 func complete_job(job, erase=true):
   match job.job_type:
     Enums.Jobs.BUILD:
-      make_building(job.building_type, job.location)
+      add_building(Building.new({
+        type = job.building_type,
+        location = job.location
+      }))
 
   if erase: jobs.erase(job)
   job.removed = true
   Events.emit_signal("job_removed", job)
 
 
-func add_building(building, location):
+## Buildings
+func add_building(building):
   buildings.push_back(building)
-  var cell = map_grid.lookup_cell(location)
+  var cell = map_grid.lookup_cell(building.location)
   building.map_cell = cell
   cell.feature = building
   Events.emit_signal("building_added", building)
 
 
+## Items
 func add_item(item):
   items.push_back(item)
   var cell = map_grid.lookup_cell(item.location)
@@ -110,73 +157,3 @@ func pawn_drop_material(pawn: Pawn, material, quantity):
     new_item.location = pawn.location
     new_item.quantity = quantity
     add_item(new_item)
-
-func teardown():
-  # yolo deletion: tell the whole world to teardown
-  # results in instant queue_free() on all scene tree listeners
-  Events.emit_signal("game_state_teardown")
-
-  # clear your local stuff
-  # may be superfluous, must study godot reference counting or profile
-  jobs.clear()
-  pawns.clear()
-  map_grid.teardown()
-
-
-func buildup():
-  # remake ephemeral connections
-  # rebuild map and put resources on it
-  map_grid.generate_cells()
-  for pawn in pawns:
-    map_grid.set_pawn(pawn.location, pawn)
-
-  for job in jobs:
-    job.map_cell = map_grid.lookup_cell(job.location)
-
-  for building in buildings:
-    var cell = map_grid.lookup_cell(building.location)
-    building.map_cell = cell
-    cell.feature = building
-
-  # signal for all existing resources
-  for pawn in pawns:
-    Events.emit_signal("pawn_added", pawn)
-
-  for job in jobs:
-    Events.emit_signal("job_added", job)
-
-  for building in buildings:
-    Events.emit_signal("building_added", building)
-
-
-# Helpers
-func make_pawn(type, name, location) -> void:
-  var pawn = Pawn.new()
-  pawn.race = type
-  pawn.character_name = name
-  add_pawn(pawn, location)
-
-
-func make_job(job_type, job_location, job_params) -> void:
-  var job = Job.new()
-  job.job_type = job_type
-  job.location = job_location
-  if job_params: job.params = job_params
-  add_job(job)
-
-
-func make_building(building_type, building_location) -> void:
-  var building = Building.new()
-  building.type = building_type
-  building.location = building_location
-
-  add_building(building, building_location)
-
-
-func make_item(item_type, item_location) -> void:
-  var item = Item.new({
-    "type": item_type,
-    "location": item_location,
-  })
-
-  add_item(item)

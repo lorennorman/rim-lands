@@ -13,3 +13,6 @@ func get_key():
 var name setget , get_name
 func get_name():
   return "Wall"
+
+func _init(mass_assignments: Dictionary = {}):
+  Util.mass_assign(self, mass_assignments)

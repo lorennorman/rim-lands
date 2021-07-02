@@ -62,7 +62,6 @@ func cell_left_clicked(cell):
 
 func cell_right_clicked(_cell):
   if selected_entity is Pawn:
-    # sim.make_job(Enums.Jobs.MOVE, cell.location, selected_entity)
     pass
 
 
