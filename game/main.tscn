@@ -503,6 +503,7 @@ resource_to_observe = "pawn"
 [node name="ItemBoss" parent="." instance=ExtResource( 20 )]
 scene_to_instance = ExtResource( 19 )
 resource_to_observe = "item"
+filter_method = "is_on_map"
 
 [node name="BuildingBoss" parent="." instance=ExtResource( 20 )]
 script = ExtResource( 4 )
