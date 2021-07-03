@@ -1,97 +1,70 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://game/buildings/walls/4_way.tscn" type="PackedScene" id=1]
-[ext_resource path="res://game/buildings/walls/none.tscn" type="PackedScene" id=2]
-[ext_resource path="res://game/buildings/walls/1_adjacent.tscn" type="PackedScene" id=3]
-[ext_resource path="res://game/buildings/walls/2_angle.tscn" type="PackedScene" id=4]
-[ext_resource path="res://game/buildings/walls/2_across.tscn" type="PackedScene" id=5]
-[ext_resource path="res://game/buildings/walls/3_perpendicular.tscn" type="PackedScene" id=6]
-[ext_resource path="res://game/buildings/walls/wall_model.tscn" type="PackedScene" id=7]
+[ext_resource path="res://game/buildings/walls/wall_model.tscn" type="PackedScene" id=1]
 
 [node name="Spatial" type="Spatial"]
 
-[node name="GLTF (old)" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
-visible = false
-
-[node name="None" parent="GLTF (old)" instance=ExtResource( 2 )]
-
-[node name="One" parent="GLTF (old)" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
-
-[node name="TwoAngle" parent="GLTF (old)" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0 )
-
-[node name="TwoAcross" parent="GLTF (old)" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2 )
-
-[node name="Three" parent="GLTF (old)" instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0 )
-
-[node name="Four" parent="GLTF (old)" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0 )
-
-[node name="Four" parent="." instance=ExtResource( 7 )]
+[node name="Four" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0.031858 )
 
-[node name="Three1" parent="." instance=ExtResource( 7 )]
+[node name="Three1" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -4.36814 )
 neighbors = [ false, true, true, true ]
 
-[node name="Three2" parent="." instance=ExtResource( 7 )]
+[node name="Three2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -2.86814 )
 neighbors = [ true, false, true, true ]
 
-[node name="Three3" parent="." instance=ExtResource( 7 )]
+[node name="Three3" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -1.36814 )
 neighbors = [ true, true, false, true ]
 
-[node name="Three4" parent="." instance=ExtResource( 7 )]
+[node name="Three4" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0.031858 )
 neighbors = [ true, true, true, false ]
 
-[node name="TwoAngle1" parent="." instance=ExtResource( 7 )]
+[node name="TwoAngle1" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4.36814 )
 neighbors = [ false, false, true, true ]
 
-[node name="TwoAngle2" parent="." instance=ExtResource( 7 )]
+[node name="TwoAngle2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2.86814 )
 neighbors = [ true, false, false, true ]
 
-[node name="TwoAngle3" parent="." instance=ExtResource( 7 )]
+[node name="TwoAngle3" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -1.36814 )
 neighbors = [ true, true, false, false ]
 
-[node name="TwoAngle4" parent="." instance=ExtResource( 7 )]
+[node name="TwoAngle4" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0.031858 )
 neighbors = [ false, true, true, false ]
 
-[node name="TwoAcross1" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1.66814 )
+[node name="TwoAcross1" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -7.26814 )
 neighbors = [ false, true, false, true ]
 
-[node name="TwoAcross2" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -0.168142 )
+[node name="TwoAcross2" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -5.76814 )
 neighbors = [ true, false, true, false ]
 
-[node name="One1" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.36814 )
+[node name="One1" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -4.36814 )
 neighbors = [ false, false, false, true ]
 
-[node name="One2" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.86814 )
+[node name="One2" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2.86814 )
 neighbors = [ true, false, false, false ]
 
-[node name="One3" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.36814 )
+[node name="One3" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1.36814 )
 neighbors = [ false, true, false, false ]
 
-[node name="One4" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.031858 )
+[node name="One4" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0.031858 )
 neighbors = [ false, false, true, false ]
 
-[node name="None" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0.031858 )
+[node name="None" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.031858 )
 neighbors = [ false, false, false, false ]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]

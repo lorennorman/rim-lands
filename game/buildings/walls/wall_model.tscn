@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://game/buildings/walls/res/wooden_material.tres" type="Material" id=1]
-[ext_resource path="res://game/buildings/walls/walls.gd" type="Script" id=2]
+[ext_resource path="res://game/buildings/walls/wall_model.gd" type="Script" id=2]
 
 [node name="WallModel" type="Spatial"]
 script = ExtResource( 2 )
