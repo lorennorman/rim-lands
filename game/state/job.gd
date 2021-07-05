@@ -77,8 +77,13 @@ func is_claimed():
   return current_worker
 
 func complete():
+  # clear your worker
   if current_worker and current_worker.current_job == self:
     current_worker.current_job = null
+  # clear your cell
+  if map_cell and map_cell.feature == self:
+    map_cell.feature = null
+
   emit_signal("updated", self)
   emit_signal("completed", self)
   Events.emit_signal("job_completed", self)

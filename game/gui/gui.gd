@@ -23,11 +23,11 @@ func hovered_cell_updated(cell):
 
 
 func selected_entity_updated(entity):
-  var focus_text
+  var focus_text = entity
+
+  # TODO: try multiline strings """
   if entity is Pawn:
-    # Name
     focus_text = "%s\n  %s" % [entity.character_name, entity.race]
-    # Inventory
     for item in entity.items:
       focus_text += "\n%s: %s" % [item, entity.items[item]]
 
@@ -41,13 +41,18 @@ func selected_entity_updated(entity):
     focus_text += "  Claimed: %s\n" % entity.claimant.character_name if entity.is_claimed() else "No"
 
   elif entity is Job:
-    focus_text = "%s Job\n" % entity.job_type
-    focus_text += "  Location: %s\n" % entity.location
-    focus_text += "  %s/100\n" % entity.percent_complete
-    focus_text += "  Completable: %s" % ("Yes" if entity.completable else "No")
-
-  else:
-    focus_text = entity
+    if entity is BuildJob:
+      focus_text = "Build Job\n"
+      focus_text += "  %s/100\n" % entity.percent_complete
+      focus_text += "  Completable: %s" % ("Yes" if entity.completable else "No")
+      focus_text += "  materials_present: %s" % entity.materials_present
+    elif entity is HaulJob:
+      focus_text = "Haul Job\n"
+      focus_text += "  Material: %s\n" % entity.material
+      focus_text += "  Quantity: %s\n" % entity.quantity
+    else:
+      focus_text = "Job\n"
+    # focus_text += "  Location: %s\n" % entity.location
 
   $Menus/Left/VSplitContainer/VBoxContainer/Panel/TargetFocus.text = "%s" % focus_text
 

@@ -33,9 +33,25 @@ func get_lacking_materials():
   return lacking
 
 
-func add_materials(material):
-  materials_present[material.type] += material.quantity
+# Inventory Interface
+func has_item(item_type: int) -> bool:
+  return materials_present.has(item_type)
+
+
+func get_item(item_type: int):
+  return materials_present[item_type] if has_item(item_type) else null
+
+
+func add_item(item):
+  assert(not has_item(item), "BuildJob was asked to add an item it already has: %s" % item.type)
+  materials_present[item.type] = item
   dirty = true
+
+
+func remove_item(item):
+  assert(has_item(item), "BuildJob was asked to remove an item it doesn't possess: %s" % item.type)
+  materials_present.erase(item.type)
+
 
 var dirty = true
 func ensure_sub_jobs():

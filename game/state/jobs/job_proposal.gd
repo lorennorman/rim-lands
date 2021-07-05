@@ -39,8 +39,8 @@ func generate_execution_plan():
 
         add_task({ "move_to": { "location": found_material.map_cell }})
         add_task({ "pick_up": {
-          "material": found_material,
-          "quantity": quantity_to_take
+          "item": found_material,
+          "item_quantity": quantity_to_take,
         }})
 
       if remaining_quantity == job.quantity: return
@@ -48,7 +48,7 @@ func generate_execution_plan():
       add_task({ "move_to": { "location": job.map_cell }})
       # dropoff
       var item_to_drop_off = Item.new({ "type": job.material, "quantity": (job.quantity - remaining_quantity) })
-      add_task({ "drop_off": { "target": job.parent, "material": item_to_drop_off }})
+      add_task({ "drop_off": { "target": job.parent, "item": item_to_drop_off }})
 
     Enums.Jobs.BUILD:
       # move to the job site
@@ -65,8 +65,9 @@ func execution_failure(reason: String):
 
   for task in execution_plan:
     if task.has("pick_up"):
-      game_state.pawn_drop_material(pawn, task.pick_up.material, task.pick_up.quantity)
-      task.pick_up.material.unclaim()
+      var args = task.pick_up
+      game_state.transfer_item_from_to(args.item.type, args.item_quantity, pawn, pawn.map_cell)
+      args.item.unclaim()
 
 func execute():
   for task in execution_plan:
@@ -147,10 +148,13 @@ func build(_args: Dictionary):
 
 
 func pick_up(args: Dictionary):
-  game_state.pawn_pick_up_material_quantity(pawn, args.material, args.quantity)
-  args.material.unclaim()
+  print("Picking up: ", args.item, args.item_quantity)
+  game_state.transfer_item_from_to(args.item.type, args.item_quantity, args.item.map_cell, pawn)
+  # game_state.pawn_pick_up_material_quantity(pawn, args.item, args.item_quantity)
+  args.item.unclaim()
 
 
 func drop_off(args: Dictionary):
-  pawn.remove_item(args.material, args.material.quantity)
-  args.target.add_materials(args.material)
+  game_state.transfer_item_from_to(args.item.type, args.item.quantity, pawn, args.target)
+  # pawn.remove_item(args.item, args.item.quantity)
+  # args.target.add_materials(args.item)

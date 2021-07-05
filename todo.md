@@ -8,6 +8,7 @@
 
 
 ## Save/Load/Popover UI/File System
+- [ ] bug: building errors after load/new
 - [ ] autosave, quicksave, hotkeys
 
 
@@ -32,8 +33,10 @@
 ## Items
 - [ ] simple food
 - [.] bug: failure to `unclaim()` materials
+- [.] unified item management in GameState
 
 ## Building: "give them blueprints"
+- [ ] show 1-cell build preview before dragging
 - [.] build doors
 - [ ] perf: "neighborspace" audit
 ### Bugs

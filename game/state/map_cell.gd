@@ -15,7 +15,7 @@ func get_x(): return position.x-0.5
 var z setget , get_z
 func get_z(): return position.z-0.5
 
-var pawn: Pawn setget set_pawn
+var pawn setget set_pawn
 func set_pawn(new_pawn):
   pawn = new_pawn
   update_pathing()
@@ -28,7 +28,7 @@ func set_feature(new_feature):
 var terrain
 
 func update_pathing():
-  emit_signal("pathing_updated", astar_id, (!pawn and feature != Building))
+  emit_signal("pathing_updated", astar_id, (not pawn and not (feature is Building)))
 
 func can_take_job(job_to_take):
   if job_to_take.job_type == Enums.Jobs.BUILD:
@@ -63,3 +63,27 @@ func update_neighborspace():
   if new_neighborspace != neighborspace:
     neighborspace = new_neighborspace
     emit_signal("neighborspace_updated", self)
+
+
+# Inventory Interface
+var feature_is_item := false
+func has_item(item_type: int) -> bool:
+  return feature_is_item and feature.type == item_type
+
+
+func get_item(item_type: int):
+  if feature_is_item and feature.type == item_type:
+    return feature
+  else: return null
+
+
+func add_item(item):
+  assert(not feature, "Called MapCell.add_item but already has a feature: %s" % feature)
+  feature = item
+  feature_is_item = true
+
+
+func remove_item(item):
+  assert(feature == item, "MapCell asked to remove item it didn't have.")
+  feature = null
+  feature_is_item = false
