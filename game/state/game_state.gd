@@ -71,6 +71,7 @@ func destroy_pawn(pawn, erase=true):
 ## Jobs
 func add_job(job: Job):
   assert(map_grid, "Map must be set before Jobs can be added")
+  print("Adding job: %s", job)
   var cell = map_grid.lookup_cell(job.location)
   if cell.can_take_job(job):
     job.map_cell = cell
@@ -112,13 +113,18 @@ func add_building(building):
 ## Items
 func add_item(item):
   items.push_back(item)
-  var cell = map_grid.lookup_cell(item.location)
-  item.map_cell = cell
-  cell.feature = item
+  if item.owner is String:
+    var cell = map_grid.lookup_cell(item.location)
+    item.map_cell = cell
+    cell.add_item(item)
+  elif item.owner is Pawn:
+    item.owner.add_item(item)
+
   Events.emit_signal("item_added", item)
 
 
 func destroy_item(item):
+  if item.owner: item.owner.remove_item(item)
   items.erase(item)
   Events.emit_signal("item_removed", item)
 
@@ -127,7 +133,7 @@ func find_closest_available_material_to(material_type, origin_cell: MapCell):
   var closest_item = null
   var distance = 100_000
   for item in items:
-    if item.type != material_type or item.is_claimed(): continue
+    if item.type != material_type or item.is_claimed() or not item.is_on_map(): continue
 
     var item_distance = map_grid.get_move_path(origin_cell, item.map_cell).size()
     if item_distance < distance:
@@ -137,23 +143,33 @@ func find_closest_available_material_to(material_type, origin_cell: MapCell):
   return closest_item
 
 
-func pawn_pick_up_material_quantity(pawn: Pawn, material, quantity: int):
-  # make a new item
-  var taken_item = material.duplicate()
-  # add quantity to the new from the old
-  taken_item.quantity = quantity
-  material.quantity -= quantity
-  # add item to pawn
-  pawn.add_item(taken_item)
-  # if remaining quantity is zero, remove item from map
-  if material.quantity <= 0:
-    destroy_item(material)
+# func transfer_item_from_to(item_to_transfer: Item, from, to):
+func transfer_item_from_to(item_type: int, item_quantity: int, from, to):
+  # check that "from" has enough of this item
+  var from_item = from.get_item(item_type)
+  assert(from_item, "Attempted to transfer an item the source doesn't have: %s" % from_item.type)
+  assert(from_item.quantity >= item_quantity, "Attempted to transfer more of an item than the source has: %s < %s" % [from_item.quantity, item_quantity])
+  from_item.quantity -= item_quantity
+  if from_item.quantity <= 0: destroy_item(from_item)
+
+  # check if "to" already has some of this item
+  var to_item = to.get_item(item_type)
+  if to_item:
+    to_item.quantity += item_quantity
+  else:
+    # do the new
+    to_item = Item.new({
+      "type": item_type,
+      "quantity": item_quantity,
+      "owner": to
+    })
+    add_item(to_item)
 
 
-func pawn_drop_material(pawn: Pawn, material, quantity):
-  if pawn.has_item(material):
-    pawn.remove_item(material, quantity)
-    var new_item = material.duplicate()
-    new_item.location = pawn.location
-    new_item.quantity = quantity
-    add_item(new_item)
+# func pawn_drop_material(pawn: Pawn, material, quantity):
+#   if pawn.has_item(material):
+#     pawn.remove_item(material, quantity)
+#     var new_item = material.duplicate()
+#     new_item.location = pawn.location
+#     new_item.quantity = quantity
+#     add_item(new_item)
