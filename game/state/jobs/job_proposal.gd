@@ -66,7 +66,8 @@ func execution_failure(reason: String):
   for task in execution_plan:
     if task.has("pick_up"):
       var args = task.pick_up
-      game_state.transfer_item_from_to(args.item.type, args.item_quantity, pawn, pawn.map_cell)
+      if args.item.owner is Pawn:
+        game_state.transfer_item_from_to(args.item.type, args.item_quantity, pawn, pawn.map_cell)
       args.item.unclaim()
 
 func execute():
@@ -148,7 +149,6 @@ func build(_args: Dictionary):
 
 
 func pick_up(args: Dictionary):
-  print("Picking up: ", args.item, args.item_quantity)
   game_state.transfer_item_from_to(args.item.type, args.item_quantity, args.item.map_cell, pawn)
   # game_state.pawn_pick_up_material_quantity(pawn, args.item, args.item_quantity)
   args.item.unclaim()

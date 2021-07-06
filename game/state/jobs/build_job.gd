@@ -8,7 +8,7 @@ var materials_required: Dictionary = {} setget set_materials_required
 func set_materials_required(new_materials):
   materials_required = new_materials
   for material in materials_required:
-    materials_present[material] = 0
+    materials_present[material] = null
 
 var materials_present: Dictionary = {}
 
@@ -26,7 +26,11 @@ func _init(mass_assignments: Dictionary = {}):
 func get_lacking_materials():
   var lacking = {}
   for material in materials_required:
-    var quantity = materials_required[material] - materials_present[material]
+    var quantity = materials_required[material]
+    var present_material = materials_present[material]
+    if present_material:
+      quantity -= present_material.quantity
+
     if quantity > 0:
       lacking[material] = quantity
 
@@ -38,18 +42,18 @@ func has_item(item_type: int) -> bool:
   return materials_present.has(item_type)
 
 
-func get_item(item_type: int):
+func get_item(item_type: int) -> Resource:
   return materials_present[item_type] if has_item(item_type) else null
 
 
-func add_item(item):
-  assert(not has_item(item), "BuildJob was asked to add an item it already has: %s" % item.type)
+func add_item(item: Resource):
+  assert(not get_item(item.type), "BuildJob was asked to add an item it already has: %s" % item.type)
   materials_present[item.type] = item
   dirty = true
 
 
-func remove_item(item):
-  assert(has_item(item), "BuildJob was asked to remove an item it doesn't possess: %s" % item.type)
+func remove_item(item: Resource):
+  assert(has_item(item.type), "BuildJob was asked to remove an item it doesn't possess: %s" % item.type)
   materials_present.erase(item.type)
 
 

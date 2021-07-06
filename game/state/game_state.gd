@@ -71,7 +71,6 @@ func destroy_pawn(pawn, erase=true):
 ## Jobs
 func add_job(job: Job):
   assert(map_grid, "Map must be set before Jobs can be added")
-  print("Adding job: %s", job)
   var cell = map_grid.lookup_cell(job.location)
   if cell.can_take_job(job):
     job.map_cell = cell
@@ -120,6 +119,8 @@ func add_item(item):
     cell.add_item(item)
   elif item.owner is Pawn:
     item.owner.add_item(item)
+  elif item.owner is Job:
+    item.owner.add_item(item)
 
   Events.emit_signal("item_added", item)
 
@@ -145,10 +146,10 @@ func find_closest_available_material_to(material_type, origin_cell: MapCell):
 
 
 # func transfer_item_from_to(item_to_transfer: Item, from, to):
-func transfer_item_from_to(item_type: int, item_quantity: int, from, to):
+func transfer_item_from_to(item_type: int, item_quantity: int, from: Resource, to: Resource):
   # check that "from" has enough of this item
   var from_item = from.get_item(item_type)
-  assert(from_item, "Attempted to transfer an item the source doesn't have: %s" % from_item.type)
+  assert(from_item, "Attempted to transfer an item the source doesn't have: %s" % item_type)
   assert(from_item.quantity >= item_quantity, "Attempted to transfer more of an item than the source has: %s < %s" % [from_item.quantity, item_quantity])
   from_item.quantity -= item_quantity
   if from_item.quantity <= 0: destroy_item(from_item)
