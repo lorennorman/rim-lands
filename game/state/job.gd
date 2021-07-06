@@ -1,6 +1,9 @@
 extends Resource
 class_name Job
 
+# Will be set if this is a sub-job
+var parent: Job
+
 # Job canceled or deleted
 var removed := false
 var sub_jobs = []

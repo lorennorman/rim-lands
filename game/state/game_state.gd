@@ -75,7 +75,8 @@ func add_job(job: Job):
   var cell = map_grid.lookup_cell(job.location)
   if cell.can_take_job(job):
     job.map_cell = cell
-    cell.feature = job
+    if not (job.parent and job.map_cell == job.parent.map_cell):
+      cell.feature = job
     Events.emit_signal("job_added", job)
 
     if not job.can_be_completed():

@@ -5,14 +5,13 @@
 [node name="Pawn Demo" type="Spatial"]
 
 [node name="Dwarf" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00193906, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
 
 [node name="Elf" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
 presenting_race = "Elf"
 
 [node name="Human" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
 presenting_race = "Human"
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]

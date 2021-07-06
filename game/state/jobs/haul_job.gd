@@ -1,7 +1,6 @@
 extends Job
 class_name HaulJob
 
-var parent: Job
 var material
 var quantity
 

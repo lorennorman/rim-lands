@@ -13,13 +13,13 @@ func _ready():
 
 func hovered_cell_updated(cell):
   var pawn_name = cell.pawn.character_name if cell.pawn else ""
-  $Menus/Left/VSplitContainer/VBoxContainer/PawnHoverLabel.text = "Pawn: %s" % pawn_name
+  $Menus/Left/VBoxContainer/PawnHoverLabel.text = "Pawn: %s" % pawn_name
 
   var feature_text = cell.feature.to_string() if cell.feature else ""
-  $Menus/Left/VSplitContainer/VBoxContainer/FeatureHoverLabel.text = "Feature: %s" % feature_text
+  $Menus/Left/VBoxContainer/FeatureHoverLabel.text = "Feature: %s" % feature_text
 
   var color = cell.terrain if cell.terrain else Color(0)
-  $Menus/Left/VSplitContainer/VBoxContainer/TerrainHoverLabel/ColorRect.color = color
+  $Menus/Left/VBoxContainer/TerrainHoverLabel/ColorRect.color = color
 
 
 func selected_entity_updated(entity):
@@ -44,17 +44,19 @@ func selected_entity_updated(entity):
     if entity is BuildJob:
       focus_text = "Build Job\n"
       focus_text += "  %s/100\n" % entity.percent_complete
-      focus_text += "  Completable: %s" % ("Yes" if entity.completable else "No")
-      focus_text += "  materials_present: %s" % entity.materials_present
+      focus_text += "  Completable: %s\n" % ("Yes" if entity.completable else "No")
+      focus_text += "  Materials: %s\n" % entity.materials_present
     elif entity is HaulJob:
       focus_text = "Haul Job\n"
       focus_text += "  Material: %s\n" % entity.material
       focus_text += "  Quantity: %s\n" % entity.quantity
     else:
       focus_text = "Job\n"
-    # focus_text += "  Location: %s\n" % entity.location
 
-  $Menus/Left/VSplitContainer/VBoxContainer/Panel/TargetFocus.text = "%s" % focus_text
+    if entity.sub_jobs.size() > 0:
+      focus_text += "Sub-Jobs: %s" % entity.sub_jobs.size()
+
+  $Menus/Left/VBoxContainer/TargetFocus.text = "%s" % focus_text
 
 
 var draggable_building_origin: MapCell

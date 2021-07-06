@@ -9,8 +9,9 @@ var pawn setget _set_pawn
 
 func _ready():
   if not pawn:
-    pawn = Pawn.new()
-    pawn.race = presenting_race
+    var new_pawn = Pawn.new()
+    new_pawn.race = presenting_race
+    self.pawn = new_pawn
 
   pawn.connect("updated", self, "model_did_update")
 
