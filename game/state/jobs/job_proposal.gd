@@ -150,11 +150,8 @@ func build(_args: Dictionary):
 
 func pick_up(args: Dictionary):
   game_state.transfer_item_from_to(args.item.type, args.item_quantity, args.item.map_cell, pawn)
-  # game_state.pawn_pick_up_material_quantity(pawn, args.item, args.item_quantity)
   args.item.unclaim()
 
 
 func drop_off(args: Dictionary):
   game_state.transfer_item_from_to(args.item.type, args.item.quantity, pawn, args.target)
-  # pawn.remove_item(args.item, args.item.quantity)
-  # args.target.add_materials(args.item)

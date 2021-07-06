@@ -24,6 +24,10 @@
 
 
 ## Environment
+- [ ] MapGridViewer
+  - tool
+  - juxtapose color gradient and elevation curve
+  - auto-refresh when grid updates
 - [.] create The Three Rims:
   - [x] core's edge
   - [.] the rim eternal
@@ -32,8 +36,6 @@
 
 ## Items
 - [ ] simple food
-- [.] bug: failure to `unclaim()` materials
-- [.] unified item management in GameState
 
 ## Building: "give them blueprints"
 - [ ] show 1-cell build preview before dragging
@@ -45,7 +47,6 @@
   - [ ] better build job markers
   - [ ] add a/v effects to construction
   - [.] CSG YES!
-    - [x] re-model walls as masked CSG
     - [.] model doors
 
 
@@ -87,8 +88,8 @@
 - [ ] name tags
 - [ ] animate walk
 - [ ] generic "working" animation
-- [ ] idle decision-making
-- [ ] panicked decision-making
+- [ ] idle job selection
+- [ ] panicked job selection
 
 
 ## Generators
@@ -97,6 +98,9 @@
 
 
 # Done:
+- [x] re-model walls as masked CSG
+- [x] bug: failure to `unclaim()` materials
+- [x] unified item management in GameState
 - [x] elevation curves for terrain contour
 - [x] allow selection of features
 - [x] haul to build jobs

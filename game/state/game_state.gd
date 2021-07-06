@@ -166,12 +166,3 @@ func transfer_item_from_to(item_type: int, item_quantity: int, from: Resource, t
       "owner": to
     })
     add_item(to_item)
-
-
-# func pawn_drop_material(pawn: Pawn, material, quantity):
-#   if pawn.has_item(material):
-#     pawn.remove_item(material, quantity)
-#     var new_item = material.duplicate()
-#     new_item.location = pawn.location
-#     new_item.quantity = quantity
-#     add_item(new_item)
