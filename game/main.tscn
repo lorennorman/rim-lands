@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://game/main.gd" type="Script" id=1]
 [ext_resource path="res://game/camera/camera_control.gd" type="Script" id=2]
@@ -12,7 +12,7 @@
 [ext_resource path="res://game/timers.gd" type="Script" id=10]
 [ext_resource path="res://game/gui/3d/job_markers.gd" type="Script" id=11]
 [ext_resource path="res://game/terrain/map_terrain.tscn" type="PackedScene" id=12]
-[ext_resource path="res://addons/zylann.hterrain_demo/textures/table_mountain_2_4k.hdr" type="Texture" id=13]
+[ext_resource path="res://game/environment/main_environment.tres" type="Environment" id=13]
 [ext_resource path="res://game/buildings/building_model.tscn" type="PackedScene" id=14]
 [ext_resource path="res://game/gui/2d/font_theme.tres" type="Theme" id=15]
 [ext_resource path="res://game/main_menu.gd" type="Script" id=16]
@@ -41,18 +41,6 @@ albedo_color = Color( 0.835294, 0.823529, 0.0784314, 0.309804 )
 material = SubResource( 3 )
 flip_faces = true
 size = Vector3( 1, 2, 1 )
-
-[sub_resource type="PanoramaSky" id=5]
-panorama = ExtResource( 13 )
-
-[sub_resource type="Environment" id=6]
-background_mode = 2
-background_sky = SubResource( 5 )
-ambient_light_color = Color( 0.501961, 0.501961, 0.501961, 1 )
-ambient_light_energy = 3.0
-ambient_light_sky_contribution = 0.2
-tonemap_mode = 2
-tonemap_white = 6.0
 
 [node name="Main" type="Spatial"]
 pause_mode = 2
@@ -156,8 +144,8 @@ __meta__ = {
 
 [node name="TargetFocus" type="Label" parent="GUI/Menus/Left/VBoxContainer"]
 margin_top = 75.0
-margin_right = 200.0
-margin_bottom = 279.0
+margin_right = 118.0
+margin_bottom = 175.0
 grow_vertical = 0
 rect_min_size = Vector2( 8, 100 )
 size_flags_vertical = 11
@@ -472,7 +460,7 @@ script = ExtResource( 11 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 pause_mode = 1
-environment = SubResource( 6 )
+environment = ExtResource( 13 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 pause_mode = 1

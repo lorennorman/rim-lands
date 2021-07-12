@@ -23,31 +23,21 @@
 - [ ] building interiors
 
 
-## Environment
-- [ ] MapGridViewer
-  - tool
-  - juxtapose color gradient and elevation curve
-  - auto-refresh when grid updates
-- [.] create The Three Rims:
-  - [x] core's edge
-  - [.] the rim eternal
-  - [x] the voidlands
-
-
 ## Items
 - [ ] simple food
 
+
 ## Building: "give them blueprints"
 - [ ] show 1-cell build preview before dragging
-- [.] build doors
+- [ ] build doors
 - [ ] perf: "neighborspace" audit
 ### Bugs
   - [ ] evict pawn from cell upon building
 ### VFX
   - [ ] better build job markers
   - [ ] add a/v effects to construction
-  - [.] CSG YES!
-    - [.] model doors
+  - [ ] CSG YES!
+    - [ ] model doors
 
 
 ## GameState & Scenarios
@@ -68,7 +58,6 @@
       - time of day
       - calendar date
       - weather conditions
-
 - [ ] observable resource generation utils
   - use a common query/update pattern
   - all updates signal with delta information
@@ -98,6 +87,11 @@
 
 
 # Done:
+- [x] MapGridViewer for fast terrain tinkering
+- [x] create The Three Rims:
+  - [x] core's edge
+  - [x] the rim eternal
+  - [x] the voidlands
 - [x] re-model walls as masked CSG
 - [x] bug: failure to `unclaim()` materials
 - [x] unified item management in GameState

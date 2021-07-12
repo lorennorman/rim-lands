@@ -2,32 +2,43 @@ extends Resource
 
 class_name MapGrid
 
-# The size of the length and width (maps are always square)
-export(int) var map_size = 129
-# How high the highest theoretical mountain can be
-export(float) var maximum_height = 35.0
 
-# Core's Edge
-var terrain_gradient: Gradient = preload("res://game/terrain/res/cores_edge_color_gradient.tres")
-var terrain_elevation_curve: Curve = preload("res://game/terrain/res/cores_edge_elevation_curve.tres")
-
-# The Rim Eternal
-# TODO
-
-# Voidlands
-# var terrain_gradient: Gradient = preload("res://game/terrain/res/voidlands_color_gradient.tres")
-# var terrain_elevation_curve: Curve = preload("res://game/terrain/res/voidlands_elevation_curve.tres")
-
-
-# Noise Generator stuff
-export(int) var noise_seed = 2
+## Settings from the Terrain Style bundle
 export(float, 0.001, 1000) var scale_grid_to_noise = 1.25
-var noise: OpenSimplexNoise
+export(float) var terrain_height_max = 35.0
+export(String) var terrain_style = "Core's Edge"
+export(Gradient) var terrain_gradient
+export(Curve) var terrain_elevation_curve
 
+const terrain_style_lookup = {
+  "Core's Edge": {
+    "gradient": preload("res://game/terrain/res/cores_edge_color_gradient.tres"),
+    "curve": preload("res://game/terrain/res/cores_edge_elevation_curve.tres"),
+  },
+  "The Rim Eternal": {
+    "gradient": preload("res://game/terrain/res/rim_eternal_color_gradient.tres"),
+    "curve": preload("res://game/terrain/res/rim_eternal_elevation_curve.tres"),
+  },
+  "The Voidlands": {
+    "gradient": preload("res://game/terrain/res/voidlands_color_gradient.tres"),
+    "curve": preload("res://game/terrain/res/voidlands_elevation_curve.tres"),
+  },
+}
+
+
+## Per-Map Settings
+# Map length/width (maps are always square)
+export(int) var map_size = 129
+# Random seeds allow random-yet-repeatable maps
+export(int) var noise_seed = 2
+
+## Things only used while the map is active/running the game
+# Pathfinding Network
 var astar: AStar
+# Triply-Indexed Collection of MapCells
 var omni_dict: Dictionary
 
-var torndown = false
+var torndown := false
 
 
 func generate_cells():
@@ -36,7 +47,10 @@ func generate_cells():
 
   omni_dict = {}
 
-  noise = OpenSimplexNoise.new()
+  terrain_gradient = terrain_style_lookup[terrain_style].gradient
+  terrain_elevation_curve = terrain_style_lookup[terrain_style].curve
+
+  var noise = OpenSimplexNoise.new()
   noise.seed = noise_seed
 
   for z in map_size:
@@ -61,8 +75,8 @@ func generate_cells():
 
 func add_map_grid_cell(x, z, height, color):
   # calculate navigability
-  var lowest_navigable_height = 0.332 * maximum_height
-  var highest_navigable_height = 0.42 * maximum_height
+  var lowest_navigable_height = 0.332 * terrain_height_max
+  var highest_navigable_height = 0.42 * terrain_height_max
   var is_navigable = (height > lowest_navigable_height) and (height < highest_navigable_height)
 
   # calculate exact 3d position
@@ -79,10 +93,10 @@ func add_map_grid_cell(x, z, height, color):
 
 func height_from_noise(_x, _z, noise_value):
   # Simple: amplify noise value to a maximum
-  # var height = maximum_height * noise_value
+  # var height = terrain_height_max * noise_value
 
   # Tool: Use a Curve to draw the contour of your terrain
-  var height = maximum_height * terrain_elevation_curve.interpolate(noise_value)
+  var height = terrain_height_max * terrain_elevation_curve.interpolate(noise_value)
 
   return height
 

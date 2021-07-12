@@ -1,5 +1,5 @@
- # I generate terrain by scripting the HTerrain plugin! I bring a few special
-# tools of my own, like the gradient-based terrain coloration, height weighting,
+# I generate terrain by scripting the HTerrain plugin! I bring a few special
+# tools of my own, like the gradient-based terrain coloration, elevation curve,
 # a pathfinding grid, and a collection on each pathfinding node
 extends Spatial
 
@@ -9,24 +9,27 @@ const HTerrainData = preload("res://addons/zylann.hterrain/hterrain_data.gd")
 
 # Camera's perspective to use when clicked
 var input_camera: Camera
-var game_state: GameState setget _set_game_state
-var map_grid: MapGrid
+var input_state = "paused"
+
+var map_grid setget set_map_grid
+func set_map_grid(new_map_grid):
+  print("MapTerrain grid set")
+  input_state = "paused"
+
+  if terrain:
+    terrain.queue_free()
+    terrain = null
+
+  map_grid = new_map_grid
+
+  if map_grid as MapGrid:
+    map_grid.generate_cells()
+    generate_from_map_grid()
+
+
 var terrain: HTerrain
 
 export(float) var water_y = 11.4
-var input_state = "paused"
-
-func _set_game_state(new_game_state):
-  input_state = "paused"
-  game_state = new_game_state
-
-  if game_state:
-    map_grid = game_state.map_grid
-    generate_from_map_grid()
-    input_state = "listening"
-  elif terrain:
-    terrain.queue_free()
-    terrain = null
 
 
 func generate_from_map_grid():
@@ -45,8 +48,12 @@ func generate_from_map_grid():
   terrain.set_shader_type(HTerrain.SHADER_LOW_POLY)
   terrain.set_data(terrain_data)
   terrain.update_collider() # super important if you want to click the terrain
-  $Water.mesh.size = Vector2(map_grid.map_size, map_grid.map_size)
-  $Water.translation = Vector3(map_grid.map_size/2, water_y, map_grid.map_size/2)
+  if map_grid.terrain_style == "Core's Edge":
+    $Water.visible = true
+    $Water.mesh.size = Vector2(map_grid.map_size, map_grid.map_size)
+    $Water.translation = Vector3(map_grid.map_size/2, water_y, map_grid.map_size/2)
+  else:
+    $Water.visible = false
   add_child(terrain)
 
 

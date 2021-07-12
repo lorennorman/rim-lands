@@ -30,7 +30,7 @@ func _ready():
 
 
 func clear_running_game_state():
-  $MapTerrain.game_state = null
+  $MapTerrain.map_grid = null
   if game_state:
     game_state.teardown()
     game_state = null
@@ -40,7 +40,7 @@ func start_running_game_state(new_game_state: GameState):
   game_state = new_game_state
   game_state.buildup()
 
-  $MapTerrain.game_state = game_state
+  $MapTerrain.map_grid = game_state.map_grid
   $GUI.game_state = game_state
   $GUI.gui_state = game_state.gui_state
   sim = Simulator.new(game_state)
