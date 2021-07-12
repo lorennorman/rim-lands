@@ -3,10 +3,11 @@ extends Control
 const MapTerrain = preload("res://game/terrain/map_terrain.tscn")
 
 onready var style_control = $TerrainStyle/ItemList
-onready var seed_control = $RandomSeed/HSlider
+onready var seed_control = $RandomSeed/SeedSpinbox
 onready var randomize_control = $RandomSeed/Button
 onready var height_control = $MountainHeight/SpinBox
 onready var scale_control = $NoiseScale/ScaleSpinbox
+onready var rng := RandomNumberGenerator.new()
 
 export(Resource) var map_grid setget set_map_grid
 func set_map_grid(new_map_grid):
@@ -59,7 +60,7 @@ func terrain_style_item_selected(item_index: int):
 
 
 func terrain_height_changed(new_height: int):
-  map_grid.maximum_height = new_height
+  map_grid.terrain_height_max = new_height
   set_map_grid_on_map_terrain()
 
 
@@ -68,7 +69,9 @@ func terrain_seed_changed(new_seed: int):
   set_map_grid_on_map_terrain()
 
 func randomize_terrain_seed():
-  map_grid.noise_seed = RandomNumberGenerator.new().randi_range(-5000,5000)
+  rng.randomize()
+  map_grid.noise_seed = rng.randi_range(-5000,5000)
+  seed_control.value = map_grid.noise_seed
   set_map_grid_on_map_terrain()
 
 func noise_scale_changed(new_scale: float):

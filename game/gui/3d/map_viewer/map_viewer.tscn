@@ -107,22 +107,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSlider" type="HSlider" parent="RandomSeed"]
+[node name="SeedSpinbox" type="SpinBox" parent="RandomSeed"]
 margin_left = 2.19165
-margin_top = 18.9938
+margin_top = 19.2597
 margin_right = 102.192
-margin_bottom = 34.9938
+margin_bottom = 43.2597
 min_value = -5000.0
 max_value = 5000.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+align = 2
 
 [node name="Button" type="Button" parent="RandomSeed"]
-margin_left = 13.1494
-margin_top = 39.4487
-margin_right = 96.1494
-margin_bottom = 59.4487
+margin_left = 3.14941
+margin_top = 58.1792
+margin_right = 86.1494
+margin_bottom = 78.1792
 text = "Randomize"
 
 [node name="NoiseScale" type="Control" parent="."]

@@ -48,6 +48,7 @@
       - fiddle with inputs
       - fast topography preview
       - quick random seed regen
+      
     - stuff on the map
       - pawns, buildings, items
       - fiddle with inputs
