@@ -187,24 +187,24 @@ __meta__ = {
 }
 
 [node name="File" type="VBoxContainer" parent="GUI/Menus/Right/VBox"]
-margin_right = 284.0
+margin_right = 296.0
 margin_bottom = 78.0
 script = ExtResource( 7 )
 
 [node name="FileLabel" type="Label" parent="GUI/Menus/Right/VBox/File"]
-margin_right = 284.0
+margin_right = 296.0
 margin_bottom = 21.0
 theme = ExtResource( 15 )
 text = "FILE"
 
 [node name="HSeparator" type="HSeparator" parent="GUI/Menus/Right/VBox/File"]
 margin_top = 25.0
-margin_right = 284.0
+margin_right = 296.0
 margin_bottom = 29.0
 
 [node name="FileMenu" type="GridContainer" parent="GUI/Menus/Right/VBox/File"]
 margin_top = 33.0
-margin_right = 284.0
+margin_right = 296.0
 margin_bottom = 78.0
 columns = 3
 
@@ -216,28 +216,28 @@ text = "Menu"
 
 [node name="Tools" type="VBoxContainer" parent="GUI/Menus/Right/VBox"]
 margin_top = 82.0
-margin_right = 284.0
-margin_bottom = 209.0
+margin_right = 296.0
+margin_bottom = 160.0
 
 [node name="ToolsLabel" type="Label" parent="GUI/Menus/Right/VBox/Tools"]
-margin_right = 284.0
+margin_right = 296.0
 margin_bottom = 21.0
 theme = ExtResource( 15 )
 text = "TOOLS"
 
 [node name="HSeparator2" type="HSeparator" parent="GUI/Menus/Right/VBox/Tools"]
 margin_top = 25.0
-margin_right = 284.0
+margin_right = 296.0
 margin_bottom = 29.0
 
 [node name="ToolsMenu" type="GridContainer" parent="GUI/Menus/Right/VBox/Tools"]
 margin_top = 33.0
-margin_right = 284.0
-margin_bottom = 127.0
+margin_right = 296.0
+margin_bottom = 78.0
 columns = 3
 
 [node name="BuildButton" type="MenuButton" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
-margin_right = 86.0
+margin_right = 82.0
 margin_bottom = 45.0
 custom_fonts/font = ExtResource( 8 )
 text = "Build"
@@ -246,6 +246,7 @@ items = [ "Wall", null, 0, false, false, 0, 0, null, "", false, "Door", null, 0,
 script = ExtResource( 3 )
 
 [node name="Button5" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
+visible = false
 margin_left = 90.0
 margin_right = 210.0
 margin_bottom = 45.0
@@ -253,24 +254,26 @@ custom_fonts/font = ExtResource( 8 )
 text = "Weave"
 
 [node name="Button6" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
-margin_left = 214.0
-margin_right = 284.0
+visible = false
+margin_left = 124.0
+margin_right = 194.0
 margin_bottom = 45.0
 custom_fonts/font = ExtResource( 8 )
 text = "Fell"
 
 [node name="Button7" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
-margin_top = 49.0
-margin_right = 86.0
-margin_bottom = 94.0
+visible = false
+margin_left = 86.0
+margin_right = 172.0
+margin_bottom = 45.0
 custom_fonts/font = ExtResource( 8 )
 text = "Forge"
 
 [node name="Button8" type="Button" parent="GUI/Menus/Right/VBox/Tools/ToolsMenu"]
-margin_left = 90.0
-margin_top = 49.0
-margin_right = 210.0
-margin_bottom = 94.0
+visible = false
+margin_left = 86.0
+margin_right = 206.0
+margin_bottom = 45.0
 custom_fonts/font = ExtResource( 8 )
 text = "Enchant"
 
@@ -284,9 +287,9 @@ custom_fonts/font = ExtResource( 8 )
 text = "Dig"
 
 [node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/Right/VBox"]
-margin_top = 213.0
-margin_right = 284.0
-margin_bottom = 234.0
+margin_top = 164.0
+margin_right = 296.0
+margin_bottom = 185.0
 custom_constants/margin_left = 9
 __meta__ = {
 "_edit_use_anchors_": false
@@ -294,29 +297,29 @@ __meta__ = {
 
 [node name="ModeLabel" type="Label" parent="GUI/Menus/Right/VBox/MarginContainer"]
 margin_left = 9.0
-margin_right = 284.0
+margin_right = 296.0
 margin_bottom = 21.0
 theme = ExtResource( 15 )
 text = "Mode: Building Walls"
 script = ExtResource( 5 )
 
 [node name="Jobs" type="VBoxContainer" parent="GUI/Menus/Right/VBox"]
-margin_top = 238.0
-margin_right = 284.0
-margin_bottom = 267.0
+margin_top = 189.0
+margin_right = 296.0
+margin_bottom = 218.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="JobsLabel" type="Label" parent="GUI/Menus/Right/VBox/Jobs"]
-margin_right = 284.0
+margin_right = 296.0
 margin_bottom = 21.0
 theme = ExtResource( 15 )
 text = "JOBS"
 
 [node name="JobLabels" type="VBoxContainer" parent="GUI/Menus/Right/VBox/Jobs"]
 margin_top = 25.0
-margin_right = 284.0
+margin_right = 296.0
 margin_bottom = 29.0
 script = ExtResource( 6 )
 __meta__ = {
@@ -324,7 +327,7 @@ __meta__ = {
 }
 
 [node name="HSeparator" type="HSeparator" parent="GUI/Menus/Right/VBox/Jobs/JobLabels"]
-margin_right = 284.0
+margin_right = 296.0
 margin_bottom = 4.0
 
 [node name="MainMenu" type="WindowDialog" parent="GUI/Menus"]
@@ -345,26 +348,28 @@ __meta__ = {
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/MainMenu"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -65.0
-margin_top = -73.0
-margin_right = 65.0
-margin_bottom = 73.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+custom_constants/margin_right = 100
+custom_constants/margin_top = 10
+custom_constants/margin_left = 100
+custom_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/Menus/MainMenu/MarginContainer"]
-margin_right = 211.0
-margin_bottom = 241.0
+margin_left = 100.0
+margin_top = 10.0
+margin_right = 380.0
+margin_bottom = 390.0
+alignment = 1
 
 [node name="NewGameButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/VBoxContainer"]
-margin_right = 130.0
-margin_bottom = 26.0
+margin_top = 69.0
+margin_right = 280.0
+margin_bottom = 114.0
 custom_fonts/font = ExtResource( 8 )
 text = "New Game"
 __meta__ = {
@@ -372,9 +377,9 @@ __meta__ = {
 }
 
 [node name="SaveGameButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/VBoxContainer"]
-margin_top = 30.0
-margin_right = 130.0
-margin_bottom = 56.0
+margin_top = 118.0
+margin_right = 280.0
+margin_bottom = 163.0
 theme = ExtResource( 15 )
 custom_fonts/font = ExtResource( 8 )
 text = "Save Game"
@@ -383,23 +388,23 @@ __meta__ = {
 }
 
 [node name="LoadGameButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/VBoxContainer"]
-margin_top = 60.0
-margin_right = 130.0
-margin_bottom = 86.0
+margin_top = 167.0
+margin_right = 280.0
+margin_bottom = 212.0
 custom_fonts/font = ExtResource( 8 )
 text = "Load Game"
 
 [node name="LoadScenarioButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/VBoxContainer"]
-margin_top = 90.0
-margin_right = 130.0
-margin_bottom = 116.0
+margin_top = 216.0
+margin_right = 280.0
+margin_bottom = 261.0
 custom_fonts/font = ExtResource( 8 )
 text = "Load Scenario"
 
 [node name="QuitButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/VBoxContainer"]
-margin_top = 120.0
-margin_right = 130.0
-margin_bottom = 146.0
+margin_top = 265.0
+margin_right = 280.0
+margin_bottom = 310.0
 custom_fonts/font = ExtResource( 8 )
 text = "Quit to Desktop"
 

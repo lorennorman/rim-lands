@@ -123,11 +123,6 @@ Events="*res://game/events.gd"
 gdscript/warnings/unused_signal=false
 gdscript/warnings/return_value_discarded=false
 
-[display]
-
-window/size/width=1440
-window/size/height=800
-
 [editor_plugins]
 
 enabled=PoolStringArray( "zylann.hterrain" )
