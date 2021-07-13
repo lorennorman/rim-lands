@@ -1,40 +1,61 @@
-extends WindowDialog
+extends Control
 
-const savegame_dir = "res://savegames"
-const scenario_dir = "res://scenarios"
+const SAVEGAME_DIR = "res://savegames"
+const SCENARIO_DIR = "res://scenarios"
 
+export(NodePath) var main_menu_path
+export(NodePath) var new_button_path
+export(NodePath) var save_button_path
+export(NodePath) var load_game_button_path
+export(NodePath) var load_scenario_button_path
+export(NodePath) var quit_button_path
+export(NodePath) var new_menu_path
+export(NodePath) var load_game_menu_path
+export(NodePath) var load_scenario_menu_path
+export(NodePath) var save_menu_path
+
+onready var main_menu = get_node(main_menu_path)
+onready var new_button = get_node(new_button_path)
+onready var save_button = get_node(save_button_path)
+onready var load_game_button = get_node(load_game_button_path)
+onready var load_scenario_button = get_node(load_scenario_button_path)
+onready var quit_button = get_node(quit_button_path)
+onready var new_menu = get_node(new_menu_path)
+onready var load_game_menu = get_node(load_game_menu_path)
+onready var load_scenario_menu = get_node(load_scenario_menu_path)
+onready var save_menu = get_node(save_menu_path)
 
 func _ready():
   Events.connect("menu_pressed", self, "pause_and_popup")
   # New Game
-  $MarginContainer/VBoxContainer/NewGameButton.connect("pressed", self, "new_game_clicked")
+  new_button.connect("pressed", self, "new_game_clicked")
   # Load Game
-  $MarginContainer/VBoxContainer/LoadGameButton.connect("pressed", self, "load_game_clicked")
-  $LoadGameDialog.connect("file_selected", self, "load_game_file_selected")
+  load_game_button.connect("pressed", self, "load_game_clicked")
+  load_game_menu.connect("file_selected", self, "load_game_file_selected")
   # Load Scenario
-  $MarginContainer/VBoxContainer/LoadScenarioButton.connect("pressed", self, "load_scenario_clicked")
-  $LoadScenarioDialog.connect("file_selected", self, "load_scenario_file_selected")
+  load_scenario_button.connect("pressed", self, "load_scenario_clicked")
+  load_scenario_menu.connect("file_selected", self, "load_scenario_file_selected")
   # Save Game
-  $MarginContainer/VBoxContainer/SaveGameButton.connect("pressed", self, "save_game_clicked")
-  $SaveGameDialog.connect("file_selected", self, "save_game_file_selected")
+  save_button.connect("pressed", self, "save_game_clicked")
+  save_menu.connect("file_selected", self, "save_game_file_selected")
   # Quit
-  $MarginContainer/VBoxContainer/QuitButton.connect("pressed", self, "quit_clicked")
+  quit_button.connect("pressed", self, "quit_clicked")
 
 
 func pause_and_popup():
   Events.emit_signal("pause_requested")
-  popup()
+  main_menu.popup()
 
 
 func new_game_clicked():
-  visible = false
-  Events.emit_signal("new_world_requested")
+  main_menu.visible = false
+  new_menu.popup()
 
 
 func load_scenario_clicked():
-  visible = false
-  $LoadScenarioDialog.current_dir = scenario_dir
-  $LoadScenarioDialog.popup()
+  main_menu.visible = false
+  load_scenario_menu.current_dir = SCENARIO_DIR
+  load_scenario_menu.popup()
 
 
 func load_scenario_file_selected(scenario_file_path):
@@ -42,9 +63,9 @@ func load_scenario_file_selected(scenario_file_path):
 
 
 func load_game_clicked():
-  visible = false
-  $LoadGameDialog.current_dir = savegame_dir
-  $LoadGameDialog.popup()
+  main_menu.visible = false
+  load_game_menu.current_dir = SAVEGAME_DIR
+  load_game_menu.popup()
 
 
 func load_game_file_selected(game_file_path):
@@ -52,13 +73,12 @@ func load_game_file_selected(game_file_path):
 
 
 func save_game_clicked():
-  visible = false
-  $SaveGameDialog.current_dir = savegame_dir
-  $SaveGameDialog.popup()
+  main_menu.visible = false
+  save_menu.current_dir = SAVEGAME_DIR
+  save_menu.popup()
 
 
 func save_game_file_selected(game_file_path):
-  print(game_file_path)
   Events.emit_signal("save_world_requested", game_file_path)
 
 

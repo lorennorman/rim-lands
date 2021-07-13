@@ -19,14 +19,11 @@ func _ready():
   Events.connect("save_world_requested", self, "save_world")
   Events.connect("pause_requested", self, "pause_requested")
 
-  # new_world()
-  # Test Ideas:
-  # test_void_pawn_equip_attack_defend()
-  # test_void_pawn_equip_attack_defend()
-  # test_void_pawn_equip_attack_defend()
-  # test_void_pawn_equip_attack_defend()
-  test_core_pawn_item_haul_build()
+  new_world()
   # load_world("res://scenarios/medium_party_busy.tres")
+
+  # Tests:
+  # test_core_pawn_item_haul_build()
 
 
 func clear_running_game_state():
