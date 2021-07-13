@@ -29,7 +29,7 @@ func set_map_grid(new_map_grid):
 
 var terrain: HTerrain
 
-export(float) var water_y = 11.4
+export(float) var water_y = 10.65
 
 
 func generate_from_map_grid():

@@ -13,6 +13,6 @@ subdivide_depth = 40
 script = ExtResource( 1 )
 
 [node name="Water" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 63.921, -7.62939e-06, 64.0801 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 63.921, -5.48336, 64.0801 )
 mesh = SubResource( 1 )
 material/0 = null

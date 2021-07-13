@@ -20,11 +20,11 @@ func update_text():
 
   match current_mode:
     Enums.Mode.BUILD:
-      label = "Mode: Build Orders"
+      label = "Building"
     _:
-      label = "Mode: Selection"
+      label = "Selection Mode"
 
   if current_simulator_state == "paused":
-    label = "[[PAUSED]] %s" % label
+    label = "[P] %s" % label
 
   text = label
