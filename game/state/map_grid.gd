@@ -201,6 +201,6 @@ func get_move_path(from_key, to_key):
 
 
 func teardown():
+  torndown = true
   omni_dict.clear() # clear the map cells
   astar.clear() # clear the astar network
-  torndown = true

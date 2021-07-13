@@ -110,8 +110,12 @@ custom_fonts/font = ExtResource( 2 )
 text = "Quit to Desktop"
 
 [node name="NewGameDialog" type="PopupDialog" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+visible = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="SaveGameDialog" type="FileDialog" parent="."]
 anchor_left = 0.5

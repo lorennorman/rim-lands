@@ -45,10 +45,9 @@
   - scenario builder: operates game state
   - steps:
     - [.] terrain
-      - [x] fiddle with inputs
-      - [x] fast topography preview
-      - [x] quick random seed regen
       - [.] stabilize 3 terrain styles
+      - [x] expose user settings
+      - [x] fast preview
     - [.] auto-place default pawns and go
       - [.] try in the thirds of the map
       - [.] query closest astar node

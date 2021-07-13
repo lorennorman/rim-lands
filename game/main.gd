@@ -27,6 +27,7 @@ func _ready():
 
 
 func clear_running_game_state():
+  $MapTerrain.input_state = "paused"
   $MapTerrain.map_grid = null
   if game_state:
     game_state.teardown()
@@ -38,6 +39,7 @@ func start_running_game_state(new_game_state: GameState):
   game_state.buildup()
 
   $MapTerrain.map_grid = game_state.map_grid
+  $MapTerrain.input_state = "listening"
   $GUI.game_state = game_state
   $GUI.gui_state = game_state.gui_state
   sim = Simulator.new(game_state)

@@ -13,7 +13,7 @@ var input_state = "paused"
 
 var map_grid setget set_map_grid
 func set_map_grid(new_map_grid):
-  print("MapTerrain grid set")
+  print("MapTerrain grid set: %s" % new_map_grid)
   input_state = "paused"
 
   if terrain:
@@ -129,6 +129,10 @@ func _input(event):
 
 func _physics_process(_delta):
   if to_process:
+    if input_state != "listening":
+      # state changed, forget everything
+      to_process = null
+      return
     # get the physical world
     var space_state = get_world().direct_space_state
     # unpack the job
