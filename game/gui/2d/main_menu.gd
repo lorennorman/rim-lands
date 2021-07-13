@@ -17,6 +17,8 @@ func _ready():
   # Save Game
   $MarginContainer/VBoxContainer/SaveGameButton.connect("pressed", self, "save_game_clicked")
   $SaveGameDialog.connect("file_selected", self, "save_game_file_selected")
+  # Quit
+  $MarginContainer/VBoxContainer/QuitButton.connect("pressed", self, "quit_clicked")
 
 
 func pause_and_popup():
@@ -58,3 +60,7 @@ func save_game_clicked():
 func save_game_file_selected(game_file_path):
   print(game_file_path)
   Events.emit_signal("save_world_requested", game_file_path)
+
+
+func quit_clicked():
+  get_tree().quit()

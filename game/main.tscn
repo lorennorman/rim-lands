@@ -1,10 +1,10 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://game/main.gd" type="Script" id=1]
 [ext_resource path="res://game/camera/camera_control.gd" type="Script" id=2]
 [ext_resource path="res://game/gui/2d/right_menu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://game/buildings/building_boss.gd" type="Script" id=4]
-[ext_resource path="res://game/gui/2d/girassol_font.tres" type="DynamicFont" id=8]
+[ext_resource path="res://game/gui/2d/main_menu.tscn" type="PackedScene" id=5]
 [ext_resource path="res://game/gui/gui.gd" type="Script" id=9]
 [ext_resource path="res://game/timers.gd" type="Script" id=10]
 [ext_resource path="res://game/gui/3d/job_markers.gd" type="Script" id=11]
@@ -12,7 +12,6 @@
 [ext_resource path="res://game/environment/main_environment.tres" type="Environment" id=13]
 [ext_resource path="res://game/buildings/building_model.tscn" type="PackedScene" id=14]
 [ext_resource path="res://game/gui/2d/font_theme.tres" type="Theme" id=15]
-[ext_resource path="res://game/main_menu.gd" type="Script" id=16]
 [ext_resource path="res://game/gui/2d/pawn_directory.gd" type="Script" id=17]
 [ext_resource path="res://game/gui/3d/map_indicators.gd" type="Script" id=18]
 [ext_resource path="res://game/items/item_model.tscn" type="PackedScene" id=19]
@@ -164,116 +163,7 @@ __meta__ = {
 
 [node name="RightMenu" parent="GUI/Menus" instance=ExtResource( 3 )]
 
-[node name="MainMenu" type="WindowDialog" parent="GUI/Menus"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -240.0
-margin_top = -200.0
-margin_right = 240.0
-margin_bottom = 200.0
-grow_horizontal = 2
-grow_vertical = 2
-window_title = "Main Menu"
-script = ExtResource( 16 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/MainMenu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-custom_constants/margin_right = 100
-custom_constants/margin_top = 10
-custom_constants/margin_left = 100
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GUI/Menus/MainMenu/MarginContainer"]
-margin_left = 100.0
-margin_top = 10.0
-margin_right = 380.0
-margin_bottom = 390.0
-alignment = 1
-
-[node name="NewGameButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/VBoxContainer"]
-margin_top = 69.0
-margin_right = 280.0
-margin_bottom = 114.0
-custom_fonts/font = ExtResource( 8 )
-text = "New Game"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SaveGameButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/VBoxContainer"]
-margin_top = 118.0
-margin_right = 280.0
-margin_bottom = 163.0
-theme = ExtResource( 15 )
-custom_fonts/font = ExtResource( 8 )
-text = "Save Game"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LoadGameButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/VBoxContainer"]
-margin_top = 167.0
-margin_right = 280.0
-margin_bottom = 212.0
-custom_fonts/font = ExtResource( 8 )
-text = "Load Game"
-
-[node name="LoadScenarioButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/VBoxContainer"]
-margin_top = 216.0
-margin_right = 280.0
-margin_bottom = 261.0
-custom_fonts/font = ExtResource( 8 )
-text = "Load Scenario"
-
-[node name="QuitButton" type="Button" parent="GUI/Menus/MainMenu/MarginContainer/VBoxContainer"]
-margin_top = 265.0
-margin_right = 280.0
-margin_bottom = 310.0
-custom_fonts/font = ExtResource( 8 )
-text = "Quit to Desktop"
-
-[node name="SaveGameDialog" type="FileDialog" parent="GUI/Menus/MainMenu"]
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -208.0
-margin_right = 208.0
-rect_min_size = Vector2( 400, 200 )
-resizable = true
-
-[node name="LoadGameDialog" type="FileDialog" parent="GUI/Menus/MainMenu"]
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -208.0
-margin_right = 208.0
-rect_min_size = Vector2( 400, 200 )
-size_flags_vertical = 3
-window_title = "Open a File"
-resizable = true
-mode = 0
-
-[node name="LoadScenarioDialog" type="FileDialog" parent="GUI/Menus/MainMenu"]
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -208.0
-margin_right = 208.0
-rect_min_size = Vector2( 400, 200 )
-size_flags_vertical = 3
-window_title = "Open a File"
-resizable = true
-mode = 0
+[node name="MainMenu" parent="GUI/Menus" instance=ExtResource( 5 )]
 
 [node name="MapIndicators" type="Spatial" parent="GUI"]
 script = ExtResource( 18 )

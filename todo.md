@@ -45,11 +45,15 @@
   - scenario builder: operates game state
   - steps:
     - [.] terrain
-      - fiddle with inputs
-      - fast topography preview
-      - quick random seed regen
-      
-    - stuff on the map
+      - [x] fiddle with inputs
+      - [x] fast topography preview
+      - [x] quick random seed regen
+      - [.] stabilize 3 terrain styles
+    - [.] auto-place default pawns and go
+      - [.] try in the thirds of the map
+      - [.] query closest astar node
+      - make sure can route to road
+    - all stuff on the map
       - pawns, buildings, items
       - fiddle with inputs
       - fast 3d preview
@@ -83,6 +87,9 @@
 
 
 ## Generators
+- [.] make like 5 insta-jobs that generate items
+  - chop-forage-mine-plant-harvest
+- roadgen algorithm
 - [ ] blow out skills, stat-skill formulas for job proficiency
 - [ ] blow out item types
 
