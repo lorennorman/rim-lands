@@ -5,8 +5,16 @@ class_name MapGrid
 
 ## Settings from the Terrain Style bundle
 export(float, 0.001, 1000) var scale_grid_to_noise = 1.25
+export(String) var terrain_style = "Core's Edge" setget set_terrain_style
+func set_terrain_style(new_terrain_style):
+  print("setting terrain style: %s" % new_terrain_style)
+  terrain_style = new_terrain_style
+  terrain_gradient = terrain_style_lookup[terrain_style].gradient
+  terrain_elevation_curve = terrain_style_lookup[terrain_style].curve
+  terrain_height_max = terrain_style_lookup[terrain_style].height
+  scale_grid_to_noise = terrain_style_lookup[terrain_style].scale
+
 export(float) var terrain_height_max = 35.0
-export(String) var terrain_style = "Core's Edge"
 export(Gradient) var terrain_gradient
 export(Curve) var terrain_elevation_curve
 
@@ -14,21 +22,27 @@ const terrain_style_lookup = {
   "Core's Edge": {
     "gradient": preload("res://game/terrain/res/cores_edge_color_gradient.tres"),
     "curve": preload("res://game/terrain/res/cores_edge_elevation_curve.tres"),
+    "height": 35,
+    "scale": 1.25,
   },
   "The Rim Eternal": {
     "gradient": preload("res://game/terrain/res/rim_eternal_color_gradient.tres"),
     "curve": preload("res://game/terrain/res/rim_eternal_elevation_curve.tres"),
+    "height": 30,
+    "scale": 1.75,
   },
   "The Voidlands": {
     "gradient": preload("res://game/terrain/res/voidlands_color_gradient.tres"),
     "curve": preload("res://game/terrain/res/voidlands_elevation_curve.tres"),
+    "height": 40,
+    "scale": 2.2,
   },
 }
 
 
 ## Per-Map Settings
 # Map length/width (maps are always square)
-export(int) var map_size = 129
+export(int) var map_size = 65
 # Random seeds allow random-yet-repeatable maps
 export(int) var noise_seed = 2
 
@@ -42,13 +56,12 @@ var torndown := false
 
 
 func generate_cells():
+  if not terrain_elevation_curve or not terrain_gradient:
+    self.terrain_style = "Core's Edge"
   astar = AStar.new()
   astar.reserve_space(map_size * map_size)
 
   omni_dict = {}
-
-  terrain_gradient = terrain_style_lookup[terrain_style].gradient
-  terrain_elevation_curve = terrain_style_lookup[terrain_style].curve
 
   var noise = OpenSimplexNoise.new()
   noise.seed = noise_seed

@@ -1,5 +1,7 @@
 extends Control
 
+const MapViewer = preload("res://game/gui/3d/map_viewer/map_viewer.tscn")
+
 const SAVEGAME_DIR = "res://savegames"
 const SCENARIO_DIR = "res://scenarios"
 
@@ -10,6 +12,7 @@ export(NodePath) var load_game_button_path
 export(NodePath) var load_scenario_button_path
 export(NodePath) var quit_button_path
 export(NodePath) var new_menu_path
+export(NodePath) var map_viewer_path
 export(NodePath) var load_game_menu_path
 export(NodePath) var load_scenario_menu_path
 export(NodePath) var save_menu_path
@@ -21,6 +24,7 @@ onready var load_game_button = get_node(load_game_button_path)
 onready var load_scenario_button = get_node(load_scenario_button_path)
 onready var quit_button = get_node(quit_button_path)
 onready var new_menu = get_node(new_menu_path)
+onready var map_viewer = get_node(map_viewer_path)
 onready var load_game_menu = get_node(load_game_menu_path)
 onready var load_scenario_menu = get_node(load_scenario_menu_path)
 onready var save_menu = get_node(save_menu_path)
@@ -49,6 +53,9 @@ func pause_and_popup():
 
 func new_game_clicked():
   main_menu.visible = false
+  var new_map_grid = MapGrid.new()
+  new_map_grid.terrain_style = "Core's Edge"
+  map_viewer.map_grid = new_map_grid
   new_menu.popup()
 
 

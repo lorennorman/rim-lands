@@ -6,10 +6,11 @@
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 2 )
-map_size = 65
-maximum_height = 35.0
-noise_seed = 5
 scale_grid_to_noise = 1.25
+terrain_style = "Core's Edge"
+terrain_height_max = 35.0
+map_size = 65
+noise_seed = 5
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 3 )
@@ -43,4 +44,5 @@ script = ExtResource( 1 )
 pawns = [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ]
 jobs = [  ]
 buildings = [  ]
+items = [  ]
 map_grid = SubResource( 1 )

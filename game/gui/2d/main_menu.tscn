@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://game/gui/2d/font_theme.tres" type="Theme" id=1]
 [ext_resource path="res://game/gui/2d/girassol_font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://game/gui/2d/main_menu.gd" type="Script" id=3]
+[ext_resource path="res://game/gui/3d/map_viewer/map_viewer.tscn" type="PackedScene" id=4]
 
 [node name="PopupMenus" type="Control"]
 anchor_left = 0.5
@@ -26,6 +27,7 @@ load_game_button_path = NodePath("MainMenu/Items/VBoxContainer/LoadGameButton")
 load_scenario_button_path = NodePath("MainMenu/Items/VBoxContainer/LoadScenarioButton")
 quit_button_path = NodePath("MainMenu/Items/VBoxContainer/QuitButton")
 new_menu_path = NodePath("NewGameDialog")
+map_viewer_path = NodePath("NewGameDialog/CenterContainer/MapViewer")
 load_game_menu_path = NodePath("LoadGameDialog")
 load_scenario_menu_path = NodePath("LoadScenarioDialog")
 save_menu_path = NodePath("SaveGameDialog")
@@ -111,11 +113,37 @@ text = "Quit to Desktop"
 
 [node name="NewGameDialog" type="PopupDialog" parent="."]
 visible = true
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -291.0
+margin_top = -200.0
+margin_right = 345.0
+margin_bottom = 176.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CenterContainer" type="CenterContainer" parent="NewGameDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MapViewer" parent="NewGameDialog/CenterContainer" instance=ExtResource( 4 )]
+margin_right = 507.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="SaveGameDialog" type="FileDialog" parent="."]
 anchor_left = 0.5
