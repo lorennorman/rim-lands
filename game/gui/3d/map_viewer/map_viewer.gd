@@ -51,6 +51,11 @@ func initialize_controls():
     if map_grid.terrain_style == style_control.get_item_text(index):
       style_control.select(index)
       break
+  for index in size_control.get_item_count():
+    var item_text = size_control.get_item_text(index)
+    if item_text.find(map_grid.map_size - 1) != -1:
+      size_control.select(index)
+      break
   seed_control.value = map_grid.noise_seed
   height_control.value = map_grid.terrain_height_max
   scale_control.value = map_grid.scale_grid_to_noise
@@ -112,3 +117,7 @@ func randomize_terrain_seed():
 func noise_scale_changed(new_scale: float):
   map_grid.scale_grid_to_noise = new_scale
   set_map_grid_on_map_terrain()
+
+
+func start_game_pressed():
+  print("starting new game")

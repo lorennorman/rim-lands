@@ -23,7 +23,7 @@ scale_control_path = NodePath("SettingsGrid/NoiseScale/VBoxContainer/ScaleSpinbo
 
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
 margin_right = 250.0
-margin_bottom = 259.0
+margin_bottom = 295.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -42,23 +42,25 @@ environment = ExtResource( 2 )
 
 [node name="SettingsGrid" type="GridContainer" parent="."]
 margin_left = 260.0
-margin_right = 507.0
-margin_bottom = 259.0
+margin_right = 545.0
+margin_bottom = 295.0
 custom_constants/vseparation = 16
 custom_constants/hseparation = 10
 columns = 2
 
 [node name="TerrainStyle" type="MarginContainer" parent="SettingsGrid"]
-margin_right = 143.0
+margin_right = 115.0
 margin_bottom = 99.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsGrid/TerrainStyle"]
-margin_right = 143.0
+margin_right = 115.0
 margin_bottom = 99.0
 
 [node name="Label" type="Label" parent="SettingsGrid/TerrainStyle/VBoxContainer"]
-margin_right = 143.0
+margin_right = 83.0
 margin_bottom = 14.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 text = "Terrain Style:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -66,9 +68,9 @@ __meta__ = {
 
 [node name="ItemList" type="ItemList" parent="SettingsGrid/TerrainStyle/VBoxContainer"]
 margin_top = 18.0
-margin_right = 143.0
+margin_right = 115.0
 margin_bottom = 81.0
-size_flags_horizontal = 3
+rect_min_size = Vector2( 115, 0 )
 items = [ "Core's Edge", null, false, "The Rim Eternal", null, false, "The Voidlands", null, false ]
 auto_height = true
 __meta__ = {
@@ -76,17 +78,17 @@ __meta__ = {
 }
 
 [node name="TerrainSize" type="MarginContainer" parent="SettingsGrid"]
-margin_left = 153.0
-margin_right = 247.0
+margin_left = 125.0
+margin_right = 285.0
 margin_bottom = 99.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsGrid/TerrainSize"]
-margin_right = 94.0
+margin_right = 160.0
 margin_bottom = 99.0
 
 [node name="Label" type="Label" parent="SettingsGrid/TerrainSize/VBoxContainer"]
-margin_right = 94.0
+margin_right = 160.0
 margin_bottom = 14.0
 text = "Terrain Size:"
 __meta__ = {
@@ -95,8 +97,9 @@ __meta__ = {
 
 [node name="ItemList" type="ItemList" parent="SettingsGrid/TerrainSize/VBoxContainer"]
 margin_top = 18.0
-margin_right = 94.0
+margin_right = 160.0
 margin_bottom = 99.0
+rect_min_size = Vector2( 160, 0 )
 items = [ "Small (64x64)", null, false, "Medium (128x128)", null, false, "Large (256x256)", null, true, "Humongous (512x512)", null, true ]
 auto_height = true
 __meta__ = {
@@ -105,15 +108,15 @@ __meta__ = {
 
 [node name="RandomSeed" type="MarginContainer" parent="SettingsGrid"]
 margin_top = 115.0
-margin_right = 143.0
+margin_right = 115.0
 margin_bottom = 181.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsGrid/RandomSeed"]
-margin_right = 143.0
+margin_right = 115.0
 margin_bottom = 66.0
 
 [node name="Label3" type="Label" parent="SettingsGrid/RandomSeed/VBoxContainer"]
-margin_right = 143.0
+margin_right = 115.0
 margin_bottom = 14.0
 text = "Terrain Seed:"
 __meta__ = {
@@ -122,7 +125,7 @@ __meta__ = {
 
 [node name="SeedSpinbox" type="SpinBox" parent="SettingsGrid/RandomSeed/VBoxContainer"]
 margin_top = 18.0
-margin_right = 143.0
+margin_right = 115.0
 margin_bottom = 42.0
 min_value = -5000.0
 max_value = 5000.0
@@ -130,47 +133,61 @@ align = 2
 
 [node name="Button" type="Button" parent="SettingsGrid/RandomSeed/VBoxContainer"]
 margin_top = 46.0
-margin_right = 143.0
+margin_right = 115.0
 margin_bottom = 66.0
 text = "Randomize"
 
 [node name="SpacerControl" type="Control" parent="SettingsGrid"]
-margin_left = 153.0
+margin_left = 125.0
 margin_top = 115.0
-margin_right = 247.0
+margin_right = 285.0
 margin_bottom = 181.0
 
-[node name="VSeparator" type="HSeparator" parent="SettingsGrid"]
+[node name="CancelButton" type="Button" parent="SettingsGrid"]
 margin_top = 197.0
-margin_right = 143.0
-margin_bottom = 201.0
+margin_right = 115.0
+margin_bottom = 217.0
+text = "Cancel"
+
+[node name="StartGameButton" type="Button" parent="SettingsGrid"]
+margin_left = 125.0
+margin_top = 197.0
+margin_right = 285.0
+margin_bottom = 217.0
+text = "Start Game"
+
+[node name="VSeparator" type="HSeparator" parent="SettingsGrid"]
+margin_top = 233.0
+margin_right = 115.0
+margin_bottom = 237.0
 
 [node name="VSeparator2" type="HSeparator" parent="SettingsGrid"]
-margin_left = 153.0
-margin_top = 197.0
-margin_right = 247.0
-margin_bottom = 201.0
+margin_left = 125.0
+margin_top = 233.0
+margin_right = 285.0
+margin_bottom = 237.0
 
 [node name="NoiseScale" type="MarginContainer" parent="SettingsGrid"]
-margin_top = 217.0
-margin_right = 143.0
-margin_bottom = 259.0
+margin_top = 253.0
+margin_right = 115.0
+margin_bottom = 295.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsGrid/NoiseScale"]
-margin_right = 143.0
+margin_right = 115.0
 margin_bottom = 42.0
 
 [node name="Label4" type="Label" parent="SettingsGrid/NoiseScale/VBoxContainer"]
-margin_right = 143.0
+margin_right = 78.0
 margin_bottom = 14.0
-text = "Scale Noise to Terrain:"
+size_flags_horizontal = 0
+text = "Scale Noise:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ScaleSpinbox" type="SpinBox" parent="SettingsGrid/NoiseScale/VBoxContainer"]
 margin_top = 18.0
-margin_right = 143.0
+margin_right = 115.0
 margin_bottom = 42.0
 min_value = 0.1
 max_value = 10.0
@@ -179,17 +196,17 @@ value = 1.0
 align = 2
 
 [node name="MountainHeight" type="MarginContainer" parent="SettingsGrid"]
-margin_left = 153.0
-margin_top = 217.0
-margin_right = 247.0
-margin_bottom = 259.0
+margin_left = 125.0
+margin_top = 253.0
+margin_right = 285.0
+margin_bottom = 295.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsGrid/MountainHeight"]
-margin_right = 94.0
+margin_right = 160.0
 margin_bottom = 42.0
 
 [node name="Label2" type="Label" parent="SettingsGrid/MountainHeight/VBoxContainer"]
-margin_right = 94.0
+margin_right = 160.0
 margin_bottom = 14.0
 text = "Terrain Height:"
 __meta__ = {
@@ -198,7 +215,7 @@ __meta__ = {
 
 [node name="SpinBox" type="SpinBox" parent="SettingsGrid/MountainHeight/VBoxContainer"]
 margin_top = 18.0
-margin_right = 94.0
+margin_right = 160.0
 margin_bottom = 42.0
 min_value = 5.0
 max_value = 50.0
@@ -207,3 +224,5 @@ align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[connection signal="pressed" from="SettingsGrid/StartGameButton" to="." method="start_game_pressed"]

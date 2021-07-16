@@ -13,7 +13,6 @@ var input_state = "paused"
 
 var map_grid setget set_map_grid
 func set_map_grid(new_map_grid):
-  print("MapTerrain grid set: %s" % new_map_grid)
   input_state = "paused"
 
   if terrain:
