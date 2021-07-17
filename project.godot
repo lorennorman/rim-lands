@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/enums.gd"
 }, {
+"base": "Object",
+"class": "Factory",
+"language": "GDScript",
+"path": "res://game/state/factory.gd"
+}, {
 "base": "Resource",
 "class": "GUIState",
 "language": "GDScript",
@@ -93,6 +98,7 @@ _global_script_class_icons={
 "BuildJob": "",
 "Building": "",
 "Enums": "",
+"Factory": "",
 "GUIState": "",
 "GameState": "",
 "HTerrainDataLoader": "",

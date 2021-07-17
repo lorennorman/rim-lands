@@ -54,10 +54,11 @@ func teardown():
 
 
 ## Pawns
-func add_pawn(pawn: Pawn, location: String):
+func add_pawn(pawn: Pawn):
   assert(map_grid, "Map must be set before Pawns can be added")
+  assert(pawn.location, "Pawn must have a location to be added to the game")
   pawns.push_back(pawn)
-  map_grid.set_pawn(location, pawn)
+  map_grid.set_pawn(pawn.location, pawn)
   Events.emit_signal("pawn_added", pawn)
 
 
@@ -145,7 +146,6 @@ func find_closest_available_material_to(material_type, origin_cell: MapCell):
   return closest_item
 
 
-# func transfer_item_from_to(item_to_transfer: Item, from, to):
 func transfer_item_from_to(item_type: int, item_quantity: int, from: Resource, to: Resource):
   # check that "from" has enough of this item
   var from_item = from.get_item(item_type)

@@ -7,16 +7,18 @@ class_name MapGrid
 export(float, 0.001, 1000) var scale_grid_to_noise = 1.25
 export(String) var terrain_style = "Core's Edge" setget set_terrain_style
 func set_terrain_style(new_terrain_style):
-  print("setting terrain style: %s" % new_terrain_style)
   terrain_style = new_terrain_style
-  terrain_gradient = terrain_style_lookup[terrain_style].gradient
-  terrain_elevation_curve = terrain_style_lookup[terrain_style].curve
-  terrain_height_max = terrain_style_lookup[terrain_style].height
-  scale_grid_to_noise = terrain_style_lookup[terrain_style].scale
+  var style_settings = terrain_style_lookup[terrain_style]
+  terrain_gradient = style_settings.gradient
+  terrain_elevation_curve = style_settings.curve
+  terrain_height_max = style_settings.height
+  scale_grid_to_noise = style_settings.scale
+  navigable_range = style_settings.navigable_range
 
 export(float) var terrain_height_max = 35.0
 export(Gradient) var terrain_gradient
 export(Curve) var terrain_elevation_curve
+export(Array) var navigable_range
 
 const terrain_style_lookup = {
   "Core's Edge": {
@@ -24,18 +26,21 @@ const terrain_style_lookup = {
     "curve": preload("res://game/terrain/res/cores_edge_elevation_curve.tres"),
     "height": 35,
     "scale": 1.25,
+    "navigable_range": [0.3, 0.36],
   },
   "The Rim Eternal": {
     "gradient": preload("res://game/terrain/res/rim_eternal_color_gradient.tres"),
     "curve": preload("res://game/terrain/res/rim_eternal_elevation_curve.tres"),
     "height": 30,
     "scale": 1.75,
+    "navigable_range": [0.48, 0.52],
   },
   "The Voidlands": {
     "gradient": preload("res://game/terrain/res/voidlands_color_gradient.tres"),
     "curve": preload("res://game/terrain/res/voidlands_elevation_curve.tres"),
     "height": 40,
     "scale": 2.2,
+    "navigable_range": [0.45, 0.51],
   },
 }
 
@@ -87,11 +92,6 @@ func generate_cells():
 
 
 func add_map_grid_cell(x, z, height, color):
-  # calculate navigability
-  var lowest_navigable_height = 0.332 * terrain_height_max
-  var highest_navigable_height = 0.42 * terrain_height_max
-  var is_navigable = (height > lowest_navigable_height) and (height < highest_navigable_height)
-
   # calculate exact 3d position
   var average_height
   if x == 0 or z == 0:
@@ -101,8 +101,14 @@ func add_map_grid_cell(x, z, height, color):
     average_height = (height + old_height) / 2
   var position = Vector3((x+0.5), average_height, (z+0.5))
 
-  add_map_cell(position, x, z, color, !is_navigable)
+  add_map_cell(position, x, z, color, !is_navigable(height))
 
+
+func is_navigable(height: float):
+  # calculate navigability
+  var lowest_navigable_height = navigable_range[0] * terrain_height_max
+  var highest_navigable_height = navigable_range[1] * terrain_height_max
+  return (height > lowest_navigable_height) and (height < highest_navigable_height)
 
 func height_from_noise(_x, _z, noise_value):
   # Simple: amplify noise value to a maximum
@@ -217,3 +223,26 @@ func teardown():
   torndown = true
   omni_dict.clear() # clear the map cells
   astar.clear() # clear the astar network
+
+
+func find_good_starting_positions(how_many) -> Array:
+  var third = map_size/3
+  # try each third of the map
+  for x_third in [third, third*2]:
+    for z_third in [third, third*2]:
+      # ask for closest astar
+      var close_astar_id = astar.get_closest_point(Vector3(x_third, 0, z_third))
+      if close_astar_id < 0: continue
+      var closest_cell = lookup_cell(close_astar_id)
+      if closest_cell:
+        # ensure 2 more are connected
+        var neighbors = astar.get_point_connections(close_astar_id)
+        if neighbors.size() >= how_many:
+          var final_positions = [closest_cell]
+          for index in how_many:
+            final_positions.push_back(lookup_cell(neighbors[index]))
+
+          return final_positions
+
+  assert(false, "Failed to find a good start position")
+  return []

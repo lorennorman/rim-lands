@@ -17,6 +17,11 @@
 - [ ] speeds +|++|+++
 
 
+## Inputs
+- [ ] make custom input map
+- [ ] fix pause, main menu, camera control ui
+
+
 ## Areas
 - [ ] farmland
 - [ ] stockpile
@@ -41,27 +46,23 @@
 
 
 ## GameState & Scenarios
-- [ ] Interactive New Game
-  - scenario builder: operates game state
-  - steps:
-    - [.] terrain
-      - [.] stabilize 3 terrain styles
-      - [x] expose user settings
-      - [x] fast preview
-    - [.] auto-place default pawns and go
-      - [.] try in the thirds of the map
-      - [.] query closest astar node
-      - make sure can route to road
-    - all stuff on the map
-      - pawns, buildings, items
-      - fiddle with inputs
-      - fast 3d preview
-      - click terrain to easily place
-      - common builder interface
-    - environment
-      - time of day
-      - calendar date
-      - weather conditions
+- [ ] New Game Steps:
+  - [x] terrain setup
+  - [.] generate 3 archetypal pawns
+  - [.] auto-place pawns for any map
+    - [.] try in the thirds of the map
+    - [.] query closest astar node
+  - roads
+  - all stuff on the map
+    - pawns, buildings, items
+    - fiddle with inputs
+    - fast 3d preview
+    - click terrain to easily place
+    - common builder interface
+  - environment
+    - time of day
+    - calendar date
+    - weather conditions
 - [ ] observable resource generation utils
   - use a common query/update pattern
   - all updates signal with delta information

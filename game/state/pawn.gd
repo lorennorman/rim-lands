@@ -47,6 +47,7 @@ var current_job: Job
 
 func is_busy(): return !!current_job
 
+
 signal updated
 signal job_cooldown
 func _set_map_cell(cell):
@@ -56,9 +57,15 @@ func _set_map_cell(cell):
 
   start_job_cooldown(self.move_speed)
 
+
+func _init(mass_assignments: Dictionary = {}):
+  Util.mass_assign(self, mass_assignments)
+
+
 func applied_build_speed():
   start_job_cooldown(.5)
   return build_speed
+
 
 func start_job_cooldown(time):
   # Job Cooldown
@@ -73,6 +80,7 @@ func start_job_cooldown(time):
   yield(job_timer, "timeout")
   on_cooldown = false
   self.emit_signal("job_cooldown")
+
 
 func default_stats_by_race():
   match race:
@@ -101,11 +109,9 @@ func get_item(item_type: int):
 
 func add_item(item_to_add):
   assert(not items.has(item_to_add.type), "Pawn.add_item was called but Pawn already has item: %s" % item_to_add.type)
-
   items[item_to_add.type] = item_to_add
 
 
 func remove_item(item_to_remove):
   assert(items.has(item_to_remove.type), "Pawn was asked to remove an Item it didn't have: %s" % item_to_remove)
-
   items.erase(item_to_remove.type)

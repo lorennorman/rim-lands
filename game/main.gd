@@ -31,9 +31,19 @@ func new_game(map_grid):
   self.simulator_state = "loading"
   clear_running_game_state()
   yield(get_tree(), "idle_frame") # superstition
+
   var new_game_state = GameState.new()
-  # run content resolver
   new_game_state.map_grid = map_grid
+
+  # get the default pawn trio
+  var pawns = Factory.Pawns.default_pawns()
+  # find a good place for them on the map
+  var start_locations = map_grid.find_good_starting_positions(pawns.size())
+  # add them
+  for index in pawns.size():
+    pawns[index].location = start_locations[index].location
+    new_game_state.add_pawn(pawns[index])
+
   start_running_game_state(new_game_state)
 
 func clear_running_game_state():
