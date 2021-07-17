@@ -15,6 +15,7 @@ func _ready():
   $MapTerrain.input_camera = $Camera
 
   Events.connect("new_world_requested", self, "new_world")
+  Events.connect("new_game_requested", self, "new_game")
   Events.connect("load_world_requested", self, "load_world")
   Events.connect("save_world_requested", self, "save_world")
   Events.connect("pause_requested", self, "pause_requested")
@@ -25,6 +26,15 @@ func _ready():
   # Tests:
   # test_core_pawn_item_haul_build()
 
+
+func new_game(map_grid):
+  self.simulator_state = "loading"
+  clear_running_game_state()
+  yield(get_tree(), "idle_frame") # superstition
+  var new_game_state = GameState.new()
+  # run content resolver
+  new_game_state.map_grid = map_grid
+  start_running_game_state(new_game_state)
 
 func clear_running_game_state():
   $MapTerrain.input_state = "paused"
@@ -71,6 +81,7 @@ func load_world(game_state_file="res://savegames/savegame.tres"):
 
   # TODO: filesystem safety concerns? directory locking?
   var loaded_game_state = ResourceLoader.load(game_state_file, "Resource", false)
+
   # from experience: we should not edit the GameState that is loaded, directly
   # else we suffer from inability to unload/reload resources (might be a bug)
   # instead we'll new up a GameState and duplicate the sub-resources

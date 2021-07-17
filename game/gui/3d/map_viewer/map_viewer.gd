@@ -120,4 +120,8 @@ func noise_scale_changed(new_scale: float):
 
 
 func start_game_pressed():
-  print("starting new game")
+  var map_terrain = viewport.get_node_or_null("MapTerrain")
+  if map_terrain:
+    map_terrain.queue_free()
+
+  Events.emit_signal("new_game_requested", map_grid)

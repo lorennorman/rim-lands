@@ -55,9 +55,14 @@ func new_game_clicked():
   main_menu.visible = false
   var new_map_grid = MapGrid.new()
   new_map_grid.terrain_style = "Core's Edge"
+  ensure_map_viewer()
   map_viewer.map_grid = new_map_grid
   new_menu.popup()
 
+
+func ensure_map_viewer():
+  if map_viewer == null:
+    map_viewer = MapViewer.instance()
 
 func load_scenario_clicked():
   main_menu.visible = false
