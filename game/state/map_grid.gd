@@ -26,7 +26,7 @@ const terrain_style_lookup = {
     "curve": preload("res://game/terrain/res/cores_edge_elevation_curve.tres"),
     "height": 35,
     "scale": 1.25,
-    "navigable_range": [0.3, 0.36],
+    "navigable_range": [0.32, 0.335],
   },
   "The Rim Eternal": {
     "gradient": preload("res://game/terrain/res/rim_eternal_color_gradient.tres"),

@@ -42,7 +42,8 @@ func new_game(map_grid):
   # add them
   for index in pawns.size():
     pawns[index].location = start_locations[index].location
-    new_game_state.add_pawn(pawns[index])
+
+  new_game_state.pawns = pawns
 
   start_running_game_state(new_game_state)
 
