@@ -36,28 +36,24 @@ func cell_left_clicked(cell):
   # new cell clicked
   if selected_cell != cell:
     selected_cell = cell
-
     Events.emit_signal("selected_cell_updated", cell)
 
-    # select next entity: pawn, feature, terrain
-    selected_entity = selected_cell.pawn
-    if not selected_entity:
-      selected_entity = selected_cell.feature
-
-    if not selected_entity:
-      selected_entity = selected_cell.terrain
-
-  # already-selected cell clicked again
-  else:
-    if selected_entity is Color:
-      return
-
-    if selected_entity == selected_cell.pawn and selected_cell.feature:
-      selected_entity = selected_cell.feature
-    else:
-      selected_entity = selected_cell.terrain
-
+  selected_entity = next_selectable_entity(cell, selected_entity)
   Events.emit_signal("selected_entity_updated", selected_entity)
+
+
+func next_selectable_entity(cell, current_selection):
+  var entities = []
+  if cell.pawn: entities.push_back(cell.pawn)
+  if cell.feature: entities.push_back(cell.feature)
+  entities.push_back(cell.terrain)
+
+  if not current_selection or current_selection is Color:
+    return entities[0]
+  elif current_selection == cell.pawn:
+    return entities[1]
+  elif current_selection == cell.feature:
+    return entities[-1]
 
 
 func cell_right_clicked(_cell):

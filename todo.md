@@ -47,11 +47,6 @@
 
 ## GameState & Scenarios
 - [ ] New Game Steps:
-  - [x] terrain setup
-  - [.] generate 3 archetypal pawns
-  - [.] auto-place pawns for any map
-    - [.] try in the thirds of the map
-    - [.] query closest astar node
   - roads
   - all stuff on the map
     - pawns, buildings, items
@@ -75,6 +70,7 @@
 
 
 ## Bugs/Refactors
+- [.] fix pawns not added to cells
 - [ ] node for ray cast
 
 
@@ -95,6 +91,10 @@
 
 
 # Done:
+- [x] New Game:
+  - [x] terrain setup
+  - [x] auto-generate pawn trio
+  - [x] auto-placement of pawns
 - [x] MapGridViewer for fast terrain tinkering
 - [x] create The Three Rims:
   - [x] core's edge
