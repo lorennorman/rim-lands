@@ -57,10 +57,12 @@ var astar: AStar
 # Triply-Indexed Collection of MapCells
 var omni_dict: Dictionary
 
-var torndown := false
+var torn_down := false
+var built_up := false
 
 
 func generate_cells():
+  if built_up: return
   if not terrain_elevation_curve or not terrain_gradient:
     self.terrain_style = "Core's Edge"
   astar = AStar.new()
@@ -89,7 +91,8 @@ func generate_cells():
       # color_map.set_pixel(x, z, color)
 
       add_map_grid_cell(x, z, height, color)
-
+  built_up = true
+  torn_down = false
 
 func add_map_grid_cell(x, z, height, color):
   # calculate exact 3d position
@@ -127,8 +130,8 @@ func color_from_noise(_x, _z, noise_value):
 
 
 func lookup_cell(omni_id):
-  if torndown:
-    printerr("lookup_cell called after torndown at: %s" % omni_id)
+  if torn_down:
+    printerr("lookup_cell called after torn_down at: %s" % omni_id)
     return MapCell.new()
 
   assert(omni_dict.has(omni_id), "Omni Dict doesn't have ID: '%s'" % omni_id)
@@ -220,7 +223,8 @@ func get_move_path(from_key, to_key):
 
 
 func teardown():
-  torndown = true
+  torn_down = true
+  built_up = false
   omni_dict.clear() # clear the map cells
   astar.clear() # clear the astar network
 

@@ -36,6 +36,7 @@ func cell_left_clicked(cell):
   # new cell clicked
   if selected_cell != cell:
     selected_cell = cell
+    selected_entity = null
     Events.emit_signal("selected_cell_updated", cell)
 
   selected_entity = next_selectable_entity(cell, selected_entity)
