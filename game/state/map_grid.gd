@@ -244,5 +244,5 @@ func find_good_starting_positions(how_many) -> Array:
 
           return final_positions
 
-  assert(false, "Failed to find a good start position")
+  assert(false, "Failed to find a good start position. Style: %s, Seed: %s" % [terrain_style, noise_seed])
   return []
