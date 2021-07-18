@@ -9,6 +9,7 @@ script = ExtResource( 2 )
 scale_grid_to_noise = 1.25
 terrain_style = "Core's Edge"
 terrain_height_max = 35.0
+navigable_range = [  ]
 map_size = 65
 noise_seed = 5
 

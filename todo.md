@@ -9,6 +9,7 @@
 
 ## Save/Load/Popover UI/File System
 - [ ] bug: building errors after load/new
+- [ ] bug: jobs/sub-jobs addition on buildup
 - [ ] autosave, quicksave, hotkeys
 
 
@@ -66,11 +67,11 @@
 
 
 ## GUI
+- [ ] experiment with 9-patch rects
 - [ ] make UI big (theme?), easy to splash around and get things done
 
 
 ## Bugs/Refactors
-- [.] fix pawns not added to cells
 - [ ] node for ray cast
 
 

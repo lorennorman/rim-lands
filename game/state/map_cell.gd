@@ -7,7 +7,7 @@ signal pathing_updated(astar_id, pathable)
 var map_grid
 
 var position: Vector3
-var disabled: bool
+var disabled: bool = false
 var astar_id: int
 var location: String
 var x setget , get_x
@@ -28,7 +28,9 @@ func set_feature(new_feature):
 var terrain
 
 func update_pathing():
-  emit_signal("pathing_updated", astar_id, (not pawn and not (feature is Building)))
+  # no pawns or buildings
+  var navigable = not pawn and not (feature is Building)
+  emit_signal("pathing_updated", astar_id, navigable)
 
 func can_take_job(job_to_take):
   if job_to_take.job_type == Enums.Jobs.BUILD:

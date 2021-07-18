@@ -17,28 +17,20 @@ var _jc = Events.connect("job_completed", self, "complete_job")
 ## use these to choose when to "turn the state on/off"
 func buildup():
   # remake ephemeral connections
-  # rebuild map and put resources on it
+  # rebuild map
   map_grid.generate_cells()
-  for pawn in pawns:
-    map_grid.set_pawn(pawn.location, pawn)
 
-  for job in jobs:
-    job.map_cell = map_grid.lookup_cell(job.location)
-
-  for building in buildings:
-    var cell = map_grid.lookup_cell(building.location)
-    building.map_cell = cell
-    cell.feature = building
+  # build everybody up
+  for pawn in pawns: buildup_pawn(pawn)
+  for item in items: buildup_item(item)
+  for job in jobs: buildup_job(job)
+  for building in buildings: buildup_building(building)
 
   # signal for all existing resources
-  for pawn in pawns:
-    Events.emit_signal("pawn_added", pawn)
-
-  for job in jobs:
-    Events.emit_signal("job_added", job)
-
-  for building in buildings:
-    Events.emit_signal("building_added", building)
+  for pawn in pawns: Events.emit_signal("pawn_added", pawn)
+  for item in items: Events.emit_signal("item_added", item)
+  for job in jobs: Events.emit_signal("job_added", job)
+  for building in buildings: Events.emit_signal("building_added", building)
 
 
 func teardown():
@@ -55,12 +47,15 @@ func teardown():
 
 ## Pawns
 func add_pawn(pawn: Pawn):
-  assert(map_grid, "Map must be set before Pawns can be added")
-  assert(pawn.location, "Pawn must have a location to be added to the game")
   pawns.push_back(pawn)
-  map_grid.set_pawn(pawn.location, pawn)
+  buildup_pawn(pawn)
   Events.emit_signal("pawn_added", pawn)
 
+
+func buildup_pawn(pawn):
+  assert(map_grid, "Map must be set before Pawns can be added")
+  assert(pawn.location, "Pawn must have a location to be added to the game")
+  map_grid.set_pawn(pawn.location, pawn)
 
 func destroy_pawn(pawn, erase=true):
   if erase: pawns.erase(pawn)
@@ -71,22 +66,28 @@ func destroy_pawn(pawn, erase=true):
 
 ## Jobs
 func add_job(job: Job):
+  buildup_job(job)
+  jobs.push_back(job)
+  Events.emit_signal("job_added", job)
+
+
+func buildup_job(job):
   assert(map_grid, "Map must be set before Jobs can be added")
   var cell = map_grid.lookup_cell(job.location)
-  if cell.can_take_job(job):
-    job.map_cell = cell
-    if not (job.parent and job.map_cell == job.parent.map_cell):
-      cell.feature = job
-    Events.emit_signal("job_added", job)
+  assert(cell.can_take_job(job), "Attempted to assign job to ineligible cell: %s -> %s" % [job, cell])
 
-    if not job.can_be_completed():
-      for sub_job in job.sub_jobs:
-        add_job(sub_job)
+  job.map_cell = cell
+  # unless i have a parent and they occupy this cell...
+  if not (job.parent and job.map_cell == job.parent.map_cell):
+    # ...i occupy this cell
+    cell.feature = job
 
-    jobs.push_back(job)
-
-  else:
-    printerr("Attempted to assign job to ineligible cell: %s -> %s" % [job, cell])
+  # FIXME: nested add_job for sub-jobs, something isn't right here
+  #   won't the subjobs get saved/loaded normally, and thus not need the
+  #   parent job to add them?
+  if not job.can_be_completed():
+    for sub_job in job.sub_jobs:
+      add_job(sub_job)
 
 
 func complete_job(job, erase=true):
@@ -105,15 +106,23 @@ func complete_job(job, erase=true):
 ## Buildings
 func add_building(building):
   buildings.push_back(building)
+  buildup_building(building)
+  Events.emit_signal("building_added", building)
+
+
+func buildup_building(building):
   var cell = map_grid.lookup_cell(building.location)
   building.map_cell = cell
   cell.feature = building
-  Events.emit_signal("building_added", building)
-
 
 ## Items
 func add_item(item):
   items.push_back(item)
+  buildup_item(item)
+  Events.emit_signal("item_added", item)
+
+
+func buildup_item(item):
   if item.owner is String:
     var cell = map_grid.lookup_cell(item.location)
     item.map_cell = cell
@@ -122,8 +131,6 @@ func add_item(item):
     item.owner.add_item(item)
   elif item.owner is Job:
     item.owner.add_item(item)
-
-  Events.emit_signal("item_added", item)
 
 
 func destroy_item(item):

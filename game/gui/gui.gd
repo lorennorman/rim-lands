@@ -12,6 +12,10 @@ func _ready():
 
 
 func hovered_cell_updated(cell):
+  var disabled = game_state.map_grid.astar.is_point_disabled(cell.astar_id)
+  var astar_text = "AStar: [%s] %d" % ['X' if disabled else '  ', cell.astar_id]
+  $Menus/Left/VBoxContainer/AStarHoverLabel.text = astar_text
+
   var pawn_name = cell.pawn.character_name if cell.pawn else ""
   $Menus/Left/VBoxContainer/PawnHoverLabel.text = "Pawn: %s" % pawn_name
 
@@ -20,6 +24,9 @@ func hovered_cell_updated(cell):
 
   var color = cell.terrain if cell.terrain else Color(0)
   $Menus/Left/VBoxContainer/TerrainHoverLabel/ColorRect.color = color
+
+  var location_text = cell.location
+  $Menus/Left/VBoxContainer/LocationHoverLabel.text = "Location: %s" % location_text
 
 
 func selected_entity_updated(entity):

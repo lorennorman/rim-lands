@@ -26,21 +26,21 @@ const terrain_style_lookup = {
     "curve": preload("res://game/terrain/res/cores_edge_elevation_curve.tres"),
     "height": 35,
     "scale": 1.25,
-    "navigable_range": [0.32, 0.335],
+    "navigable_range": [0.308, 0.312],
   },
   "The Rim Eternal": {
     "gradient": preload("res://game/terrain/res/rim_eternal_color_gradient.tres"),
     "curve": preload("res://game/terrain/res/rim_eternal_elevation_curve.tres"),
     "height": 30,
     "scale": 1.75,
-    "navigable_range": [0.48, 0.52],
+    "navigable_range": [0.498, 0.502],
   },
   "The Voidlands": {
     "gradient": preload("res://game/terrain/res/voidlands_color_gradient.tres"),
     "curve": preload("res://game/terrain/res/voidlands_elevation_curve.tres"),
     "height": 40,
     "scale": 2.2,
-    "navigable_range": [0.45, 0.51],
+    "navigable_range": [0.498, 0.502],
   },
 }
 
@@ -63,7 +63,7 @@ var built_up := false
 
 func generate_cells():
   if built_up: return
-  if not terrain_elevation_curve or not terrain_gradient:
+  if not terrain_elevation_curve or not terrain_gradient or not navigable_range:
     self.terrain_style = "Core's Edge"
   astar = AStar.new()
   astar.reserve_space(map_size * map_size)
@@ -111,7 +111,8 @@ func is_navigable(height: float):
   # calculate navigability
   var lowest_navigable_height = navigable_range[0] * terrain_height_max
   var highest_navigable_height = navigable_range[1] * terrain_height_max
-  return (height > lowest_navigable_height) and (height < highest_navigable_height)
+  var navigable = (height > lowest_navigable_height) and (height < highest_navigable_height)
+  return navigable
 
 func height_from_noise(_x, _z, noise_value):
   # Simple: amplify noise value to a maximum
