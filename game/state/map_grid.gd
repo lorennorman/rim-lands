@@ -61,8 +61,8 @@ var torn_down := false
 var built_up := false
 
 
-func generate_cells():
-  if built_up: return
+func generate_cells(force = false):
+  if built_up and not force: return
   if not terrain_elevation_curve or not terrain_gradient or not navigable_range:
     self.terrain_style = "Core's Edge"
   astar = AStar.new()

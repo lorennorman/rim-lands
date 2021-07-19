@@ -225,4 +225,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[connection signal="pressed" from="SettingsGrid/CancelButton" to="." method="cancel_pressed"]
 [connection signal="pressed" from="SettingsGrid/StartGameButton" to="." method="start_game_pressed"]

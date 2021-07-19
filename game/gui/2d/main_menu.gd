@@ -63,6 +63,10 @@ func new_game_clicked():
 func ensure_map_viewer():
   if map_viewer == null:
     map_viewer = MapViewer.instance()
+    new_menu.get_node("CenterContainer").add_child(map_viewer)
+    map_viewer.owner = new_menu
+    map_viewer.connect("close_window", new_menu, "hide")
+
 
 func load_scenario_clicked():
   main_menu.visible = false

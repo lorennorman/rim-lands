@@ -69,7 +69,7 @@ func set_map_grid_on_map_terrain():
     viewport.add_child(map_terrain)
     map_terrain.owner = viewport
 
-  map_grid.generate_cells()
+  map_grid.generate_cells(true)
   map_terrain.map_grid = map_grid
 
 
@@ -119,9 +119,19 @@ func noise_scale_changed(new_scale: float):
   set_map_grid_on_map_terrain()
 
 
+signal close_window
 func start_game_pressed():
+  cleanup_and_close()
+  Events.emit_signal("new_game_requested", map_grid)
+
+
+func cancel_pressed():
+  cleanup_and_close()
+
+
+func cleanup_and_close():
   var map_terrain = viewport.get_node_or_null("MapTerrain")
   if map_terrain:
     map_terrain.queue_free()
 
-  Events.emit_signal("new_game_requested", map_grid)
+  emit_signal("close_window")
