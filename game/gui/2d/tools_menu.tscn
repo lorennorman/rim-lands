@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://game/gui/2d/tools_menu.gd" type="Script" id=1]
+[ext_resource path="res://game/gui/2d/girassol_font.tres" type="DynamicFont" id=2]
+
+[node name="ToolsMenu" type="GridContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 178.0
+margin_bottom = 147.0
+columns = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BuildButton" type="MenuButton" parent="."]
+margin_right = 82.0
+margin_bottom = 45.0
+focus_mode = 2
+custom_fonts/font = ExtResource( 2 )
+text = "Build"
+flat = false
+items = [ "Wall", null, 0, false, false, 0, 0, null, "", false, "Door", null, 0, false, false, 1, 0, null, "", false ]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChopButton" type="Button" parent="."]
+margin_left = 86.0
+margin_right = 172.0
+margin_bottom = 45.0
+custom_fonts/font = ExtResource( 2 )
+text = "Chop"
+
+[node name="Button6" type="Button" parent="."]
+margin_top = 49.0
+margin_right = 82.0
+margin_bottom = 94.0
+custom_fonts/font = ExtResource( 2 )
+text = "Sow"
+
+[node name="Button7" type="Button" parent="."]
+margin_left = 86.0
+margin_top = 49.0
+margin_right = 172.0
+margin_bottom = 94.0
+custom_fonts/font = ExtResource( 2 )
+text = "Reap"
+
+[node name="Button8" type="Button" parent="."]
+margin_top = 98.0
+margin_right = 82.0
+margin_bottom = 143.0
+custom_fonts/font = ExtResource( 2 )
+text = "Mine"
+
+[node name="Button9" type="Button" parent="."]
+margin_left = 86.0
+margin_top = 98.0
+margin_right = 172.0
+margin_bottom = 143.0
+custom_fonts/font = ExtResource( 2 )
+text = "Forge"
+
+[connection signal="pressed" from="ChopButton" to="." method="chop_pressed"]

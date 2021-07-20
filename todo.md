@@ -85,9 +85,11 @@
 
 ## Generators
 - [.] make basic insta-jobs
-  - chop->build, mine->forge, plant->harvest
+  - [.] chop->build
+  - [ ] mine->forge
+  - [ ] plant->harvest
   - produce items needed by later stage job
-  - prototype complex tech/crafting trees
+  - rapid prototype complex tech/crafting trees
 - [ ] roadgen algorithm
 - [ ] blow out skills, stat-skill formulas for job proficiency
 - [ ] blow out item types
