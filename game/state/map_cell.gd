@@ -33,8 +33,9 @@ func update_pathing():
   emit_signal("pathing_updated", astar_id, navigable)
 
 func can_take_job(job_to_take):
-  if job_to_take.job_type == Enums.Jobs.BUILD:
-    return !feature
+  if job_to_take.job_type == Enums.Jobs.BUILD and feature is Job:
+      if feature != job_to_take.parent:
+        return false
 
   return true
 

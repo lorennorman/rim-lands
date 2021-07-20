@@ -53,7 +53,8 @@ export(int) var noise_seed = 2
 
 ## Things only used while the map is active/running the game
 # Pathfinding Network
-var astar: AStar
+var astar: AStar = AStar.new()
+
 # Triply-Indexed Collection of MapCells
 var omni_dict: Dictionary
 
@@ -65,8 +66,9 @@ func generate_cells(force = false):
   if built_up and not force: return
   if not terrain_elevation_curve or not terrain_gradient or not navigable_range:
     self.terrain_style = "Core's Edge"
-  astar = AStar.new()
-  astar.reserve_space(map_size * map_size)
+
+  if astar:
+    astar.reserve_space(map_size * map_size)
 
   omni_dict = {}
 
@@ -94,18 +96,6 @@ func generate_cells(force = false):
   built_up = true
   torn_down = false
 
-func add_map_grid_cell(x, z, height, color):
-  # calculate exact 3d position
-  var average_height
-  if x == 0 or z == 0:
-    average_height = height
-  else:
-    var old_height = lookup_cell("%d,%d" % [x-1, z-1]).position.y #height_map.get_pixel(x-1, z-1).r
-    average_height = (height + old_height) / 2
-  var position = Vector3((x+0.5), average_height, (z+0.5))
-
-  add_map_cell(position, x, z, color, !is_navigable(height))
-
 
 func is_navigable(height: float):
   # calculate navigability
@@ -113,6 +103,7 @@ func is_navigable(height: float):
   var highest_navigable_height = navigable_range[1] * terrain_height_max
   var navigable = (height > lowest_navigable_height) and (height < highest_navigable_height)
   return navigable
+
 
 func height_from_noise(_x, _z, noise_value):
   # Simple: amplify noise value to a maximum
@@ -157,15 +148,23 @@ func set_pawn(location: String, pawn: Pawn, force=false):
   return true
 
 
-func add_map_cell(position, x, z, terrain, disabled=false):
+func add_map_grid_cell(x, z, height, color):
+  # Our new cell
   var map_cell = MapCell.new()
-
-  # Supply the map to query
+  # The MapGrid we're a part of, so we can lookup neighbors, etc
   map_cell.map_grid = self
-
   # Apply the terrain
-  map_cell.terrain = terrain
-  map_cell.disabled = disabled
+  map_cell.terrain = color
+
+  # Calculate 3D position, mapping us to the terrain, averaging between points
+  var average_height
+  if x == 0 or z == 0:
+    average_height = height
+  else:
+    var old_height = lookup_cell("%d,%d" % [x-1, z-1]).position.y #height_map.get_pixel(x-1, z-1).r
+    average_height = (height + old_height) / 2
+
+  var position = Vector3((x+0.5), average_height, (z+0.5))
 
   # Store and index position
   map_cell.position = position
@@ -176,18 +175,21 @@ func add_map_cell(position, x, z, terrain, disabled=false):
   map_cell.location = location_key
   set_cell(location_key, map_cell)
 
-  # Generate astar id and connect to the pathfinding grid
-  var astar_id = astar.get_available_point_id()
-  astar.add_point(astar_id, position)
-  add_astar_connections(astar_id, x, z)
-  if map_cell.disabled:
-    astar.set_point_disabled(astar_id, true)
+  if astar:
+    map_cell.disabled = !is_navigable(height)
 
-  # Store and index astar id
-  map_cell.astar_id = astar_id
-  set_cell(astar_id, map_cell)
+    # Generate astar id and connect to the pathfinding grid
+    var astar_id = astar.get_available_point_id()
+    astar.add_point(astar_id, position)
+    add_astar_connections(astar_id, x, z)
+    if map_cell.disabled:
+      astar.set_point_disabled(astar_id, true)
 
-  map_cell.connect("pathing_updated", self, "pathing_updated")
+    # Store and index astar id
+    map_cell.astar_id = astar_id
+    set_cell(astar_id, map_cell)
+
+    map_cell.connect("pathing_updated", self, "pathing_updated")
 
 
 func pathing_updated(astar_id: int, pathable: bool):
@@ -218,6 +220,7 @@ func add_astar_connection(astar_id, location_key):
 
 
 func get_move_path(from_key, to_key):
+  assert(astar, "AStar operation called: get_move_path(%s, %s)" % [from_key, to_key])
   var from_id = lookup_cell(from_key).astar_id if from_key is String else from_key.astar_id
   var to_id = lookup_cell(to_key).astar_id if to_key is String else to_key.astar_id
   return astar.get_point_path(from_id, to_id)
@@ -227,10 +230,12 @@ func teardown():
   torn_down = true
   built_up = false
   omni_dict.clear() # clear the map cells
-  astar.clear() # clear the astar network
+  if astar: astar.clear() # clear the astar network
 
 
 func find_good_starting_positions(how_many) -> Array:
+  # assert(astar, "AStar operation called: find_good_starting_positions(%s)" % [how_many])
+
   var third = map_size/3
   # try each third of the map
   for x_third in [third, third*2]:

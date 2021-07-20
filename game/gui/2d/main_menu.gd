@@ -54,6 +54,7 @@ func pause_and_popup():
 func new_game_clicked():
   main_menu.visible = false
   var new_map_grid = MapGrid.new()
+  new_map_grid.astar = null # initializes faster without the pathfinding network
   new_map_grid.terrain_style = "Core's Edge"
   ensure_map_viewer()
   map_viewer.map_grid = new_map_grid

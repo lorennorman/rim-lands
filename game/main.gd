@@ -35,17 +35,19 @@ func new_game(map_grid):
   var new_game_state = GameState.new()
   new_game_state.map_grid = map_grid
 
+  start_running_game_state(new_game_state)
+
   # get the default pawn trio
   var pawns = Factory.Pawns.default_pawns()
   # find a good place for them on the map
+  # TODO: have to add pawns AFTER game is loaded because map_grid.astar is used here
+  #   support lazily-resolved locations for pawns items and buildings
   var start_locations = map_grid.find_good_starting_positions(pawns.size())
   # add them
   for index in pawns.size():
     pawns[index].location = start_locations[index].location
+    new_game_state.add_pawn(pawns[index])
 
-  new_game_state.pawns = pawns
-
-  start_running_game_state(new_game_state)
 
 func clear_running_game_state():
   $MapTerrain.input_state = "paused"

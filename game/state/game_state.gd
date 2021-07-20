@@ -18,7 +18,8 @@ var _jc = Events.connect("job_completed", self, "complete_job")
 func buildup():
   # remake ephemeral connections
   # rebuild map
-  map_grid.generate_cells()
+  map_grid.astar = AStar.new()
+  map_grid.generate_cells(true)
 
   # build everybody up
   for pawn in pawns: buildup_pawn(pawn)
@@ -74,7 +75,8 @@ func add_job(job: Job):
 func buildup_job(job):
   assert(map_grid, "Map must be set before Jobs can be added")
   var cell = map_grid.lookup_cell(job.location)
-  assert(cell.can_take_job(job), "Attempted to assign job to ineligible cell: %s -> %s" % [job, cell])
+  if not cell.can_take_job(job):
+    printerr("Attempted to assign job to ineligible cell: %s -> %s" % [job, cell])
 
   job.map_cell = cell
   # unless i have a parent and they occupy this cell...
