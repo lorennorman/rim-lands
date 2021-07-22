@@ -3,7 +3,7 @@ extends Object
 class_name Enums
 
 # GUI
-enum Mode { SELECT, BUILD, CHOP }
+const Mode = { SELECT="Select", BUILD="Build", CHOP="Chop" }
 
 # PAWNS
 enum Race { DWARF, ELF, HUMAN, ORC, VOIDBORN }

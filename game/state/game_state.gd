@@ -58,6 +58,7 @@ func buildup_pawn(pawn):
   assert(pawn.location, "Pawn must have a location to be added to the game")
   map_grid.set_pawn(pawn.location, pawn)
 
+
 func destroy_pawn(pawn, erase=true):
   if erase: pawns.erase(pawn)
   pawn.removed = true
@@ -116,6 +117,7 @@ func buildup_building(building):
   var cell = map_grid.lookup_cell(building.location)
   building.map_cell = cell
   cell.feature = building
+
 
 ## Items
 func add_item(item):

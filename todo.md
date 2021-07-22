@@ -33,6 +33,15 @@
 - [ ] simple food
 
 
+## Jobs
+- [.] insta-jobs:
+  - [.] chop->build
+  - [ ] mine->forge
+  - [ ] plant->harvest
+  - produce items needed by later stage job
+  - rapid prototype complex tech/crafting trees
+
+
 ## Building: "give them blueprints"
 - [ ] show 1-cell build preview before dragging
 - [ ] build doors
@@ -84,12 +93,6 @@
 
 
 ## Generators
-- [.] make basic insta-jobs
-  - [.] chop->build
-  - [ ] mine->forge
-  - [ ] plant->harvest
-  - produce items needed by later stage job
-  - rapid prototype complex tech/crafting trees
 - [ ] roadgen algorithm
 - [ ] blow out skills, stat-skill formulas for job proficiency
 - [ ] blow out item types
