@@ -29,7 +29,9 @@ signal right_drag_ended()
 signal selected_cell_updated
 signal selected_entity_updated
 signal hovered_cell_updated
+signal dragged_cell_started
 signal dragged_cell_updated
+signal dragged_cell_ended
 
 # Simulation/GameState Change Events
 signal set_mode(mode_options)

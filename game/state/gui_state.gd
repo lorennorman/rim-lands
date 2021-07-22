@@ -6,7 +6,7 @@ func _init():
   Events.connect("set_mode", self, "set_mode")
 
 
-var mode
+var mode setget set_mode
 # signal mode_updated
 func set_mode(mode_params):
   mode = mode_params.mode

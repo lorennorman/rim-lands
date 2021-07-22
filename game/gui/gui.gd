@@ -15,13 +15,11 @@ func _ready():
   Events.connect("hovered_cell_updated", self, "hovered_cell_updated")
   Events.connect("selected_entity_updated", self, "selected_entity_updated")
   Events.connect("dragged_cell_updated", self, "dragged_cell_updated")
-  Events.connect("left_drag_started", self, "left_drag_started")
-  Events.connect("left_drag_ended", self, "left_drag_ended")
+  Events.connect("dragged_cell_started", self, "dragged_cell_started")
+  Events.connect("dragged_cell_ended", self, "dragged_cell_ended")
 
 
-var last_hovered_cell
 func hovered_cell_updated(cell):
-  last_hovered_cell = cell
   var disabled = game_state.map_grid.astar.is_point_disabled(cell.astar_id)
   var astar_text = "AStar: [%s] %d" % ['X' if disabled else '  ', cell.astar_id]
   $Menus/Left/VBoxContainer/AStarHoverLabel.text = astar_text
@@ -87,7 +85,6 @@ func cell_right_clicked(cell):
 
 
 var mode_controller: ModeController
-var draggable_origin: MapCell
 var mode_controllers = {
   Enums.Mode.SELECT: SelectModeController,
   Enums.Mode.BUILD: BuildModeController,
@@ -99,25 +96,22 @@ func mode_updated(mode_params):
   mode_controller = mode_controllers[mode_params.mode].new(game_state)
 
 
-func dragged_cell_updated(cell: MapCell):
+func dragged_cell_updated(origin_cell: MapCell, dragged_to_cell: MapCell):
   if not mode_controller: return
   mode_controller.remove_job_markers()
-  if not draggable_origin: draggable_origin = cell
 
-  if draggable_origin and cell:
-    for marker in mode_controller.get_job_markers_between(draggable_origin, cell):
+  if origin_cell and dragged_to_cell:
+    for marker in mode_controller.get_job_markers_between(origin_cell, dragged_to_cell):
       add_child(marker)
 
 
-func left_drag_ended():
+func dragged_cell_ended():
   if not mode_controller: return
-  draggable_origin = null
   mode_controller.execute()
 
 
-func left_drag_started():
+func dragged_cell_started():
   if not mode_controller: return
-  draggable_origin = last_hovered_cell
 
 
 class ModeController:
@@ -131,7 +125,8 @@ class ModeController:
 
 
   func cell_right_clicked(_cell):
-    printerr("%s Didn't implement cell_right_clicked" % self)
+    # by default let right click bail out to the basic selection state
+    game_state.gui_state.mode = { "mode": Enums.Mode.SELECT }
 
 
   func execute():
@@ -153,8 +148,10 @@ class SelectModeController:
   var selected_cell: MapCell
   var selected_entity
 
-  func _init().(null): pass
+  func _init(game_state=null).(game_state): pass
 
+
+  func cell_right_clicked(_cell): pass
 
   func cell_left_clicked(cell):
     if selected_cell != cell:
@@ -267,10 +264,6 @@ class ChopModeController:
 
 
   func cell_left_clicked(_cell):
-    print("TODO")
-
-
-  func cell_right_clicked(_cell):
     print("TODO")
 
 
