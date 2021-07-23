@@ -20,11 +20,11 @@ func _ready():
   Events.connect("save_world_requested", self, "save_world")
   Events.connect("pause_requested", self, "pause_requested")
 
-  # new_world()
+  new_world()
   # load_world("res://scenarios/medium_party_busy.tres")
 
   # Tests:
-  test_core_pawn_item_haul_build()
+  # test_core_pawn_item_haul_build()
 
 
 func new_game(map_grid):

@@ -1,13 +1,14 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://game/main.gd" type="Script" id=1]
 [ext_resource path="res://game/camera/camera_control.gd" type="Script" id=2]
 [ext_resource path="res://game/gui/2d/right_menu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://game/buildings/building_boss.gd" type="Script" id=4]
 [ext_resource path="res://game/gui/2d/main_menu.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/gui/3d/jobs/job_icon.tscn" type="PackedScene" id=7]
 [ext_resource path="res://game/gui/gui.gd" type="Script" id=9]
 [ext_resource path="res://game/timers.gd" type="Script" id=10]
-[ext_resource path="res://game/gui/3d/job_markers.gd" type="Script" id=11]
+[ext_resource path="res://game/gui/3d/jobs/job_markers.gd" type="Script" id=11]
 [ext_resource path="res://game/terrain/map_terrain.tscn" type="PackedScene" id=12]
 [ext_resource path="res://game/environment/main_environment.tres" type="Environment" id=13]
 [ext_resource path="res://game/buildings/building_model.tscn" type="PackedScene" id=14]
@@ -205,6 +206,7 @@ mesh = SubResource( 4 )
 material/0 = null
 
 [node name="JobMarkers" type="Spatial" parent="GUI"]
+visible = false
 script = ExtResource( 11 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -246,7 +248,8 @@ script = ExtResource( 4 )
 scene_to_instance = ExtResource( 14 )
 resource_to_observe = "building"
 
-[node name="Jobs" type="Spatial" parent="."]
-pause_mode = 1
+[node name="JobBoss" parent="." instance=ExtResource( 20 )]
+scene_to_instance = ExtResource( 7 )
+resource_to_observe = "job"
 
 [node name="MapTerrain" parent="." instance=ExtResource( 12 )]

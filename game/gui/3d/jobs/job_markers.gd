@@ -1,6 +1,6 @@
 extends Spatial
 
-const JobMarker = preload("res://game/gui/3d/job_marker.tscn")
+const JobMarker = preload("res://game/gui/3d/jobs/job_marker.tscn")
 
 var job_markers = {}
 
@@ -15,6 +15,7 @@ func _on_job_added(job):
   job_marker.job = job
   job_markers[job.key] = job_marker
   add_child(job_marker)
+  # job_marker.owner = self
 
 
 func _on_job_removed(job):

@@ -105,12 +105,12 @@ func dragged_cell_updated(origin_cell: MapCell, dragged_to_cell: MapCell):
       add_child(marker)
 
 
-func dragged_cell_ended():
+func dragged_cell_ended(_1, _2):
   if not mode_controller: return
   mode_controller.execute()
 
 
-func dragged_cell_started():
+func dragged_cell_started(_1, _2):
   if not mode_controller: return
 
 
@@ -124,8 +124,8 @@ class ModeController:
     printerr("%s Didn't implement cell_left_clicked" % self)
 
 
+  # by default let right click bail out to the basic selection mode
   func cell_right_clicked(_cell):
-    # by default let right click bail out to the basic selection state
     game_state.gui_state.mode = { "mode": Enums.Mode.SELECT }
 
 
@@ -183,7 +183,7 @@ class BuildModeController:
 
   const MIN_BUILDING_SIZE = 3
   const MAX_BUILDING_SIZE = 10
-  const JobMarker = preload("res://game/gui/3d/job_marker.tscn")
+  const JobMarker = preload("res://game/gui/3d/jobs/job_marker.tscn")
 
   func _init(game_state).(game_state): pass
 
@@ -263,8 +263,10 @@ class ChopModeController:
   func _init(game_state).(game_state): pass
 
 
-  func cell_left_clicked(_cell):
-    print("TODO")
+  func cell_left_clicked(cell):
+    game_state.add_job(
+      ChopJob.new({ "location": cell.location })
+    )
 
 
   func execute():

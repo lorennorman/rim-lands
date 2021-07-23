@@ -108,5 +108,7 @@ func as_text():
       text = "Build at:"
     Enums.Jobs.HAUL:
       text = "Haul to:"
+    Enums.Jobs.CHOP:
+      text = "Chop at:"
 
   return "[%s] %s @ %s -%s" % [claim_status, text, location, owner]

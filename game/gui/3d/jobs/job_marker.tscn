@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://game/gui/3d/job_marker.gd" type="Script" id=1]
+[ext_resource path="res://game/gui/3d/jobs/job_marker.gd" type="Script" id=1]
 
 [node name="JobMarker" type="Spatial"]
 script = ExtResource( 1 )

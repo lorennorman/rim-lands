@@ -16,10 +16,8 @@ func set_params(new_params):
   building_type = new_params
 
 
-func _init(mass_assignments: Dictionary = {}):
-  mass_assignments["job_type"] = Enums.Jobs.BUILD
-  ._init(mass_assignments)
-
+func _init(mass_assignments: Dictionary = {}).(mass_assignments):
+  job_type = Enums.Jobs.BUILD
   assert(building_type != null, "BuildJob created without a building_type.")
 
 

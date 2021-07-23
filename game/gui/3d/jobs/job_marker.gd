@@ -1,9 +1,11 @@
 extends Spatial
 
 const BuildingModel = preload("res://game/buildings/building_model.tscn")
+const JobIcon = preload("res://game/gui/3d/jobs/job_icon.tscn")
 
 var job
 var building_model
+var job_icon
 
 
 func calculate_scale(percent): return clamp(percent/100.0, 0.08, 1.0)
@@ -20,8 +22,8 @@ func _ready():
       building_model.scale.y = calculate_scale(job.percent_complete)
       add_child(building_model)
 
-    Enums.Jobs.HAUL:
-      pass
+    Enums.Jobs.CHOP: pass
+    Enums.Jobs.HAUL: pass
 
     _: printerr("JobMarker created for unknown job_type: %s" % job.job_type)
 
@@ -36,5 +38,7 @@ func _job_updated(_updated_job):
         target_scale, how_many_seconds, Tween.TRANS_EXPO, Tween.EASE_OUT)
       $Tween.start()
 
-    Enums.Jobs.HAUL:
-      pass
+    Enums.Jobs.CHOP: pass
+    Enums.Jobs.HAUL: pass
+
+    _: printerr("JobMarker updated for unknown job_type: %s" % job.job_type)
