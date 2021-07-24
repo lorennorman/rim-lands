@@ -112,3 +112,8 @@ func as_text():
       text = "Chop at:"
 
   return "[%s] %s @ %s -%s" % [claim_status, text, location, owner]
+
+
+func uses_job_boss():
+  # no build jobs, no sub jobs
+  return not job_type == Enums.Jobs.BUILD and not parent

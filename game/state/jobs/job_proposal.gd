@@ -23,6 +23,12 @@ func _init(mass_assignments: Dictionary = {}):
 func generate_execution_plan():
   # build the execution plan
   match job.job_type:
+    Enums.Jobs.CHOP:
+      if not pawn_in_range(job.map_cell):
+        add_task({ "move_to": { "cell": job.map_cell }})
+
+      add_task({ "chop": { "cell": job.map_cell }})
+
     Enums.Jobs.HAUL:
       var remaining_quantity = job.quantity
       while remaining_quantity > 0:
@@ -37,7 +43,7 @@ func generate_execution_plan():
         var quantity_to_take = min(found_material.quantity, remaining_quantity)
         remaining_quantity -= quantity_to_take
 
-        add_task({ "move_to": { "location": found_material.map_cell }})
+        add_task({ "move_to": { "cell": found_material.map_cell }})
         add_task({ "pick_up": {
           "item": found_material,
           "item_quantity": quantity_to_take,
@@ -45,7 +51,7 @@ func generate_execution_plan():
 
       if remaining_quantity == job.quantity: return
       # move_to job
-      add_task({ "move_to": { "location": job.map_cell }})
+      add_task({ "move_to": { "cell": job.map_cell }})
       # dropoff
       var item_to_drop_off = Item.new({ "type": job.material, "quantity": (job.quantity - remaining_quantity) })
       add_task({ "drop_off": { "target": job.parent, "item": item_to_drop_off }})
@@ -53,9 +59,13 @@ func generate_execution_plan():
     Enums.Jobs.BUILD:
       # move to the job site
       if not pawn_in_range(job.map_cell):
-        add_task({ "move_to": { "location": job.map_cell }})
+        add_task({ "move_to": { "cell": job.map_cell }})
       # TODO: check range and bail if still not close enough
       add_task({ "build": {} })
+
+    _:
+      if not pawn_in_range(job.map_cell):
+        add_task({ "move_to": { "cell": job.map_cell }})
 
 
 func execution_failure(reason: String):
@@ -102,12 +112,12 @@ func unassign_job_from_pawn():
 
 ### TASKS ###
 func move_to(args: Dictionary):
-  assert(args.has("location"), "move_to called without a location arg")
+  assert(args.has("cell"), "move_to called without a cell arg")
   # fetch the A* path
-  var move_path = game_state.map_grid.get_move_path(pawn.map_cell, args.location)
+  var move_path = game_state.map_grid.get_move_path(pawn.map_cell, args.cell)
   var next_index = 1
 
-  while not pawn_in_range(args.location):
+  while not pawn_in_range(args.cell):
     # Not available yet?
     if pawn.on_cooldown: yield(pawn, "job_cooldown")
     # Pawn removed or job canceled?
@@ -138,6 +148,18 @@ func move_to(args: Dictionary):
   if not pawn.on_cooldown: pawn.start_job_cooldown(0.01)
   yield(pawn, "job_cooldown")
 
+
+func chop(args: Dictionary):
+  lumber_drop_on_job_completion(args.cell)
+
+func lumber_drop_on_job_completion(cell):
+  yield(job, "completed")
+  var lumber_drop = Item.new({
+    "type": Enums.Items.LUMBER,
+    "quantity": 20,
+    "owner": cell
+  })
+  game_state.add_item(lumber_drop)
 
 func build(_args: Dictionary):
   while job.percent_complete < 100:

@@ -246,7 +246,7 @@ class BuildModeController:
         "map_cell": cell,
         "building_type": Enums.Buildings.WALL,
         "materials_required": {
-          Enums.Items.LUMBER: 20
+          Enums.Items.LUMBER: 5
         }
       })
       var job_marker = JobMarker.instance()

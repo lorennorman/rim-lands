@@ -131,11 +131,9 @@ func buildup_item(item):
     var cell = map_grid.lookup_cell(item.location)
     item.map_cell = cell
     cell.add_item(item)
-  elif item.owner is Pawn:
+  else:
     item.owner.add_item(item)
-  elif item.owner is Job:
-    item.owner.add_item(item)
-
+  
 
 func destroy_item(item):
   if item.owner: item.owner.remove_item(item)
