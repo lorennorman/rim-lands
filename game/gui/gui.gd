@@ -8,7 +8,7 @@ onready var enable_draggable_cells = DraggableCells.new()
 
 func _ready():
   Events.connect("mode_updated", self, "mode_updated")
-  mode_controller = SelectModeController.new()
+  mode_controller = SelectMode.new()
 
   Events.connect("cell_left_clicked", self, "cell_left_clicked")
   Events.connect("cell_right_clicked", self, "cell_right_clicked")
@@ -86,9 +86,9 @@ func cell_right_clicked(cell):
 
 var mode_controller: ModeController
 var mode_controllers = {
-  Enums.Mode.SELECT: SelectModeController,
-  Enums.Mode.BUILD: BuildModeController,
-  Enums.Mode.CHOP: ChopModeController,
+  Enums.Mode.SELECT: SelectMode,
+  Enums.Mode.BUILD: BuildMode,
+  Enums.Mode.CHOP: ChopMode,
 }
 
 
@@ -112,171 +112,3 @@ func dragged_cell_ended(_1, _2):
 
 func dragged_cell_started(_1, _2):
   if not mode_controller: return
-
-
-class ModeController:
-  var game_state
-  func _init(new_game_state):
-    game_state = new_game_state
-
-
-  func cell_left_clicked(_cell):
-    printerr("%s Didn't implement cell_left_clicked" % self)
-
-
-  # by default let right click bail out to the basic selection mode
-  func cell_right_clicked(_cell):
-    game_state.gui_state.mode = { "mode": Enums.Mode.SELECT }
-
-
-  func execute():
-    printerr("%s Didn't implement execute" % self)
-
-
-  func remove_job_markers():
-    printerr("%s Didn't implement remove_job_markers" % self)
-
-
-  func get_job_markers_between(_x1z1, _x2z2) -> Array:
-    printerr("%s Didn't implement get_job_markers_between" % self)
-    return []
-
-
-class SelectModeController:
-  extends ModeController
-
-  var selected_cell: MapCell
-  var selected_entity
-
-  func _init(game_state=null).(game_state): pass
-
-
-  func cell_right_clicked(_cell): pass
-
-  func cell_left_clicked(cell):
-    if selected_cell != cell:
-      # new cell clicked
-      selected_cell = cell
-      selected_entity = null
-      Events.emit_signal("selected_cell_updated", cell)
-
-    selected_entity = next_selectable_entity(cell, selected_entity)
-    Events.emit_signal("selected_entity_updated", selected_entity)
-
-
-  func next_selectable_entity(cell, current_selection):
-    var entities = []
-    if cell.pawn: entities.push_back(cell.pawn)
-    if cell.feature: entities.push_back(cell.feature)
-    entities.push_back(cell.terrain)
-
-    if not current_selection or current_selection is Color:
-      return entities[0]
-    elif current_selection == cell.pawn:
-      return entities[1]
-    elif current_selection == cell.feature:
-      return entities[-1]
-
-
-class BuildModeController:
-  extends ModeController
-
-  const MIN_BUILDING_SIZE = 3
-  const MAX_BUILDING_SIZE = 10
-  const JobMarker = preload("res://game/gui/3d/jobs/job_marker.tscn")
-
-  func _init(game_state).(game_state): pass
-
-  func execute():
-    for building_marker in building_markers:
-      game_state.add_job(building_marker.job)
-    remove_job_markers()
-
-
-  var building_markers = []
-  func remove_job_markers():
-    for marker in building_markers:
-      marker.queue_free()
-    building_markers = []
-
-
-  func get_job_markers_between(x1z1, x2z2):
-    var x1z1x = x1z1.x
-    var x2z2x = x2z2.x
-    var min_x = x1z1x - MAX_BUILDING_SIZE
-    var max_x = x1z1x + MAX_BUILDING_SIZE
-    var small_x = max(min_x, min(x1z1x, x2z2x))
-    var large_x = min(max_x, max(x1z1x, x2z2x))
-    var x_size = large_x - small_x
-
-    var x1z1z = x1z1.z
-    var x2z2z = x2z2.z
-    var min_z = x1z1z - MAX_BUILDING_SIZE
-    var max_z = x1z1z + MAX_BUILDING_SIZE
-    var small_z = max(min_z, min(x1z1z, x2z2z))
-    var large_z = min(max_z, max(x1z1z, x2z2z))
-    var z_size = large_z - small_z
-
-    if x_size < MIN_BUILDING_SIZE and (x_size <= z_size):
-      large_x = x1z1x
-      small_x = x1z1x
-    if z_size < MIN_BUILDING_SIZE and (z_size < x_size):
-      large_z = x1z1z
-      small_z = x1z1z
-
-    var square_cells = []
-    for x in range(small_x, large_x+1):
-      # top wall
-      square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [x, small_z]))
-      if small_z != large_z:
-        # bottom wall
-        square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [x, large_z]))
-
-    if small_z != large_z:
-      for z in range(small_z+1, large_z):
-        # left wall
-        square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [small_x, z]))
-        if small_x != large_x:
-          # right wall
-          square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [large_x, z]))
-
-    for cell in square_cells:
-      var job = BuildJob.new({
-        "location": cell.location,
-        "map_cell": cell,
-        "building_type": Enums.Buildings.WALL,
-        "materials_required": {
-          Enums.Items.LUMBER: 5
-        }
-      })
-      var job_marker = JobMarker.instance()
-      job_marker.job = job
-      building_markers.push_back(job_marker)
-
-    return building_markers
-
-
-class ChopModeController:
-  extends ModeController
-
-
-  func _init(game_state).(game_state): pass
-
-
-  func cell_left_clicked(cell):
-    game_state.add_job(
-      ChopJob.new({ "location": cell.location })
-    )
-
-
-  func execute():
-    print("TODO")
-
-
-  func remove_job_markers():
-    print("TODO")
-
-
-  func get_job_markers_between(_x1z1, _x2z2) -> Array:
-    print("TODO")
-    return []

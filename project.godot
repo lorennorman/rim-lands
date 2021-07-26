@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/state/jobs/build_job.gd"
 }, {
+"base": "ModeController",
+"class": "BuildMode",
+"language": "GDScript",
+"path": "res://game/gui/input_modes/build_mode.gd"
+}, {
 "base": "Resource",
 "class": "Building",
 "language": "GDScript",
@@ -23,6 +28,11 @@ _global_script_classes=[ {
 "class": "ChopJob",
 "language": "GDScript",
 "path": "res://game/state/jobs/chop_job.gd"
+}, {
+"base": "ModeController",
+"class": "ChopMode",
+"language": "GDScript",
+"path": "res://game/gui/input_modes/chop_mode.gd"
 }, {
 "base": "Object",
 "class": "Enums",
@@ -84,6 +94,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/state/map_grid.gd"
 }, {
+"base": "Object",
+"class": "ModeController",
+"language": "GDScript",
+"path": "res://game/gui/input_modes/mode_controller.gd"
+}, {
 "base": "Spatial",
 "class": "ModelBoss",
 "language": "GDScript",
@@ -94,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/state/pawn.gd"
 }, {
+"base": "ModeController",
+"class": "SelectMode",
+"language": "GDScript",
+"path": "res://game/gui/input_modes/select_mode.gd"
+}, {
 "base": "Object",
 "class": "Util",
 "language": "GDScript",
@@ -101,8 +121,10 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "BuildJob": "",
+"BuildMode": "",
 "Building": "",
 "ChopJob": "",
+"ChopMode": "",
 "Enums": "",
 "Factory": "",
 "GUIState": "",
@@ -115,8 +137,10 @@ _global_script_class_icons={
 "JobProposal": "",
 "MapCell": "",
 "MapGrid": "",
+"ModeController": "",
 "ModelBoss": "",
 "Pawn": "",
+"SelectMode": "",
 "Util": ""
 }
 

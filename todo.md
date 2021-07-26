@@ -31,13 +31,15 @@
 
 ## Items
 - [ ] simple food
+- [ ] ownership/persistence issues
 
 
 ## Jobs
 - [.] insta-jobs:
-  - [.] chop->build
-  - [ ] mine->forge
+  - [x] chop->build
+  - [.] mine->forge
   - [ ] plant->harvest
+  - [.] job type icons
   - produce items needed by later stage job
   - rapid prototype complex tech/crafting trees
 

@@ -185,6 +185,7 @@ __meta__ = {
 [node name="RightMenu" parent="GUI/Menus" instance=ExtResource( 3 )]
 
 [node name="MainMenu" parent="GUI/Menus" instance=ExtResource( 5 )]
+visible = false
 
 [node name="MapIndicators" type="Spatial" parent="GUI"]
 script = ExtResource( 18 )
