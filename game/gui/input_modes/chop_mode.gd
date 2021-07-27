@@ -2,23 +2,24 @@ extends ModeController
 class_name ChopMode
 
 
-func _init(game_state).(game_state): pass
+# func _init(game_state).(game_state): pass
 
 
-func cell_left_clicked(cell):
+func confirm(cell):
+  print("confirm chop")
   game_state.add_job(
     ChopJob.new({ "location": cell.location })
   )
 
 
-func execute():
+func confirm_from_to(_start, _end):
   print("TODO")
 
 
-func remove_job_markers():
-  print("TODO")
-
-
-func get_job_markers_between(_x1z1, _x2z2) -> Array:
-  print("TODO")
-  return []
+# func remove_job_markers():
+#   print("TODO")
+#
+#
+# func get_job_markers_between(_x1z1, _x2z2) -> Array:
+#   print("TODO")
+#   return []

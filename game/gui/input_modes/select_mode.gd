@@ -4,13 +4,13 @@ class_name SelectMode
 var selected_cell: MapCell
 var selected_entity
 
-func _init(game_state=null).(game_state): pass
+# func _init(game_state=null).(game_state): pass
 
 
-func cell_right_clicked(_cell): pass
+func cancel(_cell): pass # TODO: deselect things
 
 
-func cell_left_clicked(cell):
+func confirm(cell):
   if selected_cell != cell:
     # new cell clicked
     selected_cell = cell

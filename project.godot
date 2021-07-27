@@ -45,11 +45,6 @@ _global_script_classes=[ {
 "path": "res://game/state/factory.gd"
 }, {
 "base": "Resource",
-"class": "GUIState",
-"language": "GDScript",
-"path": "res://game/state/gui_state.gd"
-}, {
-"base": "Resource",
 "class": "GameState",
 "language": "GDScript",
 "path": "res://game/state/game_state.gd"
@@ -127,7 +122,6 @@ _global_script_class_icons={
 "ChopMode": "",
 "Enums": "",
 "Factory": "",
-"GUIState": "",
 "GameState": "",
 "HTerrainDataLoader": "",
 "HTerrainDataSaver": "",

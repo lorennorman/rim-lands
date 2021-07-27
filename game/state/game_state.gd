@@ -6,7 +6,13 @@ export(Array, Resource) var jobs
 export(Array, Resource) var buildings
 export(Array, Resource) var items
 export(Resource) var map_grid
-var gui_state := GUIState.new()
+
+# todo: factor this out into a game state container
+var _sm = Events.connect("set_mode", self, "set_mode")
+var mode setget set_mode
+func set_mode(mode_params):
+  mode = mode_params.mode
+  Events.emit_signal("mode_updated", mode_params)
 
 
 var _jc = Events.connect("job_completed", self, "complete_job")
@@ -133,7 +139,7 @@ func buildup_item(item):
     cell.add_item(item)
   else:
     item.owner.add_item(item)
-  
+
 
 func destroy_item(item):
   if item.owner: item.owner.remove_item(item)

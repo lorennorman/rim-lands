@@ -1,22 +1,20 @@
 extends Spatial
 
 const DraggableCells = preload("res://game/gui/draggable_cells.gd")
+const InputModes = preload("res://game/gui/input_modes/input_modes.gd")
 
-var game_state
-var gui_state
+var game_state setget set_game_state
+func set_game_state(new_game_state):
+  game_state = new_game_state
+  input_modes.game_state = game_state
 onready var enable_draggable_cells = DraggableCells.new()
+onready var input_modes = InputModes.new()
 
 func _ready():
-  Events.connect("mode_updated", self, "mode_updated")
-  mode_controller = SelectMode.new()
+  if game_state: input_modes.game_state = game_state
 
-  Events.connect("cell_left_clicked", self, "cell_left_clicked")
-  Events.connect("cell_right_clicked", self, "cell_right_clicked")
   Events.connect("hovered_cell_updated", self, "hovered_cell_updated")
   Events.connect("selected_entity_updated", self, "selected_entity_updated")
-  Events.connect("dragged_cell_updated", self, "dragged_cell_updated")
-  Events.connect("dragged_cell_started", self, "dragged_cell_started")
-  Events.connect("dragged_cell_ended", self, "dragged_cell_ended")
 
 
 func hovered_cell_updated(cell):
@@ -72,43 +70,3 @@ func selected_entity_updated(entity):
       focus_text += "Sub-Jobs: %s" % entity.sub_jobs.size()
 
   $Menus/Left/VBoxContainer/TargetFocus.text = "%s" % focus_text
-
-
-func cell_left_clicked(cell):
-  if mode_controller:
-    mode_controller.cell_left_clicked(cell)
-
-
-func cell_right_clicked(cell):
-  if mode_controller:
-    mode_controller.cell_right_clicked(cell)
-
-
-var mode_controller: ModeController
-var mode_controllers = {
-  Enums.Mode.SELECT: SelectMode,
-  Enums.Mode.BUILD: BuildMode,
-  Enums.Mode.CHOP: ChopMode,
-}
-
-
-func mode_updated(mode_params):
-  mode_controller = mode_controllers[mode_params.mode].new(game_state)
-
-
-func dragged_cell_updated(origin_cell: MapCell, dragged_to_cell: MapCell):
-  if not mode_controller: return
-  mode_controller.remove_job_markers()
-
-  if origin_cell and dragged_to_cell:
-    for marker in mode_controller.get_job_markers_between(origin_cell, dragged_to_cell):
-      add_child(marker)
-
-
-func dragged_cell_ended(_1, _2):
-  if not mode_controller: return
-  mode_controller.execute()
-
-
-func dragged_cell_started(_1, _2):
-  if not mode_controller: return

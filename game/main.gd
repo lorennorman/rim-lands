@@ -64,7 +64,6 @@ func start_running_game_state(new_game_state: GameState):
   $MapTerrain.map_grid = game_state.map_grid
   $MapTerrain.input_state = "listening"
   $GUI.game_state = game_state
-  $GUI.gui_state = game_state.gui_state
   sim = Simulator.new(game_state)
   self.simulator_state = "simulating"
   print("Simulating!")
