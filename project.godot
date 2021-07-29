@@ -14,7 +14,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/state/jobs/build_job.gd"
 }, {
-"base": "ModeController",
+"base": "JobMode",
 "class": "BuildMode",
 "language": "GDScript",
 "path": "res://game/gui/input_modes/build_mode.gd"
@@ -29,7 +29,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/state/jobs/chop_job.gd"
 }, {
-"base": "ModeController",
+"base": "JobMode",
 "class": "ChopMode",
 "language": "GDScript",
 "path": "res://game/gui/input_modes/chop_mode.gd"
@@ -73,6 +73,11 @@ _global_script_classes=[ {
 "class": "Job",
 "language": "GDScript",
 "path": "res://game/state/job.gd"
+}, {
+"base": "ModeController",
+"class": "JobMode",
+"language": "GDScript",
+"path": "res://game/gui/input_modes/job_mode.gd"
 }, {
 "base": "Node",
 "class": "JobProposal",
@@ -128,6 +133,7 @@ _global_script_class_icons={
 "HaulJob": "",
 "Item": "",
 "Job": "",
+"JobMode": "",
 "JobProposal": "",
 "MapCell": "",
 "MapGrid": "",

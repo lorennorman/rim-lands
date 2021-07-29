@@ -4,8 +4,6 @@ class_name SelectMode
 var selected_cell: MapCell
 var selected_entity
 
-# func _init(game_state=null).(game_state): pass
-
 
 func cancel(_cell): pass # TODO: deselect things
 

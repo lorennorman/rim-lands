@@ -1,25 +1,19 @@
-extends ModeController
+extends JobMode
 class_name ChopMode
 
 
-# func _init(game_state).(game_state): pass
+func new_job_at(cell):
+  return ChopJob.new({ "map_cell": cell })
 
 
-func confirm(cell):
-  print("confirm chop")
-  game_state.add_job(
-    ChopJob.new({ "location": cell.location })
-  )
+func cell_selection_algorithm(start, end):
+  return one_out_of(5, filled_square_of_cells(start, end))
 
 
-func confirm_from_to(_start, _end):
-  print("TODO")
+func one_out_of(denominator: int, collection):
+  var random_filtered = []
+  for cell in collection:
+    if randi() % denominator == 0:
+      random_filtered.push_back(cell)
 
-
-# func remove_job_markers():
-#   print("TODO")
-#
-#
-# func get_job_markers_between(_x1z1, _x2z2) -> Array:
-#   print("TODO")
-#   return []
+  return random_filtered
