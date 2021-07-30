@@ -19,12 +19,10 @@ func update_text():
   var label = ""
 
   match current_mode:
-    Enums.Mode.BUILD:
-      label = "Build Where?"
-    Enums.Mode.CHOP:
-      label = "Chop Where?"
-    _:
+    Enums.Mode.SELECT:
       label = "Select Something..."
+    _:
+      label = "%s where?" % current_mode
 
   if current_simulator_state == "paused":
     label = "[P] %s" % label

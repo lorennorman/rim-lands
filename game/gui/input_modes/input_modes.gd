@@ -23,8 +23,11 @@ func cell_right_clicked(cell):
 
 
 func mode_updated(mode_params):
-  mode_controller = MODE_CONTROLLERS[mode_params.mode].new()
-  mode_controller.game_state = game_state
+  if MODE_CONTROLLERS.has(mode_params.mode):
+    mode_controller = MODE_CONTROLLERS[mode_params.mode].new()
+    mode_controller.game_state = game_state
+  else:
+    mode_controller = null
 
 
 func dragged_cell_started(start, end):

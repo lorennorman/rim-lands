@@ -14,8 +14,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BuildButton" type="MenuButton" parent="."]
-margin_right = 82.0
+[node name="Build" type="MenuButton" parent="."]
+margin_right = 86.0
 margin_bottom = 45.0
 focus_mode = 2
 custom_fonts/font = ExtResource( 2 )
@@ -26,41 +26,53 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ChopButton" type="Button" parent="."]
-margin_left = 86.0
-margin_right = 172.0
+[node name="Chop" type="Button" parent="."]
+margin_left = 90.0
+margin_right = 176.0
 margin_bottom = 45.0
 custom_fonts/font = ExtResource( 2 )
 text = "Chop"
 
-[node name="Button6" type="Button" parent="."]
+[node name="Sow" type="Button" parent="."]
 margin_top = 49.0
-margin_right = 82.0
+margin_right = 86.0
 margin_bottom = 94.0
 custom_fonts/font = ExtResource( 2 )
 text = "Sow"
 
-[node name="Button7" type="Button" parent="."]
-margin_left = 86.0
+[node name="Reap" type="Button" parent="."]
+margin_left = 90.0
 margin_top = 49.0
-margin_right = 172.0
+margin_right = 176.0
 margin_bottom = 94.0
 custom_fonts/font = ExtResource( 2 )
 text = "Reap"
 
-[node name="Button8" type="Button" parent="."]
+[node name="Mine" type="Button" parent="."]
 margin_top = 98.0
-margin_right = 82.0
+margin_right = 86.0
 margin_bottom = 143.0
 custom_fonts/font = ExtResource( 2 )
 text = "Mine"
 
-[node name="Button9" type="Button" parent="."]
-margin_left = 86.0
+[node name="Forge" type="Button" parent="."]
+margin_left = 90.0
 margin_top = 98.0
-margin_right = 172.0
+margin_right = 176.0
 margin_bottom = 143.0
 custom_fonts/font = ExtResource( 2 )
 text = "Forge"
 
-[connection signal="pressed" from="ChopButton" to="." method="chop_pressed"]
+[node name="Forage" type="Button" parent="."]
+margin_top = 147.0
+margin_right = 86.0
+margin_bottom = 192.0
+custom_fonts/font = ExtResource( 2 )
+text = "Forge"
+
+[connection signal="pressed" from="Chop" to="." method="chop_pressed"]
+[connection signal="pressed" from="Sow" to="." method="sow_pressed"]
+[connection signal="pressed" from="Reap" to="." method="reap_pressed"]
+[connection signal="pressed" from="Mine" to="." method="mine_pressed"]
+[connection signal="pressed" from="Forge" to="." method="forge_pressed"]
+[connection signal="pressed" from="Forage" to="." method="forage_pressed"]
