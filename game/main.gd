@@ -123,10 +123,41 @@ func save_world(game_state_file="res://savegames/savegame.tres"):
   if ResourceSaver.save(game_state_file, game_state) != OK:
     printerr("Error saving GameState")
 
-
+const TreeModel = preload("res://game/terrain/trees/tree_model.tscn")
 func new_world():
   yield(load_world("res://scenarios/new_world.tres"), "completed")
 
+  # forest visual test
+  for x in 64:
+    for z in 64:
+      # scale to density and perturb
+      var noise = OpenSimplexNoise.new()
+      noise.seed = randi()
+
+      var noise_value = noise.get_noise_2d(x*.1, z*.1)
+      var normalized_noise = inverse_lerp(-1, 1, noise_value)
+      print(normalized_noise)
+
+      # pick a noise range to have forest appear in
+      # TODO: weighting and stuff
+      if normalized_noise < .55 or normalized_noise > .6: continue
+      var cell = game_state.map_grid.lookup_cell("%d,%d"%[x,z])
+      # TODO: no mountain forests or beach/water forests
+      # ouch, doesn't work because need max height multiplier
+      if cell.position.y > (.4*game_state.map_grid.terrain_height_max) or cell.position.y < (.3*game_state.map_grid.terrain_height_max): continue
+
+      # TODO: new model boss for forest cells
+      var tree_model = TreeModel.instance()
+      tree_model.translation = cell.position
+
+      tree_model.scale = Vector3.ONE * (1.2 + noise_value)
+
+
+      # var rng = RandomNumberGenerator.new()
+      # rng.randomize()
+      # tree_model.scale = Vector3.ONE * rng.randf_range(.98, 1.02) + Vector3.ONE * max(.5 - (abs(5-x)+abs(5-z)) * .05, -.15)
+      # tree_model.translate(Vector3(rng.randf_range(-.5,.5), 0, rng.randf_range(-.5,.5)))
+      add_child(tree_model)
 
 # Test Ideas:
 # func test_nightly_attacks_from_portal():
