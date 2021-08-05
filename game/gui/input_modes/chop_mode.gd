@@ -7,13 +7,5 @@ func new_job_at(cell):
 
 
 func cell_selection_algorithm(start, end):
+  # TODO: only on cells containing mature forest
   return one_out_of(5, filled_square_of_cells(start, end))
-
-
-func one_out_of(denominator: int, collection):
-  var random_filtered = []
-  for cell in collection:
-    if randi() % denominator == 0:
-      random_filtered.push_back(cell)
-
-  return random_filtered

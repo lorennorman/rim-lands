@@ -6,6 +6,7 @@ const MODE_CONTROLLERS = {
   Enums.Mode.SELECT: SelectMode,
   Enums.Mode.BUILD: BuildMode,
   Enums.Mode.CHOP: ChopMode,
+  Enums.Mode.SOW: SowMode,
 }
 
 func _init():

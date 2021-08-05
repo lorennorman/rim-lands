@@ -87,3 +87,11 @@ func filled_square_of_cells(corner_a, corner_b, min_size=1, max_size=8):
       square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [x, z]))
 
   return square_cells
+
+func one_out_of(denominator: int, collection):
+  var random_filtered = []
+  for cell in collection:
+    if randi() % denominator == 0:
+      random_filtered.push_back(cell)
+
+  return random_filtered

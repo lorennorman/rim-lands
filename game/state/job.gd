@@ -99,17 +99,9 @@ func sub_job_completed(sub_job):
 func as_text():
   var claim_status = "x" if is_claimed() else " "
   var owner = current_worker.character_name if current_worker else ""
-  var text
+  var text = "%s at:" % job_type
 
-  match job_type:
-    Enums.Jobs.MOVE:
-      text = "Move to:"
-    Enums.Jobs.BUILD:
-      text = "Build at:"
-    Enums.Jobs.HAUL:
-      text = "Haul to:"
-    Enums.Jobs.CHOP:
-      text = "Chop at:"
+  if job_type == Enums.Jobs.MOVE: text = "Move to:"
 
   return "[%s] %s @ %s -%s" % [claim_status, text, location, owner]
 

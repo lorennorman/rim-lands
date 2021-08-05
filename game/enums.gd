@@ -10,7 +10,18 @@ enum Race { DWARF, ELF, HUMAN, ORC, VOIDBORN }
 enum Stats { MIGHT, WILL, MAGIC }
 
 # JOBS
-enum Jobs { MOVE, BUILD, HAUL, CHOP, FORAGE, SOW, REAP, CULTIVATE, MINE, FORGE }
+const Jobs = {
+  MOVE= "Move",
+  BUILD= "Build",
+  HAUL= "Haul",
+  CHOP= "Chop",
+  FORAGE= "Forage",
+  SOW= "Sow",
+  REAP= "Reap",
+  CULTIVATE= "Cultivate",
+  MINE= "Mine",
+  FORGE= "Forge"
+}
 
 # BUILDINGS
 enum Buildings { WALL, DOOR }

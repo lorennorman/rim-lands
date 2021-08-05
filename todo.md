@@ -27,6 +27,12 @@
 - [ ] farmland
 - [ ] stockpile
 - [ ] building interiors
+- [ ] biome volumes:
+  - forest
+  - mountainside
+  - lakes and streams
+  - crimson gash
+  - void cauldrons
 
 
 ## Items
