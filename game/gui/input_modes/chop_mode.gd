@@ -8,4 +8,9 @@ func new_job_at(cell):
 
 func cell_selection_algorithm(start, end):
   # TODO: only on cells containing mature forest
-  return one_out_of(5, filled_square_of_cells(start, end))
+  var forest_cells = []
+  for cell in filled_square_of_cells(start, end):
+    if cell.feature == "Forest":
+      forest_cells.push_back(cell)
+
+  return forest_cells
