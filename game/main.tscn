@@ -256,4 +256,6 @@ filter_method = "uses_job_boss"
 
 [node name="MapTerrain" parent="." instance=ExtResource( 12 )]
 
-[node name="TreeModel" parent="." instance=ExtResource( 6 )]
+[node name="TreeBoss" parent="." instance=ExtResource( 20 )]
+scene_to_instance = ExtResource( 6 )
+resource_to_observe = "forest"
