@@ -25,7 +25,9 @@ func hovered_cell_updated(cell):
   var pawn_name = cell.pawn.character_name if cell.pawn else ""
   $Menus/Left/VBoxContainer/PawnHoverLabel.text = "Pawn: %s" % pawn_name
 
-  var feature_text = cell.feature.to_string() if cell.feature else ""
+  var feature_text = ""
+  if cell.feature:
+    feature_text = cell.feature if cell.feature is String else cell.feature.to_string()
   $Menus/Left/VBoxContainer/FeatureHoverLabel.text = "Feature: %s" % feature_text
 
   var color = cell.terrain if cell.terrain else Color(0)
