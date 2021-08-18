@@ -17,3 +17,14 @@ static func default_dict(target, defaults):
 static func merge_dicts(target, patch):
   for key in patch:
     target[key] = patch[key]
+
+
+static func is_between(target, minimum, maximum):
+  return target > minimum and target < maximum
+
+
+static func random_integer():
+  var rng = RandomNumberGenerator.new()
+  rng.randomize()
+
+  return rng.randi()
