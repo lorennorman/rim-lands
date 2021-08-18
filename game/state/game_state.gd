@@ -62,7 +62,15 @@ func add_pawn(pawn: Pawn):
 func buildup_pawn(pawn):
   assert(map_grid, "Map must be set before Pawns can be added")
   assert(pawn.location, "Pawn must have a location to be added to the game")
-  map_grid.set_pawn(pawn.location, pawn)
+  # cell lookup
+  var map_cell = map_grid.lookup_cell(pawn.location)
+
+  # bail if exists and we're not forcing
+  if map_cell.pawn: return
+
+  # set pawn <-> cell
+  map_cell.pawn = pawn
+  pawn.map_cell = map_cell
 
 
 func destroy_pawn(pawn, erase=true):

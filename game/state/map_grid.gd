@@ -1,55 +1,58 @@
 extends Resource
-
 class_name MapGrid
 
 
 ## Settings from the Terrain Style bundle
-export(float, 0.001, 1000) var scale_grid_to_noise = 1.25
-export(String) var terrain_style = "Core's Edge" setget set_terrain_style
-func set_terrain_style(new_terrain_style):
-  terrain_style = new_terrain_style
-  var style_settings = terrain_style_lookup[terrain_style]
-  terrain_gradient = style_settings.gradient
-  terrain_elevation_curve = style_settings.curve
-  terrain_height_max = style_settings.height
-  scale_grid_to_noise = style_settings.scale
-  navigable_range = style_settings.navigable_range
+# export(float, 0.001, 1000) var scale_grid_to_noise = 1.25
+# export(String) var terrain_style = "Core's Edge" # setget set_terrain_style
+# func set_terrain_style(new_terrain_style):
+#   terrain_style = new_terrain_style
+#   var style_settings = terrain_style_lookup[terrain_style]
+#   terrain_gradient = style_settings.gradient
+#   terrain_elevation_curve = style_settings.curve
+#   terrain_height_max = style_settings.height
+#   scale_grid_to_noise = style_settings.scale
+#   navigable_range = style_settings.navigable_range
+#
+# export(float) var terrain_height_max = 35.0
+# export(Gradient) var terrain_gradient
+# export(Curve) var terrain_elevation_curve
+# export(Array) var navigable_range
 
-export(float) var terrain_height_max = 35.0
-export(Gradient) var terrain_gradient
-export(Curve) var terrain_elevation_curve
-export(Array) var navigable_range
-
-const terrain_style_lookup = {
-  "Core's Edge": {
-    "gradient": preload("res://game/terrain/res/cores_edge_color_gradient.tres"),
-    "curve": preload("res://game/terrain/res/cores_edge_elevation_curve.tres"),
-    "height": 35,
-    "scale": 1.25,
-    "navigable_range": [0.308, 0.312],
-  },
-  "The Rim Eternal": {
-    "gradient": preload("res://game/terrain/res/rim_eternal_color_gradient.tres"),
-    "curve": preload("res://game/terrain/res/rim_eternal_elevation_curve.tres"),
-    "height": 30,
-    "scale": 1.75,
-    "navigable_range": [0.498, 0.502],
-  },
-  "The Voidlands": {
-    "gradient": preload("res://game/terrain/res/voidlands_color_gradient.tres"),
-    "curve": preload("res://game/terrain/res/voidlands_elevation_curve.tres"),
-    "height": 40,
-    "scale": 2.2,
-    "navigable_range": [0.498, 0.502],
-  },
-}
+# const terrain_style_lookup = {
+#   "Core's Edge": {
+#     "gradient": preload("res://game/terrain/res/cores_edge_color_gradient.tres"),
+#     "curve": preload("res://game/terrain/res/cores_edge_elevation_curve.tres"),
+#     "height": 35,
+#     "scale": 1.25,
+#     "navigable_range": [0.308, 0.312],
+#   },
+#   "The Rim Eternal": {
+#     "gradient": preload("res://game/terrain/res/rim_eternal_color_gradient.tres"),
+#     "curve": preload("res://game/terrain/res/rim_eternal_elevation_curve.tres"),
+#     "height": 30,
+#     "scale": 1.75,
+#     "navigable_range": [0.498, 0.502],
+#   },
+#   "The Voidlands": {
+#     "gradient": preload("res://game/terrain/res/voidlands_color_gradient.tres"),
+#     "curve": preload("res://game/terrain/res/voidlands_elevation_curve.tres"),
+#     "height": 40,
+#     "scale": 2.2,
+#     "navigable_range": [0.498, 0.502],
+#   },
+# }
 
 
 ## Per-Map Settings
+# Terrain Environment
+export(String) var environment = "core"
 # Map length/width (maps are always square)
 export(int) var map_size = 65
 # Random seeds allow random-yet-repeatable maps
-export(int) var noise_seed = 2
+export(int) var terrain_seed = 2
+# export(int) var forest_noise_seed = -2
+export(Array) var forests = []
 
 ## Things only used while the map is active/running the game
 # Pathfinding Network
@@ -64,62 +67,72 @@ var built_up := false
 
 func generate_cells(force = false):
   if built_up and not force: return
-  if not terrain_elevation_curve or not terrain_gradient or not navigable_range:
-    self.terrain_style = "Core's Edge"
+  # if not terrain_elevation_curve or not terrain_gradient or not navigable_range:
+  #   self.terrain_style = "Core's Edge"
 
   if astar:
     astar.reserve_space(map_size * map_size)
 
   omni_dict = {}
 
-  var noise = OpenSimplexNoise.new()
-  noise.seed = noise_seed
+  # randomize()
+  # var terrain_noise = OpenSimplexNoise.new()
+  # terrain_noise.seed = noise_seed
+  # var forest_noise = OpenSimplexNoise.new()
+  # forest_noise.seed = forest_noise_seed
+  #
+  # for z in map_size:
+  #   for x in map_size:
+  #     var nx = (x * scale_grid_to_noise)
+  #     var nz = (z * scale_grid_to_noise)
+  #
+  #     var terrain_noise_value = normalized_noise(terrain_noise, nx, nz)
+  #     var height = height_from_noise(terrain_noise_value)
+  #     var color = color_from_noise(terrain_noise_value)
+  #
+  #     var forest_noise_value = normalized_noise(forest_noise, nx, nz)
+  #     var has_forest = forest_from_noise(terrain_noise_value, forest_noise_value)
+  #
+  #     add_map_grid_cell(x, z, height, color, has_forest)
 
-  for z in map_size:
-    for x in map_size:
-      var nx = (x * scale_grid_to_noise)
-      var nz = (z * scale_grid_to_noise)
-
-      # returns in the range [-1, 1]
-      var base_noise = noise.get_noise_2d(nx, nz)
-
-      # Normalize to the range [0, 1]
-      var normalized_noise = inverse_lerp(-1, 1, base_noise)
-
-      # height is provided to HTerrainData on the red channel
-      var height = height_from_noise(x, z, normalized_noise)
-      # height_map.set_pixel(x, z, height_color)
-      var color = color_from_noise(x, z, normalized_noise)
-      # color_map.set_pixel(x, z, color)
-
-      add_map_grid_cell(x, z, height, color)
   built_up = true
   torn_down = false
 
 
-func is_navigable(height: float):
+func normalized_noise(noise: OpenSimplexNoise, x: float, z: float):
+  # returns in the range [-1, 1]
+  var base_noise = noise.get_noise_2d(x, z)
+  # Normalize to the range [0, 1]
+  return inverse_lerp(-1, 1, base_noise)
+
+
+func is_navigable(height: float): return true
   # calculate navigability
-  var lowest_navigable_height = navigable_range[0] * terrain_height_max
-  var highest_navigable_height = navigable_range[1] * terrain_height_max
-  var navigable = (height > lowest_navigable_height) and (height < highest_navigable_height)
-  return navigable
+  # var lowest_navigable_height = navigable_range[0] * terrain_height_max
+  # var highest_navigable_height = navigable_range[1] * terrain_height_max
+  # var navigable = (height > lowest_navigable_height) and (height < highest_navigable_height)
+  # return navigable
 
 
-func height_from_noise(_x, _z, noise_value):
-  # Simple: amplify noise value to a maximum
-  # var height = terrain_height_max * noise_value
-
-  # Tool: Use a Curve to draw the contour of your terrain
-  var height = terrain_height_max * terrain_elevation_curve.interpolate(noise_value)
-
-  return height
-
-
-func color_from_noise(_x, _z, noise_value):
-  # Tool: Use a gradient to assign colors to the contour curve
-  var color = terrain_gradient.interpolate(noise_value)
-  return color
-
+# func height_from_noise(noise_value):
+#   # Simple: amplify noise value to a maximum
+#   # var height = terrain_height_max * noise_value
+#
+#   # Tool: Use a Curve to draw the contour of your terrain
+#   var height = terrain_height_max * terrain_elevation_curve.interpolate(noise_value)
+#
+#   return height
+#
+#
+# func color_from_noise(noise_value):
+#   # Tool: Use a gradient to assign colors to the contour curve
+#   var color = terrain_gradient.interpolate(noise_value)
+#   return color
+#
+#
+# func forest_from_noise(terrain_value, forest_value):
+#   return (terrain_value > .31 and terrain_value < .685) and forest_value > .65
+#
 
 func lookup_cell(omni_id):
   if torn_down:
@@ -134,27 +147,15 @@ func set_cell(omni_id, cell):
   omni_dict[omni_id] = cell
 
 
-func set_pawn(location: String, pawn: Pawn, force=false):
-  # cell lookup
-  var map_cell: MapCell = lookup_cell(location)
-
-  # bail if exists and we're not forcing
-  if map_cell.pawn and not force: return false
-
-  # set or force-evict
-  map_cell.pawn = pawn
-  pawn.location = location
-  pawn.map_cell = map_cell
-  return true
-
-
-func add_map_grid_cell(x, z, height, color):
+func add_map_grid_cell(x, z, height, color, has_forest):
   # Our new cell
   var map_cell = MapCell.new()
   # The MapGrid we're a part of, so we can lookup neighbors, etc
   map_cell.map_grid = self
   # Apply the terrain
   map_cell.terrain = color
+  if has_forest:
+    map_cell.feature = "Forest"
 
   # Calculate 3D position, mapping us to the terrain, averaging between points
   var average_height
@@ -254,5 +255,5 @@ func find_good_starting_positions(how_many) -> Array:
 
           return final_positions
 
-  assert(false, "Failed to find a good start position. Style: %s, Seed: %s" % [terrain_style, noise_seed])
+  assert(false, "Failed to find a good start position.") # Style: %s, Seed: %s" % [terrain_style, noise_seed])
   return []

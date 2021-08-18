@@ -20,7 +20,10 @@ func _ready():
   Events.connect("save_world_requested", self, "save_world")
   Events.connect("pause_requested", self, "pause_requested")
 
-  new_world()
+  var state = StateGenerator.state_from_template()
+  print(state.map_grid.forests.size())
+
+  # new_world()
   # load_world("res://scenarios/medium_party_busy.tres")
 
   # Tests:
