@@ -40,6 +40,9 @@ signal mode_updated(mode_options)
 signal simulator_state_updated(simulator_state)
 signal game_state_teardown
 
+signal forest_added(forest)
+signal forest_removed(forest)
+
 signal pawn_added(pawn)
 signal pawn_removed(pawn)
 
