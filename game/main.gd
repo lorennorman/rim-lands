@@ -21,7 +21,10 @@ func _ready():
   Events.connect("pause_requested", self, "pause_requested")
 
   var state = StateGenerator.state_from_template()
+  StateActivator.activate_state(state)
   print(state.map_grid.forests.size())
+
+  start_running_game_state(state)
 
   # new_world()
   # load_world("res://scenarios/medium_party_busy.tres")

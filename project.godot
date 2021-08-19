@@ -120,9 +120,14 @@ _global_script_classes=[ {
 "path": "res://game/gui/input_modes/sow_mode.gd"
 }, {
 "base": "Object",
+"class": "StateActivator",
+"language": "GDScript",
+"path": "res://game/state/tools/state_activator.gd"
+}, {
+"base": "Object",
 "class": "StateGenerator",
 "language": "GDScript",
-"path": "res://game/state/generators/state_generator.gd"
+"path": "res://game/state/tools/state_generator.gd"
 }, {
 "base": "Object",
 "class": "Util",
@@ -152,6 +157,7 @@ _global_script_class_icons={
 "Pawn": "",
 "SelectMode": "",
 "SowMode": "",
+"StateActivator": "",
 "StateGenerator": "",
 "Util": ""
 }
