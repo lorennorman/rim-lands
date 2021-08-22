@@ -61,10 +61,10 @@ static func state_from_template(template=DEFAULT_TEMPLATE):
   generate_map_size(template, state.map_grid)
   generate_terrain_seed(template, state.map_grid)
   # terrain generation
-  var terrain_noise = ZeroOneNoise.new(state.map_grid.terrain_seed, ENVIRONMENTS[state.map_grid.environment].scale)
+  var terrain_noise = Util.ZeroOneNoise.new(state.map_grid.terrain_seed, ENVIRONMENTS[state.map_grid.environment].scale)
 
   var forest_seed = generate_forest_seed(template)
-  var forest_noise = ZeroOneNoise.new(forest_seed)
+  var forest_noise = Util.ZeroOneNoise.new(forest_seed)
 
   for z in state.map_grid.map_size:
     for x in state.map_grid.map_size:
@@ -134,19 +134,3 @@ static func generate_forest_seed(template):
 static func generate_forest(map_grid, x, z, terrain_value, forest_value):
   if Util.is_between(terrain_value, .31, .685) and forest_value > .65:
     map_grid.forests.push_back({ "x": x, "z": z })
-
-
-
-class ZeroOneNoise:
-  extends Object
-
-  var noise: OpenSimplexNoise
-  var scale_factor = 1
-
-  func _init(noise_seed, a_scale_factor=1):
-    noise = OpenSimplexNoise.new()
-    noise.seed = noise_seed
-    scale_factor = a_scale_factor
-
-  func get_noise_2d(x, y):
-    return inverse_lerp(-1, 1, noise.get_noise_2d(( x*scale_factor ), ( y*scale_factor )))

@@ -20,10 +20,7 @@ func set_map_grid(new_map_grid):
     terrain = null
 
   map_grid = new_map_grid
-
-  if map_grid as MapGrid:
-    map_grid.generate_cells()
-    generate_from_map_grid()
+  generate_from_map_grid()
 
 
 var terrain: HTerrain
@@ -47,12 +44,15 @@ func generate_from_map_grid():
   terrain.set_shader_type(HTerrain.SHADER_LOW_POLY)
   terrain.set_data(terrain_data)
   terrain.update_collider() # super important if you want to click the terrain
-  if map_grid.terrain_style == "Core's Edge":
+
+  # calibrate/hide water
+  if map_grid.environment == "core":
     $Water.visible = true
     $Water.mesh.size = Vector2(map_grid.map_size, map_grid.map_size)
     $Water.translation = Vector3(map_grid.map_size/2, water_y, map_grid.map_size/2)
   else:
     $Water.visible = false
+
   add_child(terrain)
 
 
@@ -61,13 +61,13 @@ func generate_maps(maps):
   var color_map: Image = maps[0]
   var height_map: Image = maps[1]
 
-
   for z in height_map.get_width():
     for x in height_map.get_height():
       var map_cell = map_grid.lookup_cell("%d,%d" % [x, z])
       var height_color = Color(map_cell.position.y, 0, 0)
       height_map.set_pixel(x, z, height_color)
       color_map.set_pixel(x, z, map_cell.terrain)
+
 
 # this is all hterrain implementation details
 func extract_map_images(terrain_data, image_types, operator_func):

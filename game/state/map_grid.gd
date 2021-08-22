@@ -2,49 +2,7 @@ extends Resource
 class_name MapGrid
 
 
-## Settings from the Terrain Style bundle
-# export(float, 0.001, 1000) var scale_grid_to_noise = 1.25
-# export(String) var terrain_style = "Core's Edge" # setget set_terrain_style
-# func set_terrain_style(new_terrain_style):
-#   terrain_style = new_terrain_style
-#   var style_settings = terrain_style_lookup[terrain_style]
-#   terrain_gradient = style_settings.gradient
-#   terrain_elevation_curve = style_settings.curve
-#   terrain_height_max = style_settings.height
-#   scale_grid_to_noise = style_settings.scale
-#   navigable_range = style_settings.navigable_range
-#
-# export(float) var terrain_height_max = 35.0
-# export(Gradient) var terrain_gradient
-# export(Curve) var terrain_elevation_curve
-# export(Array) var navigable_range
-
-# const terrain_style_lookup = {
-#   "Core's Edge": {
-#     "gradient": preload("res://game/terrain/res/cores_edge_color_gradient.tres"),
-#     "curve": preload("res://game/terrain/res/cores_edge_elevation_curve.tres"),
-#     "height": 35,
-#     "scale": 1.25,
-#     "navigable_range": [0.308, 0.312],
-#   },
-#   "The Rim Eternal": {
-#     "gradient": preload("res://game/terrain/res/rim_eternal_color_gradient.tres"),
-#     "curve": preload("res://game/terrain/res/rim_eternal_elevation_curve.tres"),
-#     "height": 30,
-#     "scale": 1.75,
-#     "navigable_range": [0.498, 0.502],
-#   },
-#   "The Voidlands": {
-#     "gradient": preload("res://game/terrain/res/voidlands_color_gradient.tres"),
-#     "curve": preload("res://game/terrain/res/voidlands_elevation_curve.tres"),
-#     "height": 40,
-#     "scale": 2.2,
-#     "navigable_range": [0.498, 0.502],
-#   },
-# }
-
-
-## Per-Map Settings
+## Map Settings
 # Terrain Environment
 export(String) var environment = "core"
 # Map length/width (maps are always square)
@@ -57,7 +15,6 @@ export(Array) var forests = []
 ## Things only used while the map is active/running the game
 # Pathfinding Network
 var astar: AStar = AStar.new()
-
 # Triply-Indexed Collection of MapCells
 var omni_dict: Dictionary
 
@@ -65,74 +22,9 @@ var torn_down := false
 var built_up := false
 
 
-func generate_cells(force = false):
-  if built_up and not force: return
-  # if not terrain_elevation_curve or not terrain_gradient or not navigable_range:
-  #   self.terrain_style = "Core's Edge"
+func set_cell(omni_id, cell):
+  omni_dict[omni_id] = cell
 
-  if astar:
-    astar.reserve_space(map_size * map_size)
-
-  omni_dict = {}
-
-  # randomize()
-  # var terrain_noise = OpenSimplexNoise.new()
-  # terrain_noise.seed = noise_seed
-  # var forest_noise = OpenSimplexNoise.new()
-  # forest_noise.seed = forest_noise_seed
-  #
-  # for z in map_size:
-  #   for x in map_size:
-  #     var nx = (x * scale_grid_to_noise)
-  #     var nz = (z * scale_grid_to_noise)
-  #
-  #     var terrain_noise_value = normalized_noise(terrain_noise, nx, nz)
-  #     var height = height_from_noise(terrain_noise_value)
-  #     var color = color_from_noise(terrain_noise_value)
-  #
-  #     var forest_noise_value = normalized_noise(forest_noise, nx, nz)
-  #     var has_forest = forest_from_noise(terrain_noise_value, forest_noise_value)
-  #
-  #     add_map_grid_cell(x, z, height, color, has_forest)
-
-  built_up = true
-  torn_down = false
-
-
-func normalized_noise(noise: OpenSimplexNoise, x: float, z: float):
-  # returns in the range [-1, 1]
-  var base_noise = noise.get_noise_2d(x, z)
-  # Normalize to the range [0, 1]
-  return inverse_lerp(-1, 1, base_noise)
-
-
-func is_navigable(height: float): return true
-  # calculate navigability
-  # var lowest_navigable_height = navigable_range[0] * terrain_height_max
-  # var highest_navigable_height = navigable_range[1] * terrain_height_max
-  # var navigable = (height > lowest_navigable_height) and (height < highest_navigable_height)
-  # return navigable
-
-
-# func height_from_noise(noise_value):
-#   # Simple: amplify noise value to a maximum
-#   # var height = terrain_height_max * noise_value
-#
-#   # Tool: Use a Curve to draw the contour of your terrain
-#   var height = terrain_height_max * terrain_elevation_curve.interpolate(noise_value)
-#
-#   return height
-#
-#
-# func color_from_noise(noise_value):
-#   # Tool: Use a gradient to assign colors to the contour curve
-#   var color = terrain_gradient.interpolate(noise_value)
-#   return color
-#
-#
-# func forest_from_noise(terrain_value, forest_value):
-#   return (terrain_value > .31 and terrain_value < .685) and forest_value > .65
-#
 
 func lookup_cell(omni_id):
   if torn_down:
@@ -143,81 +35,8 @@ func lookup_cell(omni_id):
   return omni_dict[omni_id]
 
 
-func set_cell(omni_id, cell):
-  omni_dict[omni_id] = cell
-
-
-func add_map_grid_cell(x, z, height, color, has_forest):
-  # Our new cell
-  var map_cell = MapCell.new()
-  # The MapGrid we're a part of, so we can lookup neighbors, etc
-  map_cell.map_grid = self
-  # Apply the terrain
-  map_cell.terrain = color
-  if has_forest:
-    map_cell.feature = "Forest"
-
-  # Calculate 3D position, mapping us to the terrain, averaging between points
-  var average_height
-  if x == 0 or z == 0:
-    average_height = height
-  else:
-    var old_height = lookup_cell("%d,%d" % [x-1, z-1]).position.y #height_map.get_pixel(x-1, z-1).r
-    average_height = (height + old_height) / 2
-
-  var position = Vector3((x+0.5), average_height, (z+0.5))
-
-  # Store and index position
-  map_cell.position = position
-  set_cell(position, map_cell)
-
-  # Generate, store, and index location key
-  var location_key = "%d,%d" % [x, z]
-  map_cell.location = location_key
-  set_cell(location_key, map_cell)
-
-  if astar:
-    map_cell.disabled = !is_navigable(height)
-
-    # Generate astar id and connect to the pathfinding grid
-    var astar_id = astar.get_available_point_id()
-    astar.add_point(astar_id, position)
-    add_astar_connections(astar_id, x, z)
-    if map_cell.disabled:
-      astar.set_point_disabled(astar_id, true)
-
-    # Store and index astar id
-    map_cell.astar_id = astar_id
-    set_cell(astar_id, map_cell)
-
-    map_cell.connect("pathing_updated", self, "pathing_updated")
-
-
 func pathing_updated(astar_id: int, pathable: bool):
   astar.set_point_disabled(astar_id, !pathable)
-
-
-func add_astar_connections(astar_id, x, z):
-  # Connect up, left, upper-left, and upper-right
-  # Note: expects cells to be added LtR
-  if z > 0:
-    add_astar_connection(astar_id, "%d,%d" % [x, z-1]) # up
-  if x > 0:
-    add_astar_connection(astar_id, "%d,%d" % [x-1, z]) # left
-  if x > 0 and z > 0:
-    add_astar_connection(astar_id, "%d,%d" % [x-1, z-1]) # upleft
-  if z > 0 and x < map_size - 2:
-    add_astar_connection(astar_id, "%d,%d" % [x+1, z-1]) # upright
-
-
-func add_astar_connection(astar_id, location_key):
-  var cell = lookup_cell(location_key)
-  # Blow up if we get something we don't expect
-  assert(cell, "No connection found between AStar ID: %s and Location %s" % [astar_id, location_key])
-  assert(cell.astar_id != astar_id, "Cannot connect AStar node to itself: %s" % astar_id)
-  assert(not astar.are_points_connected(astar_id, cell.astar_id), "AStar IDs already connected: %s, %s" % [astar_id, cell.astar_id])
-
-  astar.connect_points(astar_id, cell.astar_id)
 
 
 func get_move_path(from_key, to_key):

@@ -24,8 +24,8 @@ var _jc = Events.connect("job_completed", self, "complete_job")
 func buildup():
   # remake ephemeral connections
   # rebuild map
-  map_grid.astar = AStar.new()
-  map_grid.generate_cells(true)
+  # map_grid.astar = AStar.new()
+  # map_grid.generate_cells(true)
 
   # build everybody up
   for pawn in pawns: buildup_pawn(pawn)
