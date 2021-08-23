@@ -1,5 +1,11 @@
 extends Spatial
 
+var forest setget set_forest
+func set_forest(new_forest):
+  forest = new_forest
+  translation = forest.position
+
+
 func _ready():
   var active_tree
   match randi() % 10:

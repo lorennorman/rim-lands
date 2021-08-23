@@ -259,3 +259,4 @@ filter_method = "uses_job_boss"
 [node name="TreeBoss" parent="." instance=ExtResource( 20 )]
 scene_to_instance = ExtResource( 6 )
 resource_to_observe = "forest"
+key_method = "hash"

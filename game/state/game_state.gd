@@ -32,6 +32,7 @@ func buildup():
   for item in items: buildup_item(item)
   for job in jobs: buildup_job(job)
   for building in buildings: buildup_building(building)
+  for forest in map_grid.forests: buildup_forest(forest)
 
   # signal for all existing resources
   for pawn in pawns: Events.emit_signal("pawn_added", pawn)
@@ -66,7 +67,9 @@ func buildup_pawn(pawn):
   var map_cell = map_grid.lookup_cell(pawn.location)
 
   # bail if exists and we're not forcing
-  if map_cell.pawn: return
+  if map_cell.pawn:
+    printerr("Pawn collision at %s: " % [map_cell.location])
+    return
 
   # set pawn <-> cell
   map_cell.pawn = pawn
@@ -131,6 +134,14 @@ func buildup_building(building):
   var cell = map_grid.lookup_cell(building.location)
   building.map_cell = cell
   cell.feature = building
+
+
+## Forests
+func buildup_forest(forest):
+  var cell = map_grid.lookup_cell("%d,%d" % [forest.x, forest.z])
+  forest["position"] = cell.position
+  cell.feature = "Forest"
+  Events.emit_signal("forest_added", forest)
 
 
 ## Items

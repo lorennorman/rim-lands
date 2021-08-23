@@ -48,6 +48,7 @@ const DEFAULT_TEMPLATE = {
     # { "rations": 20 },
     # { "potions": 5 },
     # { "money" 600 },
+    # { "startup_text": "What was that? The wagon is destroyed and you're free..." }
   ]
 }
 
@@ -79,6 +80,23 @@ static func state_from_template(template=DEFAULT_TEMPLATE):
 
   # quests
   # rules
+  if template.has("rules"):
+    for rule in template.rules:
+      if rule is String:
+        match rule:
+          "pawn_trio":
+            var pawns = Factory.Pawns.default_pawns()
+            state.pawns.append_array(pawns)
+
+            # positioning...
+            # var cells = state.map_grid.find_good_starting_positions(3)
+            # for index in pawns.size():
+            #   var pawn = pawns[index]
+            #   var map_cell = cells[index]
+            #   pawn.map_cell = map_cell
+          _: printerr("Unrecognized rule: %s" % rule)
+      else:
+        printerr("Unrecognized rule type: %s" % rule)
 
   return state
 

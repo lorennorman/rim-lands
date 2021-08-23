@@ -18,6 +18,8 @@ func _ready():
 
 
 func get_key(resource):
+  # FIXME: couldn't call Dictionary#hash dynamically for some reason?
+  if resource is Dictionary and key_method == "hash": return resource.hash()
   return resource.call(key_method)
 
 
