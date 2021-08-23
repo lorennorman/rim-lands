@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://game/main.gd" type="Script" id=1]
 [ext_resource path="res://game/camera/camera_control.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://game/gui/2d/main_menu.tscn" type="PackedScene" id=5]
 [ext_resource path="res://game/terrain/trees/tree_model.tscn" type="PackedScene" id=6]
 [ext_resource path="res://game/gui/3d/jobs/job_icon.tscn" type="PackedScene" id=7]
+[ext_resource path="res://game/environment/world_environment.gd" type="Script" id=8]
 [ext_resource path="res://game/gui/gui.gd" type="Script" id=9]
 [ext_resource path="res://game/timers.gd" type="Script" id=10]
 [ext_resource path="res://game/gui/3d/jobs/job_markers.gd" type="Script" id=11]
@@ -213,8 +214,9 @@ script = ExtResource( 11 )
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 pause_mode = 1
 environment = ExtResource( 13 )
+script = ExtResource( 8 )
 
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
+[node name="DirectionalLight" type="DirectionalLight" parent="WorldEnvironment"]
 pause_mode = 1
 transform = Transform( 0.447717, 0.82203, -0.351876, -0.544102, 0.562734, 0.622321, 0.709579, -0.0871673, 0.699213, -9.02886, 40.5833, 0 )
 light_energy = 2.0
