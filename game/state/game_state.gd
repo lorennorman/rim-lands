@@ -39,6 +39,7 @@ func buildup():
   for item in items: Events.emit_signal("item_added", item)
   for job in jobs: Events.emit_signal("job_added", job)
   for building in buildings: Events.emit_signal("building_added", building)
+  for forest in map_grid.forests: Events.emit_signal("forest_added", forest)
 
 
 func teardown():
@@ -141,8 +142,21 @@ func buildup_forest(forest):
   var cell = map_grid.lookup_cell("%d,%d" % [forest.x, forest.z])
   forest["position"] = cell.position
   cell.feature = "Forest"
-  Events.emit_signal("forest_added", forest)
 
+
+func destroy_forest(forest_dict):
+  var found_forest
+  for forest in map_grid.forests:
+    if forest.x == forest_dict.x and forest.z == forest_dict.z:
+      found_forest = forest
+      break
+
+  if found_forest:
+    map_grid.forests.erase(found_forest)
+
+    Events.emit_signal("forest_removed", found_forest)
+  else:
+    printerr("Didn't find a matching forest for %s" % forest_dict)
 
 ## Items
 func add_item(item):

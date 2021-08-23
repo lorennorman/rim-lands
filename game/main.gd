@@ -22,7 +22,6 @@ func _ready():
 
   var state = StateGenerator.state_from_template()
   StateActivator.activate_state(state)
-  print(state.map_grid.forests.size())
 
   start_running_game_state(state)
 

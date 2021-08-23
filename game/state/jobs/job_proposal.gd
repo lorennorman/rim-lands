@@ -138,6 +138,7 @@ func move_to(args: Dictionary):
       # recalculate the move path and go around
       move_path = game_state.map_grid.get_move_path(pawn.map_cell, job.map_cell)
       next_index = 1
+      pawn.start_job_cooldown(0.01)
       continue
 
     next_cell.pawn = pawn
@@ -160,6 +161,7 @@ func lumber_drop_on_job_completion(cell):
     "owner": cell
   })
   game_state.add_item(lumber_drop)
+  game_state.destroy_forest({ "x": cell.x,  "z": cell.z })
 
 func build(_args: Dictionary):
   while job.percent_complete < 100:
