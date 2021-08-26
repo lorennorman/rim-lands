@@ -13,6 +13,7 @@ func _ready():
 
   new_world()
 
+
 func _input(event):
   if event.is_action_pressed("ui_cancel"):
     if main_menu.main_menu.visible:

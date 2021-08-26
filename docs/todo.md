@@ -3,6 +3,7 @@
 ## Up Next:
 finish mapgen overhaul:
   - update New Game use templates & generators
+  - update Simulation to use store over state
   - fix save/load
   - add roads to mapgen
   - add intro message support
