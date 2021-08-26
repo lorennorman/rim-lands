@@ -2,45 +2,15 @@ Lore Primer
 ===========
 
 
-Character Trailer
-=================
-
-::scottish-irish dorvan female::
-I was locked up when it happened...
-::quivering british avlan female::
-I was too sick to put up a fight...
-::privilege white male hum treasure hunter::
-I was just sleeping...
-
-
-Environment Trailer
-===================
-
-::Cowboy voice::
-Out here, on the Rim Eternal...
-::fade in desert scene, ken burns effect::
-...life's hard. But you don't want to glimpse what lies beyond...
-::fast-cuts to voidlands and back, dark/blue/purple surroundings, white/red eyed shadowy figures::
-
-::fade to cowboy's face::
-So just be glad you wrecked out here...
-::pan to traditional fantasy green grass/forest/mountain/lake environment::
-...on the outskirts of the Core. You've got a busy road right here to keep you supplied...
-::cut to tax collector scene and back::
-...and to keep you on your toes. But even here...
-::pan to a flower, flip to void-form of the flower (negative)::
-...things have a strange... emptiness...
-
-
 Rim Lore
 ========
-
 
 The Core Cities are bustling and prosperous affairs with wealth and abundance.
 
 But this is not The Core; this is The Rim Eternal.
 
 The rim lands are populated only with the banished, the feeble, and the insane... and those who would hunt them.
+
 
 Default Scenario
 ================
