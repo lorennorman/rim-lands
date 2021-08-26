@@ -165,7 +165,7 @@ _global_script_class_icons={
 [application]
 
 config/name="RimLands"
-run/main_scene="res://game/main.tscn"
+run/main_scene="res://game/main_shell.tscn"
 config/icon="res://icon.png"
 
 [autoload]
