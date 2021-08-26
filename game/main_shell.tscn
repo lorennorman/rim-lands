@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://game/gui/2d/main_menu.tscn" type="PackedScene" id=1]
+[ext_resource path="res://game/main_shell.gd" type="Script" id=2]
+
+[node name="MainShell" type="Node"]
+pause_mode = 2
+script = ExtResource( 2 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" parent="CanvasLayer" instance=ExtResource( 1 )]
+
+[connection signal="load_world_requested" from="CanvasLayer/MainMenu" to="." method="load_world"]
+[connection signal="new_world_requested" from="CanvasLayer/MainMenu" to="." method="new_world"]
+[connection signal="quit_requested" from="CanvasLayer/MainMenu" to="." method="quit"]

@@ -5,6 +5,13 @@ const MapViewer = preload("res://game/gui/3d/map_viewer/map_viewer.tscn")
 const SAVEGAME_DIR = "res://savegames"
 const SCENARIO_DIR = "res://scenarios"
 
+signal new_world_requested
+signal load_world_requested
+signal save_world_requested
+signal save_world_successful
+signal save_world_failed
+signal quit_requested
+
 export(NodePath) var main_menu_path
 export(NodePath) var new_button_path
 export(NodePath) var save_button_path
@@ -12,7 +19,6 @@ export(NodePath) var load_game_button_path
 export(NodePath) var load_scenario_button_path
 export(NodePath) var quit_button_path
 export(NodePath) var new_menu_path
-export(NodePath) var map_viewer_path
 export(NodePath) var load_game_menu_path
 export(NodePath) var load_scenario_menu_path
 export(NodePath) var save_menu_path
@@ -24,13 +30,13 @@ onready var load_game_button = get_node(load_game_button_path)
 onready var load_scenario_button = get_node(load_scenario_button_path)
 onready var quit_button = get_node(quit_button_path)
 onready var new_menu = get_node(new_menu_path)
-onready var map_viewer = get_node(map_viewer_path)
 onready var load_game_menu = get_node(load_game_menu_path)
 onready var load_scenario_menu = get_node(load_scenario_menu_path)
 onready var save_menu = get_node(save_menu_path)
 
+var receive_state_for_save: FuncRef
+
 func _ready():
-  Events.connect("menu_pressed", self, "pause_and_popup")
   # New Game
   new_button.connect("pressed", self, "new_game_clicked")
   # Load Game
@@ -46,27 +52,13 @@ func _ready():
   quit_button.connect("pressed", self, "quit_clicked")
 
 
-func pause_and_popup():
-  Events.emit_signal("pause_requested")
+func popup():
+  visible = true
   main_menu.popup()
 
 
 func new_game_clicked():
-  main_menu.visible = false
-  var new_map_grid = MapGrid.new()
-  new_map_grid.astar = null # initializes faster without the pathfinding network
-  new_map_grid.terrain_style = "Core's Edge"
-  ensure_map_viewer()
-  map_viewer.map_grid = new_map_grid
-  new_menu.popup()
-
-
-func ensure_map_viewer():
-  if map_viewer == null:
-    map_viewer = MapViewer.instance()
-    new_menu.get_node("CenterContainer").add_child(map_viewer)
-    map_viewer.owner = new_menu
-    map_viewer.connect("close_window", new_menu, "hide")
+  emit_signal("new_world_requested")
 
 
 func load_scenario_clicked():
@@ -76,7 +68,7 @@ func load_scenario_clicked():
 
 
 func load_scenario_file_selected(scenario_file_path):
-  Events.emit_signal("load_world_requested", scenario_file_path)
+  emit_signal("load_world_requested", ResourceLoader.load(scenario_file_path, "Resource", false))
 
 
 func load_game_clicked():
@@ -86,7 +78,7 @@ func load_game_clicked():
 
 
 func load_game_file_selected(game_file_path):
-  Events.emit_signal("load_world_requested", game_file_path)
+  emit_signal("load_world_requested", ResourceLoader.load(game_file_path, "Resource", false))
 
 
 func save_game_clicked():
@@ -96,8 +88,19 @@ func save_game_clicked():
 
 
 func save_game_file_selected(game_file_path):
-  Events.emit_signal("save_world_requested", game_file_path)
+  emit_signal("save_world_requested", game_file_path)
+  if !receive_state_for_save:
+    printerr("Nothing to save!")
+    return
+
+  var state_to_save = receive_state_for_save.call_func()
+  if ResourceSaver.save(game_file_path, state_to_save) != OK:
+    printerr("Error saving GameState")
+    emit_signal("save_world_failed")
+
+  else:
+    emit_signal("save_world_successful")
 
 
 func quit_clicked():
-  get_tree().quit()
+  emit_signal("quit_requested")

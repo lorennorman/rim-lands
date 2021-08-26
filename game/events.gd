@@ -6,11 +6,6 @@
 
 extends Node
 
-# GameState: New/Load/Save
-signal new_game_requested(map_grid)
-signal new_world_requested
-signal load_world_requested
-signal save_world_requested
 
 # Timer Service
 signal start_timer
