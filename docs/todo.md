@@ -1,16 +1,33 @@
 # TODO:
 
-## Hair-brained Schemes
-- [ ] Game can play itself?
-  - background of main menu just starts a colony
-  - take over at any time
-  - screen saver? fun to really watch?
+## Up Next:
+finish mapgen overhaul:
+  - implement global "shell" idea
+  - Loading... scene
+  - update New Game use templates & generators
+  - fix save/load
+  - add roads to mapgen
+  - add intro message support
+  - update all scenarios (use templates?)
+
+jobby jobs:
+  - finish out instajobs
+  - add per-job icons
+  - fix all input modes: click/drag
+  - new buildings: roadhouse, forge
+
+passage of time
+  - ticks framework
+  - time-of-day, environment
+  - hunger/food/eating
+  - random events
 
 
 ## Save/Load/Popover UI/File System
 - [ ] bug: building errors after load/new
 - [ ] bug: jobs/sub-jobs addition on buildup
 - [ ] autosave, quicksave, hotkeys
+- efficiently boot directly into last save
 
 
 ## Simulation/Units/Ticks
@@ -27,7 +44,7 @@
 - [ ] farmland
 - [ ] stockpile
 - [ ] building interiors
-- [ ] biome volumes:
+- [ ] biome areas:
   - forest
   - mountainside
   - lakes and streams
