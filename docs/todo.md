@@ -2,8 +2,6 @@
 
 ## Up Next:
 finish mapgen overhaul:
-  - implement global "shell" idea
-  - Loading... scene
   - update New Game use templates & generators
   - fix save/load
   - add roads to mapgen
