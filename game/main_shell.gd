@@ -19,7 +19,8 @@ func _input(event):
     if main_menu.main_menu.visible:
       main_menu.main_menu.visible = false
     else:
-      if current_scene: current_scene.set_pause(true)
+      if current_scene and current_scene.has_method("set_pause"):
+        current_scene.set_pause(true)
       main_menu.popup()
 
 
@@ -56,12 +57,19 @@ func load_world(state):
   transition_to(simulation)
 
 
+var scenario_configurator_cache = null
+func get_scenario_configurator():
+  if not scenario_configurator_cache:
+    scenario_configurator_cache = load("res://game/gui/3d/map_viewer/map_viewer.tscn")
+
+  return scenario_configurator_cache.instance()
+
 func new_world():
   main_menu.hide()
   yield(transition_to_loading(), "completed")
 
-  var state = StateGenerator.state_from_template()
-  load_world(state)
+  var scenario_configurator = get_scenario_configurator()
+  transition_to(scenario_configurator)
 
   # replace the child app with a scenario generator
   # var new_map_grid = MapGrid.new()

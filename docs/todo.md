@@ -1,7 +1,7 @@
 # TODO:
 
 ## Up Next:
-finish mapgen overhaul:
+mapgen overhaul:
   - update New Game use templates & generators
   - update Simulation to use store over state
   - fix save/load
