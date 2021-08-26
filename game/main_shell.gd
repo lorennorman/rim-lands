@@ -45,6 +45,7 @@ func transition_to_loading():
 
 
 func load_world(state):
+  main_menu.hide()
   yield(transition_to_loading(), "completed")
 
   StateActivator.activate_state(state)
@@ -55,7 +56,7 @@ func load_world(state):
 
 
 func new_world():
-  main_menu.main_menu.visible = false
+  main_menu.hide()
   yield(transition_to_loading(), "completed")
 
   var state = StateGenerator.state_from_template()
