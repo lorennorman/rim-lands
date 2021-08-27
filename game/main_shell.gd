@@ -73,13 +73,6 @@ func new_world():
   scenario_editor.connect("load_world_requested", self, "load_world")
   transition_to(scenario_editor)
 
-  # replace the child app with a scenario generator
-  # var new_map_grid = MapGrid.new()
-  # new_map_grid.astar = null # initializes faster without the pathfinding network
-  # new_map_grid.terrain_style = "Core's Edge"
-  # ensure_map_viewer()
-  # map_viewer.map_grid = new_map_grid
-
 
 func quit():
   # TODO: check important things and prompt only as appropriate
