@@ -58,20 +58,20 @@ func load_world(state):
   transition_to(simulation)
 
 
-var scenario_configurator_cache = null
-func get_scenario_configurator():
-  if not scenario_configurator_cache:
-    scenario_configurator_cache = load("res://game/gui/3d/map_viewer/map_viewer.tscn")
+var ScenarioEditor: PackedScene = null
+func get_scenario_editor():
+  if not ScenarioEditor:
+    ScenarioEditor = load("res://game/gui/3d/scenario_editor/scenario_editor.tscn")
 
-  return scenario_configurator_cache.instance()
+  return ScenarioEditor.instance()
 
 func new_world():
   main_menu.hide()
   yield(transition_to_loading(), "completed")
 
-  var scenario_configurator = get_scenario_configurator()
-  scenario_configurator.connect("load_world_requested", self, "load_world")
-  transition_to(scenario_configurator)
+  var scenario_editor = get_scenario_editor()
+  scenario_editor.connect("load_world_requested", self, "load_world")
+  transition_to(scenario_editor)
 
   # replace the child app with a scenario generator
   # var new_map_grid = MapGrid.new()

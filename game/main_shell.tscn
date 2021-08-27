@@ -10,6 +10,7 @@ script = ExtResource( 2 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MainMenu" parent="CanvasLayer" instance=ExtResource( 1 )]
+visible = false
 
 [connection signal="load_world_requested" from="CanvasLayer/MainMenu" to="." method="load_world"]
 [connection signal="new_world_requested" from="CanvasLayer/MainMenu" to="." method="new_world"]
