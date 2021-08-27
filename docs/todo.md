@@ -2,7 +2,7 @@
 
 ## Up Next:
 mapgen overhaul:
-  - update New Game use templates & generators
+  - design Template-oriented New Game
   - update Simulation to use store over state
   - fix save/load
   - add roads to mapgen

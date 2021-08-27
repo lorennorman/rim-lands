@@ -50,6 +50,7 @@ func load_world(state):
   main_menu.hide()
   yield(transition_to_loading(), "completed")
 
+  if not state.map_grid.astar: state.map_grid.astar = AStar.new()
   StateActivator.activate_state(state)
   var simulation = RunningSimulation.instance()
   simulation.game_state = state
@@ -69,6 +70,7 @@ func new_world():
   yield(transition_to_loading(), "completed")
 
   var scenario_configurator = get_scenario_configurator()
+  scenario_configurator.connect("load_world_requested", self, "load_world")
   transition_to(scenario_configurator)
 
   # replace the child app with a scenario generator

@@ -40,6 +40,7 @@ func _ready():
 
   prepare_state()
 
+
 func prepare_state(given_state = null):
   if given_state:
     self.state = given_state
@@ -125,9 +126,10 @@ func randomize_terrain_seed():
 
 
 signal close_window
+signal load_world_requested
 func start_game_pressed():
   cleanup_and_close()
-  Events.emit_signal("new_game_requested", map_grid)
+  emit_signal("load_world_requested", state)
 
 
 func cancel_pressed():
