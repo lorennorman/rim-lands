@@ -9,11 +9,11 @@ export(Resource) var map_grid
 
 # todo: factor this out into a game state container
 var _sm = Events.connect("set_mode", self, "set_mode")
+
 var mode setget set_mode
 func set_mode(mode_params):
   mode = mode_params.mode
   Events.emit_signal("mode_updated", mode_params)
-
 
 var _jc = Events.connect("job_completed", self, "complete_job")
 
@@ -22,25 +22,7 @@ var _jc = Events.connect("job_completed", self, "complete_job")
 
 ## use these to choose when to "turn the state on/off"
 func buildup():
-  # remake ephemeral connections
-  # rebuild map
-  # map_grid.astar = AStar.new()
-  # map_grid.generate_cells(true)
-
-  # build everybody up
-  for pawn in pawns: buildup_pawn(pawn)
-  for item in items: buildup_item(item)
-  for job in jobs: buildup_job(job)
-  for building in buildings: buildup_building(building)
-  for forest in map_grid.forests: buildup_forest(forest)
-
-  # signal for all existing resources
-  for pawn in pawns: Events.emit_signal("pawn_added", pawn)
-  for item in items: Events.emit_signal("item_added", item)
-  for job in jobs: Events.emit_signal("job_added", job)
-  for building in buildings: Events.emit_signal("building_added", building)
-  for forest in map_grid.forests: Events.emit_signal("forest_added", forest)
-
+  pass
 
 func teardown():
   # yolo deletion: tell the whole world to teardown

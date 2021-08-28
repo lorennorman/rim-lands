@@ -2,6 +2,7 @@ extends Object
 class_name StateActivator
 
 static func activate_state(state):
+  ### Map ###
   var map_grid = state.map_grid
   if map_grid.astar:
     map_grid.astar.reserve_space(pow(map_grid.map_size, 2))
@@ -82,3 +83,17 @@ static func activate_state(state):
         map_grid.set_cell(astar_id, map_cell)
 
         # map_cell.connect("pathing_updated", self, "pathing_updated")
+
+  # ### Stuff on the Map ###
+  # for pawn in state.pawns: buildup_pawn(pawn)
+  # for item in state.items: buildup_item(item)
+  # for job in state.jobs: buildup_job(job)
+  # for building in state.buildings: buildup_building(building)
+  # for forest in map_grid.forests: buildup_forest(forest)
+  #
+  # # signal for all existing resources
+  # for pawn in state.pawns: Events.emit_signal("pawn_added", pawn)
+  # for item in state.items: Events.emit_signal("item_added", item)
+  # for job in state.jobs: Events.emit_signal("job_added", job)
+  # for building in state.buildings: Events.emit_signal("building_added", building)
+  # for forest in map_grid.forests: Events.emit_signal("forest_added", forest)
