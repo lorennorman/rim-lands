@@ -60,27 +60,14 @@ static func state_from_template(template=DEFAULT_TEMPLATE):
   var state = GameState.new()
   state.map_grid = MapGrid.new()
 
-  var map_template = template.map_template
-  # environment selection
-  generate_environment(map_template, state.map_grid)
-  generate_map_size(map_template, state.map_grid)
-  generate_terrain_seed(map_template, state.map_grid)
-  # terrain generation
-  var terrain_noise = Util.ZeroOneNoise.new(state.map_grid.terrain_seed, ENVIRONMENTS[state.map_grid.environment].scale)
+  generate_map(state.map_grid, template.map_template)
 
-  var forest_seed = generate_forest_seed(map_template)
-  var forest_noise = Util.ZeroOneNoise.new(forest_seed)
-
-  for z in state.map_grid.map_size:
-    for x in state.map_grid.map_size:
-      var terrain_noise_value = terrain_noise.get_noise_2d(x, z)
-
-      var forest_noise_value = forest_noise.get_noise_2d(x, z)
-      generate_forest(state.map_grid, x, z, terrain_noise_value, forest_noise_value)
-
-  # item generation
-  # building generation
   # pawn generation
+  generate_pawns(state.pawns, template.pawn_templates)
+  # item generation
+  generate_items(state.items, template.item_templates)
+  # building generation
+  generate_buildings(state.buildings, template.building_templates)
 
   # quests
   # rules
@@ -102,6 +89,28 @@ static func state_from_template(template=DEFAULT_TEMPLATE):
       printerr("Unrecognized rule type: %s" % rule)
 
   return state
+
+
+static func generate_map(map_grid, map_template):
+  # environment selection
+  generate_environment(map_template, map_grid)
+  generate_map_size(map_template, map_grid)
+  generate_terrain_seed(map_template, map_grid)
+
+  if map_grid.environment != "core": return
+
+  # forest generation
+  var terrain_noise = Util.ZeroOneNoise.new(map_grid.terrain_seed, ENVIRONMENTS[map_grid.environment].scale)
+  var forest_seed = generate_forest_seed(map_template)
+  var forest_noise = Util.ZeroOneNoise.new(forest_seed)
+
+  for z in map_grid.map_size:
+    for x in map_grid.map_size:
+      var terrain_noise_value = terrain_noise.get_noise_2d(x, z)
+
+      var forest_noise_value = forest_noise.get_noise_2d(x, z)
+      if Util.is_between(terrain_noise_value, .31, .685) and forest_noise_value > .65:
+        map_grid.forests.push_back({ "x": x, "z": z })
 
 
 static func generate_environment(map_template, map_grid):
@@ -136,6 +145,13 @@ static func generate_forest_seed(map_template):
     return map_template.forest_seed
 
 
-static func generate_forest(map_grid, x, z, terrain_value, forest_value):
-  if Util.is_between(terrain_value, .31, .685) and forest_value > .65:
-    map_grid.forests.push_back({ "x": x, "z": z })
+static func generate_pawns(_pawns, _pawn_templates):
+  print("TODO: generate_pawns()")
+
+
+static func generate_items(_items, _item_templates):
+  print("TODO: generate_items()")
+
+
+static func generate_buildings(_buildings, _building_templates):
+  print("TODO: generate_buildings()")
