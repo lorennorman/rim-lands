@@ -1,0 +1,26 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://game/templates/state_template.gd" type="Script" id=1]
+[ext_resource path="res://game/templates/map_template.gd" type="Script" id=2]
+[ext_resource path="res://game/templates/pawn_template.gd" type="Script" id=3]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 2 )
+environment = "core"
+map_size = 129
+terrain_seed = 0
+use_random_terrain_seed = true
+forest_seed = 0
+use_random_forest_seed = true
+oasis_seed = 0
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 3 )
+
+[resource]
+script = ExtResource( 1 )
+map_template = SubResource( 1 )
+pawn_templates = [ SubResource( 2 ) ]
+item_templates = [  ]
+building_templates = [  ]
+rules = [  ]
