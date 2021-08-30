@@ -51,11 +51,11 @@ func load_world(state):
   yield(transition_to_loading(), "completed")
 
   if not state.map_grid.astar: state.map_grid.astar = AStar.new()
-  StateActivator.activate_state(state)
   var simulation = RunningSimulation.instance()
   simulation.game_state = state
 
-  transition_to(simulation)
+  yield(transition_to(simulation), "completed")
+  StateActivator.activate_state(state)
 
 
 var ScenarioEditor: PackedScene = null
