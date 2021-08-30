@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=6 format=2]
+[gd_resource type="Resource" load_steps=8 format=2]
 
 [ext_resource path="res://game/templates/state_template.gd" type="Script" id=1]
 [ext_resource path="res://game/templates/map_template.gd" type="Script" id=2]
@@ -16,11 +16,35 @@ oasis_seed = 0
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 3 )
+name = ""
+use_random_name = true
+race = ""
+use_random_race = false
+location = ""
+use_random_location = true
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 3 )
+name = ""
+use_random_name = true
+race = "Dorv"
+use_random_race = false
+location = ""
+use_random_location = true
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 3 )
+name = ""
+use_random_name = true
+race = "Alv"
+use_random_race = false
+location = ""
+use_random_location = true
 
 [resource]
 script = ExtResource( 1 )
 map_template = SubResource( 1 )
-pawn_templates = [ SubResource( 2 ) ]
+pawn_templates = [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ]
 item_templates = [  ]
 building_templates = [  ]
 rules = [  ]
