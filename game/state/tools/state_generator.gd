@@ -60,14 +60,15 @@ static func state_from_template(template=DEFAULT_TEMPLATE):
   var state = GameState.new()
   state.map_grid = MapGrid.new()
 
+  var map_template = template.map_template
   # environment selection
-  generate_environment(template, state.map_grid)
-  generate_map_size(template, state.map_grid)
-  generate_terrain_seed(template, state.map_grid)
+  generate_environment(map_template, state.map_grid)
+  generate_map_size(map_template, state.map_grid)
+  generate_terrain_seed(map_template, state.map_grid)
   # terrain generation
   var terrain_noise = Util.ZeroOneNoise.new(state.map_grid.terrain_seed, ENVIRONMENTS[state.map_grid.environment].scale)
 
-  var forest_seed = generate_forest_seed(template)
+  var forest_seed = generate_forest_seed(map_template)
   var forest_noise = Util.ZeroOneNoise.new(forest_seed)
 
   for z in state.map_grid.map_size:
@@ -83,73 +84,56 @@ static func state_from_template(template=DEFAULT_TEMPLATE):
 
   # quests
   # rules
-  if template.has("rules"):
-    for rule in template.rules:
-      if rule is String:
-        match rule:
-          "pawn_trio":
-            var pawns = Factory.Pawns.default_pawns()
-            state.pawns.append_array(pawns)
+  for rule in template.rules:
+    if rule is String:
+      match rule:
+        "pawn_trio":
+          var pawns = Factory.Pawns.default_pawns()
+          state.pawns.append_array(pawns)
 
-            # positioning...
-            # var cells = state.map_grid.find_good_starting_positions(3)
-            # for index in pawns.size():
-            #   var pawn = pawns[index]
-            #   var map_cell = cells[index]
-            #   pawn.map_cell = map_cell
-          _: printerr("Unrecognized rule: %s" % rule)
-      else:
-        printerr("Unrecognized rule type: %s" % rule)
+          # positioning...
+          # var cells = state.map_grid.find_good_starting_positions(3)
+          # for index in pawns.size():
+          #   var pawn = pawns[index]
+          #   var map_cell = cells[index]
+          #   pawn.map_cell = map_cell
+        _: printerr("Unrecognized rule: %s" % rule)
+    else:
+      printerr("Unrecognized rule type: %s" % rule)
 
   return state
 
 
-static func generate_environment(template, map_grid):
-  if template.has("environment"):
-    map_grid.environment = template.environment
+static func generate_environment(map_template, map_grid):
+  if map_template.environment:
+    map_grid.environment = map_template.environment
   else:
     map_grid.environment = ["core", "rim", "void"][randi() % 3]
 
 
-static func generate_map_size(template, map_grid):
-  assert(template.has("terrain") and
-    template.terrain.has("map_size") and
-    template.terrain.map_size is int,
-    "Template does not contain valid terrain.map_size")
-
-  map_grid.map_size = template.terrain.map_size
+static func generate_map_size(map_template, map_grid):
+  map_grid.map_size = map_template.map_size
 
 
-static func generate_terrain_seed(template, map_grid):
-  assert(template.has("terrain") and template.terrain.has("elevation_seed"),
-    "Template does not contain terrain.elevation_seed")
-
-  var elevation_seed = template.terrain.elevation_seed
-
-  if elevation_seed == "random":
+static func generate_terrain_seed(map_template, map_grid):
+  if map_template.use_random_terrain_seed or not map_template.terrain_seed:
     map_grid.terrain_seed = Util.random_integer()
-
-  elif elevation_seed is int:
-    map_grid.terrain_seed = elevation_seed
-
+    # flatten randoms
+    map_template.use_random_terrain_seed = false
+    map_template.terrain_seed = map_grid.terrain_seed
   else:
-    assert(false, "Unrecognized noise value: %s" % elevation_seed)
+    map_grid.terrain_seed = map_template.terrain_seed
 
 
-static func generate_forest_seed(template):
-  assert(template.has("terrain") and template.terrain.has("core:forest_seed"),
-    "Template does not contain terrain.core:forest_seed")
-
-  var forest_seed = template.terrain["core:forest_seed"]
-
-  if forest_seed == "random":
-    return Util.random_integer()
-
-  elif forest_seed is int:
+static func generate_forest_seed(map_template):
+  if map_template.use_random_forest_seed or not map_template.forest_seed:
+    var forest_seed = Util.random_integer()
+    # flatten randoms
+    map_template.use_random_forest_seed = false
+    map_template.forest_seed = forest_seed
     return forest_seed
-
   else:
-    assert(false, "Unrecognized noise value: %s" % forest_seed)
+    return map_template.forest_seed
 
 
 static func generate_forest(map_grid, x, z, terrain_value, forest_value):
