@@ -9,12 +9,14 @@ export(NodePath) var camera_path
 export(NodePath) var environment_control_path
 export(NodePath) var map_size_control_path
 export(NodePath) var terrain_seed_control_path
+export(NodePath) var forest_seed_control_path
 
 onready var map_terrain = get_node(map_terrain_path)
 onready var camera = get_node(camera_path)
 onready var environment_control = get_node(environment_control_path)
 onready var map_size_control = get_node(map_size_control_path)
 onready var terrain_seed_control = get_node(terrain_seed_control_path)
+onready var forest_seed_control = get_node(forest_seed_control_path)
 
 onready var rng := RandomNumberGenerator.new()
 
@@ -36,6 +38,10 @@ func load_template(template_path):
 
 
 func update_state():
+  Events.emit_signal("game_state_teardown")
+  # FIXME: godot remembers resource arrays between objects
+  if map_grid: map_grid.forests.clear()
+
   # generate the state
   state = StateGenerator.state_from_template(current_template)
   map_grid = state.map_grid
@@ -47,22 +53,28 @@ func update_state():
   update_controls()
   # draw this thing
   map_terrain.map_grid = map_grid
+  $HSplitContainer/VBoxContainer/MarginContainer2/CenterContainer/HBoxContainer/VBoxContainer2/Label2.text = "Forests: %s" % map_grid.forests.size()
 
 
 func update_controls():
+  # environment
   for index in environment_control.get_item_count():
     var env_item = environment_control.get_item_text(index)
     if env_item.findn(map_grid.environment) != -1:
       environment_control.select(index)
       break
 
+  # map size
   for index in map_size_control.get_item_count():
     var item_text = map_size_control.get_item_text(index)
     if item_text.find(map_grid.map_size - 1) != -1:
       map_size_control.select(index)
       break
 
+  # terrain seed
   terrain_seed_control.text = String(map_grid.terrain_seed)
+  # forest seed
+  forest_seed_control.text = String(current_template.map_template.forest_seed)
 
   camera.translation = Vector3(map_grid.map_size/2, map_grid.map_size*5/6, map_grid.map_size/2)
 
@@ -113,6 +125,12 @@ const TWO_BILLION = 2_000_000_000
 func randomize_terrain_seed():
   var new_seed = rng.randi_range(-TWO_BILLION, TWO_BILLION)
   current_template.map_template.terrain_seed = new_seed
+  update_state()
+
+
+func randomize_forest_seed():
+  var new_seed = rng.randi_range(-TWO_BILLION, TWO_BILLION)
+  current_template.map_template.forest_seed = new_seed
   update_state()
 
 
