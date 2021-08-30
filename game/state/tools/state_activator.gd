@@ -85,15 +85,58 @@ static func activate_state(state):
         # map_cell.connect("pathing_updated", self, "pathing_updated")
 
   # ### Stuff on the Map ###
-  # for pawn in state.pawns: buildup_pawn(pawn)
-  # for item in state.items: buildup_item(item)
-  # for job in state.jobs: buildup_job(job)
-  # for building in state.buildings: buildup_building(building)
-  # for forest in map_grid.forests: buildup_forest(forest)
-  #
-  # # signal for all existing resources
-  # for pawn in state.pawns: Events.emit_signal("pawn_added", pawn)
-  # for item in state.items: Events.emit_signal("item_added", item)
-  # for job in state.jobs: Events.emit_signal("job_added", job)
-  # for building in state.buildings: Events.emit_signal("building_added", building)
-  # for forest in map_grid.forests: Events.emit_signal("forest_added", forest)
+  for pawn in state.pawns:
+    var map_cell = map_grid.lookup_cell(pawn.location)
+
+    # bail if exists and we're not forcing
+    if map_cell.pawn:
+      printerr("Pawn collision at %s: " % [map_cell.location])
+      return
+
+    # set pawn <-> cell
+    map_cell.pawn = pawn
+    pawn.map_cell = map_cell
+
+  for item in state.items:
+    if item.owner is String:
+      var cell = map_grid.lookup_cell(item.location)
+      item.map_cell = cell
+      cell.add_item(item)
+    else:
+      item.owner.add_item(item)
+
+  for job in state.jobs:
+    var cell = map_grid.lookup_cell(job.location)
+    if not cell.can_take_job(job):
+      printerr("Attempted to assign job to ineligible cell: %s -> %s" % [job, cell])
+
+    job.map_cell = cell
+    # unless i have a parent and they occupy this cell...
+    if not (job.parent and job.map_cell == job.parent.map_cell):
+      # ...i occupy this cell
+      cell.feature = job
+
+    # FIXME: nested add_job for sub-jobs, something isn't right here
+    #   won't the subjobs get saved/loaded normally, and thus not need the
+    #   parent job to add them?
+    if not job.can_be_completed():
+      for sub_job in job.sub_jobs:
+        pass
+        # add_job(sub_job)
+
+  for building in state.buildings:
+    var cell = map_grid.lookup_cell(building.location)
+    building.map_cell = cell
+    cell.feature = building
+
+  for forest in map_grid.forests:
+    var cell = map_grid.lookup_cell("%d,%d" % [forest.x, forest.z])
+    forest["position"] = cell.position
+    cell.feature = "Forest"
+
+  # signal for all existing resources
+  Events.emit_signal("pawn_collection_added", state.pawns)
+  Events.emit_signal("item_collection_added", state.items)
+  Events.emit_signal("building_collection_added", state.buildings)
+  Events.emit_signal("job_collection_added", state.jobs)
+  Events.emit_signal("forest_collection_added", map_grid.forests)
