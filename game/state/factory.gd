@@ -7,17 +7,17 @@ class Pawns:
     return [
       Pawn.new({
         "character_name": "Brindolf",
-        "race": "Dwarf",
+        "race": "Dorv",
         "location": "0,0"
       }),
       Pawn.new({
         "character_name": "Conrad",
-        "race": "Human",
+        "race": "Hum",
         "location": "0,1"
       }),
       Pawn.new({
         "character_name": "S'randra",
-        "race": "Elf",
+        "race": "Alv",
         "location": "1,0"
       }),
     ]

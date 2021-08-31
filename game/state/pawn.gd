@@ -9,7 +9,7 @@ export(int, -2, 2) var might
 export(int, -2, 2) var will
 export(int, -2, 2) var magic
 
-export(String, "Dwarf", "Elf", "Human") var race = "Dwarf" setget set_race
+export(String, "Dorv", "Alv", "Hum") var race = "Dorv" setget set_race
 func set_race(new_race):
   race = new_race
   if not (might and will and magic):
@@ -80,15 +80,15 @@ func start_job_cooldown(time):
 
 func default_stats_by_race():
   match race:
-    "Dwarf":
+    "Dorv":
       might = 1
       will = 1
       magic = -1
-    "Elf":
+    "Alv":
       might = 1
       will = 1
       magic = 2
-    "Human":
+    "Hum":
       might = 0
       will = 2
       magic = 0
