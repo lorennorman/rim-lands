@@ -1,6 +1,7 @@
 extends Control
 
 const DEFAULT_SCENARIO_PATH = "res://scenarios/standard_start_template.tres"
+const PawnEditor = preload("res://game/gui/2d/pawn_editor/pawn_editor.tscn")
 
 signal load_world_requested
 
@@ -10,6 +11,7 @@ export(NodePath) var environment_control_path
 export(NodePath) var map_size_control_path
 export(NodePath) var terrain_seed_control_path
 export(NodePath) var forest_seed_control_path
+export(NodePath) var pawn_editors_path
 
 onready var map_terrain = get_node(map_terrain_path)
 onready var camera = get_node(camera_path)
@@ -17,6 +19,7 @@ onready var environment_control = get_node(environment_control_path)
 onready var map_size_control = get_node(map_size_control_path)
 onready var terrain_seed_control = get_node(terrain_seed_control_path)
 onready var forest_seed_control = get_node(forest_seed_control_path)
+onready var pawn_editors = get_node(pawn_editors_path)
 
 onready var rng := RandomNumberGenerator.new()
 
@@ -75,6 +78,13 @@ func update_controls():
   terrain_seed_control.text = String(map_grid.terrain_seed)
   # forest seed
   forest_seed_control.text = String(current_template.map_template.forest_seed)
+
+  for child in pawn_editors.get_children(): child.queue_free()
+
+  for pawn in state.pawns:
+    var pawn_editor = PawnEditor.instance()
+    pawn_editor.pawn = pawn
+    pawn_editors.add_child(pawn_editor)
 
   camera.translation = Vector3(map_grid.map_size/2, map_grid.map_size*5/6, map_grid.map_size/2)
 

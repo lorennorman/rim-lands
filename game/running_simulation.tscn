@@ -237,21 +237,24 @@ local = false
 
 [node name="PawnBoss" parent="." instance=ExtResource( 19 )]
 scene_to_instance = ExtResource( 8 )
-resource_to_observe = "pawn"
+resource_name = "pawn"
 
 [node name="ItemBoss" parent="." instance=ExtResource( 19 )]
 scene_to_instance = ExtResource( 11 )
-resource_to_observe = "item"
+resource_name = "item"
 filter_method = "is_on_map"
 
 [node name="BuildingBoss" parent="." instance=ExtResource( 19 )]
 script = ExtResource( 6 )
+bind_to_global_signals = true
 scene_to_instance = ExtResource( 16 )
-resource_to_observe = "building"
+resource_name = "building"
+key_method = "to_string"
+filter_method = ""
 
 [node name="JobBoss" parent="." instance=ExtResource( 19 )]
 scene_to_instance = ExtResource( 7 )
-resource_to_observe = "job"
+resource_name = "job"
 filter_method = "uses_job_boss"
 
 [node name="MapTerrain" parent="." instance=ExtResource( 3 )]
@@ -259,5 +262,5 @@ pause_mode = 2
 
 [node name="TreeBoss" parent="." instance=ExtResource( 19 )]
 scene_to_instance = ExtResource( 9 )
-resource_to_observe = "forest"
+resource_name = "forest"
 key_method = "hash"

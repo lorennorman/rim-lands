@@ -164,11 +164,11 @@ static func generate_pawns(pawns, pawn_templates):
       pawn.character_name = template.name
 
     # location
+    location_index += 1
     if template.use_random_location or template.location == "":
       pawn.location = "%d,%d" % [location_index, location_index]
     else:
       pawn.location = template.location
-    location_index += 1
 
     # store
     pawns.push_back(pawn)

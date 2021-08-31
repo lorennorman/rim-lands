@@ -1,22 +1,23 @@
 extends Spatial
-
 class_name ModelBoss
 
+export(bool) var bind_to_global_signals = true
 export(PackedScene) var scene_to_instance
-export(String) var resource_to_observe
+export(String) var resource_name
 export(String) var key_method = "to_string"
 export(String) var filter_method
 
 var scenes = {}
 
 func _ready():
-  var resource_collection_added = "%s_collection_added" % resource_to_observe
-  var resource_added = "%s_added" % resource_to_observe
-  var resource_removed = "%s_removed" % resource_to_observe
-  Events.connect(resource_collection_added, self, "add_collection_of_scenes")
-  Events.connect(resource_added, self, "add_scene")
-  Events.connect(resource_removed, self, "remove_scene")
-  Events.connect("game_state_teardown", self, "teardown")
+  if bind_to_global_signals:
+    var resource_collection_added = "%s_collection_added" % resource_name
+    var resource_added = "%s_added" % resource_name
+    var resource_removed = "%s_removed" % resource_name
+    Events.connect(resource_collection_added, self, "add_collection_of_scenes")
+    Events.connect(resource_added, self, "add_scene")
+    Events.connect(resource_removed, self, "remove_scene")
+    Events.connect("game_state_teardown", self, "teardown")
 
 
 func get_key(resource):
@@ -39,7 +40,7 @@ func after_added(_resource, _scene): pass
 func add_scene(resource) -> void:
   if filtered(resource): return
   var scene = scene_to_instance.instance()
-  scene[resource_to_observe] = resource
+  scene[resource_name] = resource
   scenes[get_key(resource)] = scene
   add_child(scene)
   after_added(resource, scene)
