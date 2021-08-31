@@ -9,19 +9,30 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Reroll" type="Button" parent="."]
+visible = false
+margin_right = 49.0
+margin_bottom = 20.0
+text = "Reroll"
+
 [node name="Name" type="Label" parent="."]
+margin_top = 3.0
 margin_right = 42.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 text = "Name:"
 
 [node name="Race" type="Label" parent="."]
 margin_left = 52.0
+margin_top = 3.0
 margin_right = 86.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 text = "Race:"
 
 [node name="Stats" type="Label" parent="."]
 margin_left = 96.0
+margin_top = 3.0
 margin_right = 131.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 text = "Stats:"
+
+[connection signal="pressed" from="Reroll" to="." method="reroll_pressed"]
