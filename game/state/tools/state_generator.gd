@@ -61,12 +61,8 @@ static func state_from_template(template=DEFAULT_TEMPLATE):
   state.map_grid = MapGrid.new()
 
   generate_map(state.map_grid, template.map_template)
-
-  # pawn generation
   generate_pawns(state.pawns, template.pawn_templates)
-  # item generation
   generate_items(state.items, template.item_templates)
-  # building generation
   generate_buildings(state.buildings, template.building_templates)
 
   # quests
@@ -145,9 +141,37 @@ static func generate_forest_seed(map_template):
     return map_template.forest_seed
 
 
-static func generate_pawns(_pawns, _pawn_templates):
-  print("TODO: generate_pawns()")
+static func generate_pawns(pawns, pawn_templates):
+  var location_index = 0
+  for template in pawn_templates:
+    # create
+    var pawn = Pawn.new()
 
+    # race
+    if template.use_random_race or template.race == "":
+      pawn.race = ["Hum", "Dorv", "Alv"][randi() % 3]
+    else:
+      pawn.race = template.race
+
+    # name
+    if template.use_random_name or template.name == "":
+      match pawn.race:
+        "Hum": pawn.character_name = ["Conraz", "Mathum", "Walduf"][randi() % 3]
+        "Dorv": pawn.character_name = ["Brindolf", "Grizwund", "Utzvein"][randi() % 3]
+        "Alv": pawn.character_name = ["s'Randra", "z'Rulrah", "Elin'tor"][randi() % 3]
+        _: printerr("Unknown race to generate name for: %s" % pawn.race)
+    else:
+      pawn.character_name = template.name
+
+    # location
+    if template.use_random_location or template.location == "":
+      pawn.location = "%d,%d" % [location_index, location_index]
+    else:
+      pawn.location = template.location
+    location_index += 1
+
+    # store
+    pawns.push_back(pawn)
 
 static func generate_items(_items, _item_templates):
   print("TODO: generate_items()")
