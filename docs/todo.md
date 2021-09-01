@@ -2,8 +2,8 @@
 
 ## Up Next:
 mapgen overhaul:
-  - design Template-oriented New Game
-  - update Simulation to use store over state
+  - test-drive reactive store
+  - Simulation uses Store, not State
   - fix save/load
   - add roads to mapgen
   - add intro message support
@@ -123,6 +123,7 @@ passage of time
 
 
 # Done:
+- [x] Template-oriented New Game
 - [x] New Game:
   - [x] terrain setup
   - [x] auto-generate pawn trio

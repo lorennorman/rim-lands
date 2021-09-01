@@ -2,9 +2,8 @@ tool
 extends VBoxContainer
 
 const TestLabel = preload("./test_label.gd")
-const Spy = preload("./spy.gd")
 
-# func get_spy(method_name): return Spy.new(method_name)
+
 var suite
 export(Script) var suite_script setget set_suite_script
 func set_suite_script(new_suite_script):
@@ -22,9 +21,10 @@ func _ready():
   set_title(title)
   # enqueue all tests to run
   var test_labels = []
-  for name in get_suite_test_methods():
+  for test_method in get_suite_test_methods():
     # observer label for each test
-    var label = TestLabel.new(name, funcref(suite, name))
+    var test = suite_script.new()
+    var label = TestLabel.new(test_method, test)
     test_labels.push_back(label)
     $Tests.add_child(label)
 
