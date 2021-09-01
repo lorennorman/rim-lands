@@ -1,3 +1,59 @@
+extends Control
+
+var test_names = [
+  "test_thing_a",
+  "test_thing_c",
+  "test_thing_q"
+]
+
+
+func _ready():
+  # enqueue all tests to run
+  var test_labels = []
+  for name in test_names:
+    # observer label for each test
+    var label = TestLabel.new(name, funcref(self, name))
+    test_labels.push_back(label)
+    $MarginContainer/VBoxContainer/TestRuns.add_child(label)
+
+  for test in test_labels:
+    var return_value = test.run()
+    if return_value is GDScriptFunctionState && return_value.is_valid():
+      yield(return_value, "completed")
+
+
+func test_thing_a():
+  return false
+
+
+func test_thing_c():
+  return true
+
+
+func test_thing_q():
+  printerr("error!")
+
+
+class TestLabel:
+  extends Label
+
+  var test_name
+  var test_func
+
+  func _init(new_test_name, new_test_func):
+    test_name = new_test_name
+    test_func = new_test_func
+
+    text = "[ ]: %s " % test_name
+
+  func run():
+    var return_value = test_func.call_func()
+
+    if return_value:
+      text = "[.]: %s " % test_name
+    else:
+      text = "[F]: %s " % test_name
+
 # Test Ideas:
 # func test_nightly_attacks_from_portal():
 # func test_humans_agriculture():
