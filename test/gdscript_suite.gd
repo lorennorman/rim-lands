@@ -27,8 +27,27 @@ func test_resource_without_initialized_arrays():
 
   expect(res1.arr == [], "Arrays get initialized automatically")
   expect(res1.arr == res2.arr, "Initialized arrays match")
-  res1.arr.push_back(1) # modify res1's array, then check res2's array for the change
+  res1.arr.push_back(1)
   expect(res1.arr != res2.arr, "One array changed, arrays no longer match")
+
+
+func test_resource_with_initialized_resources():
+  var res1 = ResourceWithInitializedProperties.new()
+  var res2 = ResourceWithInitializedProperties.new()
+
+  expect(res1.res != null, "Initialized resources are not null")
+  expect(res1.res != res2.res, "Initialized resources are not equal")
+
+
+func test_resource_without_initialized_resources():
+  var res1 = ResourceWithoutInitializedProperties.new()
+  var res2 = ResourceWithoutInitializedProperties.new()
+
+  expect(res1.res == null, "Non-initialized subresources are null")
+  expect(res1.res == res2.res, "Non-initialized subresources are same")
+
+  res2.res = Resource.new()
+  expect(res1.res != res2.res, "Once set, subresources are not equal")
 
 
 class ResourceWithInitializedProperties:
