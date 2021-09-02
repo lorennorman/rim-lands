@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://test/store_suite.gd" type="Script" id=1]
 [ext_resource path="res://test/test_shell.gd" type="Script" id=2]
 [ext_resource path="res://test/test_suite.tscn" type="PackedScene" id=3]
+[ext_resource path="res://test/gdscript_suite.gd" type="Script" id=4]
 
 [node name="TestShell" type="Control"]
 anchor_right = 1.0
@@ -23,12 +24,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StoreSuite" parent="MarginContainer" instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 margin_left = 15.0
 margin_top = 15.0
 margin_right = 1009.0
 margin_bottom = 585.0
+
+[node name="StoreSuite" parent="MarginContainer/VBoxContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 994.0
+margin_bottom = 43.0
 suite_script = ExtResource( 1 )
-title = "Store Tests"
+title = "Store"
+
+[node name="GDScriptSuite" parent="MarginContainer/VBoxContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 47.0
+margin_right = 994.0
+margin_bottom = 90.0
+suite_script = ExtResource( 4 )
+title = "GDScript"
