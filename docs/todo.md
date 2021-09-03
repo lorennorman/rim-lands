@@ -21,6 +21,7 @@ passage of time
   - hunger/food/eating
   - random events
 
+ship initial gameplay!
 
 ## Save/Load/Popover UI/File System
 - [ ] bug: building errors after load/new
