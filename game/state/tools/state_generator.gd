@@ -2,58 +2,8 @@ extends Object
 class_name StateGenerator
 
 
-const ENVIRONMENTS = {
-  "core": {
-    "name": "Core's Edge",
-    "gradient": preload("res://game/terrain/res/cores_edge_color_gradient.tres"),
-    "curve": preload("res://game/terrain/res/cores_edge_elevation_curve.tres"),
-    "height": 35,
-    "scale": 1.25,
-    "navigable_range": [0.308, 0.312],
-  },
-  "rim": {
-    "name": "The Rim Eternal",
-    "gradient": preload("res://game/terrain/res/rim_eternal_color_gradient.tres"),
-    "curve": preload("res://game/terrain/res/rim_eternal_elevation_curve.tres"),
-    "height": 30,
-    "scale": 1.75,
-    "navigable_range": [0.498, 0.502],
-  },
-  "void": {
-    "name": "The Voidlands",
-    "gradient": preload("res://game/terrain/res/voidlands_color_gradient.tres"),
-    "curve": preload("res://game/terrain/res/voidlands_elevation_curve.tres"),
-    "height": 40,
-    "scale": 2.2,
-    "navigable_range": [0.498, 0.502],
-  },
-}
+const DEFAULT_TEMPLATE = preload("res://scenarios/standard_start_template.tres")
 
-
-const DEFAULT_TEMPLATE = {
-  "environment": "core",
-  "terrain": {
-    "map_size": 65,
-    "elevation_seed": "random",
-    "core:forest_seed": "random"
-  },
-  "pawns": [],
-  "items": [],
-  "buildings": [],
-  "questlines": [
-    "core_alliance_heat"
-  ],
-  "rules": [
-    "pawn_trio",
-    # "voidblasted_wagon",
-    # { "ruins": 3 },
-    # { "low_tier_kit": 2 },
-    # { "rations": 20 },
-    # { "potions": 5 },
-    # { "money" 600 },
-    # { "startup_text": "What was that? The wagon is destroyed and you're free..." }
-  ]
-}
 
 # Walk a Template and Create a GameState
 static func state_from_template(template=DEFAULT_TEMPLATE):
@@ -96,7 +46,7 @@ static func generate_map(map_grid, map_template):
   if map_grid.environment != "core": return
 
   # forest generation
-  var terrain_noise = Util.ZeroOneNoise.new(map_grid.terrain_seed, ENVIRONMENTS[map_grid.environment].scale)
+  var terrain_noise = Util.ZeroOneNoise.new(map_grid.terrain_seed, map_grid.environment_settings.scale)
   var forest_seed = generate_forest_seed(map_template)
   var forest_noise = Util.ZeroOneNoise.new(forest_seed)
 

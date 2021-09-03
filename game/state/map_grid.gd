@@ -2,6 +2,34 @@ extends Resource
 class_name MapGrid
 
 
+const ENVIRONMENTS = {
+  "core": {
+    "name": "Core's Edge",
+    "gradient": preload("res://game/terrain/res/cores_edge_color_gradient.tres"),
+    "curve": preload("res://game/terrain/res/cores_edge_elevation_curve.tres"),
+    "height": 35,
+    "scale": 1.25,
+    "navigable_range": [0.308, 0.312],
+  },
+  "rim": {
+    "name": "The Rim Eternal",
+    "gradient": preload("res://game/terrain/res/rim_eternal_color_gradient.tres"),
+    "curve": preload("res://game/terrain/res/rim_eternal_elevation_curve.tres"),
+    "height": 30,
+    "scale": 1.75,
+    "navigable_range": [0.498, 0.502],
+  },
+  "void": {
+    "name": "The Voidlands",
+    "gradient": preload("res://game/terrain/res/voidlands_color_gradient.tres"),
+    "curve": preload("res://game/terrain/res/voidlands_elevation_curve.tres"),
+    "height": 40,
+    "scale": 2.2,
+    "navigable_range": [0.498, 0.502],
+  },
+}
+
+
 ## Map Settings
 # Terrain Environment
 export(String) var environment = "core"
@@ -20,6 +48,9 @@ var omni_dict: Dictionary
 
 var torn_down := false
 var built_up := false
+# Environment lookup helper
+var environment_settings setget , get_environment_settings
+func get_environment_settings(): return ENVIRONMENTS[self.environment]
 
 
 func set_cell(omni_id, cell):
