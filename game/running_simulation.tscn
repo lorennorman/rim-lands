@@ -259,6 +259,7 @@ filter_method = "uses_job_boss"
 
 [node name="MapTerrain" parent="." instance=ExtResource( 3 )]
 pause_mode = 2
+input_camera_node_path = NodePath("../Camera")
 
 [node name="TreeBoss" parent="." instance=ExtResource( 19 )]
 scene_to_instance = ExtResource( 9 )

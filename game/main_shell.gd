@@ -1,17 +1,41 @@
 extends Node
 
-onready var RunningSimulation = load("res://game/running_simulation.tscn")
-onready var main_menu = $CanvasLayer/MainMenu
-# preload and keep in memory Loading scene
+### Lazy Loaded Scenes ###
+var RunningSimulation: PackedScene = null
+func lazy_load_running_simulation():
+  if not RunningSimulation:
+    RunningSimulation = load("res://game/running_simulation.tscn")
+
+  return RunningSimulation.instance()
+
+
+var ScenarioEditor: PackedScene = null
+func lazy_load_scenario_editor():
+  if not ScenarioEditor:
+    ScenarioEditor = load("res://game/gui/3d/scenario_editor/scenario_editor.tscn")
+
+  return ScenarioEditor.instance()
+
+
+### Eager Load and Remember Loading Scene ###
 var loading_scene = preload("res://game/loading.tscn").instance()
 
+
+### Grasp Node Collaborators ###
+export(NodePath) var main_menu_path
+onready var main_menu = get_node(main_menu_path)
+
+
+### Track Our Currently Focused Scene ###
 var current_scene
+
 
 func _ready():
   # try function injection
   main_menu.receive_state_for_save = funcref(self, "provide_state_for_save")
 
-  new_world()
+  load_world(StateGenerator.state_from_template())
+  # new_world()
 
 
 func _input(event):
@@ -24,10 +48,7 @@ func _input(event):
       main_menu.popup()
 
 
-func provide_state_for_save():
-  return "state!"
-
-
+### Scene Management ###
 func transition_to(scene):
   if current_scene:
     if current_scene == loading_scene:
@@ -46,30 +67,28 @@ func transition_to_loading():
   else: yield(get_tree(), "idle_frame")
 
 
+### Actions ###
+func provide_state_for_save():
+  printerr("provide_state_for_save not implemented")
+  return Resource.new()
+
+
 func load_world(state):
   main_menu.hide()
   yield(transition_to_loading(), "completed")
 
-  if not state.map_grid.astar: state.map_grid.astar = AStar.new()
-  var simulation = RunningSimulation.instance()
-  simulation.game_state = state
+  var store = GameStore.new(state)
+  var simulation = lazy_load_running_simulation()
+  simulation.store = store
 
   yield(transition_to(simulation), "completed")
-  StateActivator.activate_state(state)
 
-
-var ScenarioEditor: PackedScene = null
-func get_scenario_editor():
-  if not ScenarioEditor:
-    ScenarioEditor = load("res://game/gui/3d/scenario_editor/scenario_editor.tscn")
-
-  return ScenarioEditor.instance()
 
 func new_world():
   main_menu.hide()
   yield(transition_to_loading(), "completed")
 
-  var scenario_editor = get_scenario_editor()
+  var scenario_editor = lazy_load_scenario_editor()
   scenario_editor.connect("load_world_requested", self, "load_world")
   transition_to(scenario_editor)
 

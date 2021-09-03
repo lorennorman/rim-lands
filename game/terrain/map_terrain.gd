@@ -8,7 +8,8 @@ const HTerrain = preload("res://addons/zylann.hterrain/hterrain.gd")
 const HTerrainData = preload("res://addons/zylann.hterrain/hterrain_data.gd")
 
 # Camera's perspective to use when clicked
-var input_camera: Camera
+export(NodePath) var input_camera_node_path
+onready var input_camera: Camera = get_node(input_camera_node_path)
 var input_state = "paused"
 
 var map_grid setget set_map_grid

@@ -6,6 +6,7 @@
 [node name="MainShell" type="Node"]
 pause_mode = 2
 script = ExtResource( 2 )
+main_menu_path = NodePath("CanvasLayer/MainMenu")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

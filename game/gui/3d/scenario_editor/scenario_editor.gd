@@ -29,21 +29,17 @@ var map_grid
 
 
 func _ready():
-  rng.randomize()
-
+  rng.randomize() # FIXME: build out full on seed cascade
   load_template(DEFAULT_SCENARIO_PATH)
 
 
 func load_template(template_path):
   current_template = ResourceLoader.load(template_path, "Resource", false)
-
   update_state()
 
 
 func update_state():
   Events.emit_signal("game_state_teardown")
-  # FIXME: godot remembers resource arrays between objects
-  if map_grid: map_grid.forests.clear()
 
   # generate the state
   state = StateGenerator.state_from_template(current_template)
@@ -73,20 +69,21 @@ func update_controls():
     if item_text.find(map_grid.map_size - 1) != -1:
       map_size_control.select(index)
       break
+  # zoom camera in/out to fit map_size
+  camera.translation = Vector3(map_grid.map_size/2, map_grid.map_size*5/6, map_grid.map_size/2)
 
   # terrain seed
   terrain_seed_control.text = String(map_grid.terrain_seed)
   # forest seed
   forest_seed_control.text = String(current_template.map_template.forest_seed)
 
+  # pawns
   for child in pawn_editors.get_children(): child.queue_free()
 
   for pawn in state.pawns:
     var pawn_editor = PawnEditor.instance()
     pawn_editor.pawn = pawn
     pawn_editors.add_child(pawn_editor)
-
-  camera.translation = Vector3(map_grid.map_size/2, map_grid.map_size*5/6, map_grid.map_size/2)
 
 
 func environment_selected(item_index: int):
