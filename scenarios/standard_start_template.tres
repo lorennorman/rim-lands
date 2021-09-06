@@ -20,8 +20,8 @@ name = ""
 use_random_name = true
 race = "Hum"
 use_random_race = false
-location = ""
-use_random_location = true
+location = "15,13"
+use_random_location = false
 
 [sub_resource type="Resource" id=3]
 script = ExtResource( 3 )
@@ -29,7 +29,7 @@ name = ""
 use_random_name = true
 race = "Dorv"
 use_random_race = false
-location = ""
+location = "10,10"
 use_random_location = true
 
 [sub_resource type="Resource" id=4]

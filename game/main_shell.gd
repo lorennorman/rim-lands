@@ -77,8 +77,8 @@ func load_world(state):
   main_menu.hide()
   yield(transition_to_loading(), "completed")
 
-  var store = GameStore.new(state)
   var simulation = lazy_load_running_simulation()
+  var store = GameStore.new(state)
   simulation.store = store
 
   yield(transition_to(simulation), "completed")

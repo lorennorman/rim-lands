@@ -1,6 +1,6 @@
-var game_state: GameState
+var game_state: GameStore
 
-func _init(given_game_state: GameState):
+func _init(given_game_state: GameStore):
   assert(given_game_state, "Simulation initialized without a GameState")
   game_state = given_game_state
 
@@ -9,6 +9,7 @@ func _process(_delta):
   for pawn in game_state.pawns:
     if not pawn.is_busy():
       find_job_for_pawn(pawn)
+
 
 # pawn/job queue, job acquisition, job completion, reacquisition
 func find_job_for_pawn(pawn: Pawn) -> void:
@@ -26,6 +27,7 @@ func find_job_for_pawn(pawn: Pawn) -> void:
         closest_job = job
 
   if closest_job: propose_job_by_pawn(closest_job, pawn)
+
 
 func propose_job_by_pawn(job, pawn):
   var job_proposal = JobProposal.new({ "game_state": game_state, "pawn": pawn, "job": job })
