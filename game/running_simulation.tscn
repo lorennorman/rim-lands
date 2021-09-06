@@ -1,24 +1,14 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://game/camera/camera_control.gd" type="Script" id=1]
 [ext_resource path="res://game/gui/gui.gd" type="Script" id=2]
-[ext_resource path="res://game/terrain/map_terrain.tscn" type="PackedScene" id=3]
-[ext_resource path="res://game/environment/main_environment.tres" type="Environment" id=4]
-[ext_resource path="res://game/environment/world_environment.gd" type="Script" id=5]
-[ext_resource path="res://game/buildings/building_boss.gd" type="Script" id=6]
-[ext_resource path="res://game/gui/3d/jobs/job_icon.tscn" type="PackedScene" id=7]
-[ext_resource path="res://game/pawns/pawn_model.tscn" type="PackedScene" id=8]
-[ext_resource path="res://game/terrain/trees/tree_model.tscn" type="PackedScene" id=9]
+[ext_resource path="res://game/world/world.tscn" type="PackedScene" id=3]
 [ext_resource path="res://game/gui/3d/jobs/job_markers.gd" type="Script" id=10]
-[ext_resource path="res://game/items/item_model.tscn" type="PackedScene" id=11]
 [ext_resource path="res://game/gui/3d/map_indicators.gd" type="Script" id=12]
 [ext_resource path="res://game/gui/2d/pawn_directory.gd" type="Script" id=13]
 [ext_resource path="res://game/timers.gd" type="Script" id=14]
 [ext_resource path="res://game/gui/2d/font_theme.tres" type="Theme" id=15]
-[ext_resource path="res://game/buildings/building_model.tscn" type="PackedScene" id=16]
 [ext_resource path="res://game/running_simulation.gd" type="Script" id=17]
 [ext_resource path="res://game/gui/2d/right_menu.tscn" type="PackedScene" id=18]
-[ext_resource path="res://game/util/model_boss.tscn" type="PackedScene" id=19]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
@@ -43,6 +33,7 @@ size = Vector3( 1, 2, 1 )
 [node name="RunningSimulation" type="Spatial"]
 pause_mode = 1
 script = ExtResource( 17 )
+world_node_path = NodePath("World")
 
 [node name="Timers" type="Spatial" parent="."]
 pause_mode = 1
@@ -208,60 +199,4 @@ material/0 = null
 [node name="JobMarkers" type="Spatial" parent="GUI"]
 script = ExtResource( 10 )
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-pause_mode = 1
-environment = ExtResource( 4 )
-script = ExtResource( 5 )
-
-[node name="DirectionalLight" type="DirectionalLight" parent="WorldEnvironment"]
-pause_mode = 1
-transform = Transform( 0.447717, 0.82203, -0.351876, -0.544102, 0.562734, 0.622321, 0.709579, -0.0871673, 0.699213, -9.02886, 40.5833, 0 )
-light_energy = 2.0
-shadow_enabled = true
-shadow_color = Color( 0.6, 0.6, 0.6, 1 )
-
-[node name="Camera" type="Camera" parent="."]
-pause_mode = 2
-transform = Transform( 1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 32, 25, 25 )
-fov = 60.0
-far = 371.5
-script = ExtResource( 1 )
-mouse_mode = 0
-freelook = false
-pitch_limit = 24
-distance = 20.0
-average_max_speed = Vector3( 40, 40, 40 )
-local = false
-
-[node name="Tween" type="Tween" parent="Camera"]
-
-[node name="PawnBoss" parent="." instance=ExtResource( 19 )]
-scene_to_instance = ExtResource( 8 )
-resource_name = "pawn"
-
-[node name="ItemBoss" parent="." instance=ExtResource( 19 )]
-scene_to_instance = ExtResource( 11 )
-resource_name = "item"
-filter_method = "is_on_map"
-
-[node name="BuildingBoss" parent="." instance=ExtResource( 19 )]
-script = ExtResource( 6 )
-bind_to_global_signals = true
-scene_to_instance = ExtResource( 16 )
-resource_name = "building"
-key_method = "to_string"
-filter_method = ""
-
-[node name="JobBoss" parent="." instance=ExtResource( 19 )]
-scene_to_instance = ExtResource( 7 )
-resource_name = "job"
-filter_method = "uses_job_boss"
-
-[node name="MapTerrain" parent="." instance=ExtResource( 3 )]
-pause_mode = 2
-input_camera_node_path = NodePath("../Camera")
-
-[node name="TreeBoss" parent="." instance=ExtResource( 19 )]
-scene_to_instance = ExtResource( 9 )
-resource_name = "forest"
-key_method = "hash"
+[node name="World" parent="." instance=ExtResource( 3 )]
