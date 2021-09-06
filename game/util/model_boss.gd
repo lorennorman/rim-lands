@@ -7,6 +7,10 @@ export(String) var resource_name
 export(String) var key_method = "to_string"
 export(String) var filter_method
 
+var store setget set_store
+func set_store(new_store):
+  store = new_store
+  if store: subscribe_to_store()
 var scenes = {}
 
 func _ready():
@@ -18,6 +22,21 @@ func _ready():
     Events.connect(resource_added, self, "add_scene")
     Events.connect(resource_removed, self, "remove_scene")
     Events.connect("game_state_teardown", self, "teardown")
+
+func collection_getter_name(): return "get_%ss" % resource_name
+
+
+func subscribe_to_store():
+  print('Subscribing to "%s"' % resource_name)
+  var resource_collection_added = "%s_collection_added" % resource_name
+  var resource_added = "%s_added" % resource_name
+  var resource_removed = "%s_removed" % resource_name
+  store.connect(resource_collection_added, self, "add_collection_of_scenes")
+  store.connect(resource_added, self, "add_scene")
+  store.connect(resource_removed, self, "remove_scene")
+  store.connect("game_state_teardown", self, "teardown")
+  if store.has_method(collection_getter_name()):
+    add_collection_of_scenes(store.call(collection_getter_name()))
 
 
 func get_key(resource):
