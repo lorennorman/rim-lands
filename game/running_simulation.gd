@@ -2,7 +2,10 @@ extends Spatial
 
 const Simulator = preload("res://game/simulator.gd")
 
-var game_state: GameState
+export(NodePath) var world_node_path
+onready var world_node = get_node(world_node_path)
+
+var store: GameStore
 var sim: Simulator
 var simulator_state = "loading" setget set_simulator_state
 func set_simulator_state(new_state):
@@ -12,16 +15,11 @@ func set_simulator_state(new_state):
 
 
 func _ready():
-  assert(game_state, "game_state required before _ready")
+  assert(store, "store required before _ready")
 
-  $MapTerrain.input_camera = $Camera
-  $MapTerrain.map_grid = game_state.map_grid
-  $MapTerrain.input_state = "listening"
-
-  $GUI.game_state = game_state
-
-  sim = Simulator.new(game_state)
-  self.simulator_state = "simulating"
+  world_node.store = store
+  sim = Simulator.new(store)
+  # self.simulator_state = "simulating"
 
 
 func _input(event):
