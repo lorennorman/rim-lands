@@ -1,16 +1,12 @@
 extends Object
 class_name StateActivator
 
-static func activate_state(state):
+static func build_map(map_grid, map):
   ### Map ###
-  var map_grid = state.map_grid
-  if map_grid.astar:
-    map_grid.astar.reserve_space(pow(map_grid.map_size, 2))
+  map.astar.reserve_space(pow(map_grid.map_size, 2))
+  map.cells = {}
 
-  map_grid.omni_dict = {}
-
-  var environment = StateGenerator.ENVIRONMENTS[map_grid.environment]
-
+  var environment = map_grid.environment_settings
   var terrain_noise = Util.ZeroOneNoise.new(map_grid.terrain_seed)
 
   for z in map_grid.map_size:
@@ -36,77 +32,78 @@ static func activate_state(state):
       if x == 0 or z == 0:
         average_height = height
       else:
-        var old_height = map_grid.lookup_cell("%d,%d" % [x-1, z-1]).position.y
+        var old_height = map.lookup_cell("%d,%d" % [x-1, z-1]).position.y
         average_height = (height + old_height) / 2
 
       var position = Vector3((x+0.5), average_height, (z+0.5))
 
       # Store and index position
       map_cell.position = position
-      map_grid.set_cell(position, map_cell)
+      map.set_cell(position, map_cell)
 
       # Generate, store, and index location key
       var location_key = "%d,%d" % [x, z]
       map_cell.location = location_key
-      map_grid.set_cell(location_key, map_cell)
+      map.set_cell(location_key, map_cell)
 
-      if map_grid.astar:
-        # calculate navigability
-        var lowest_navigable_height = environment.navigable_range[0] * environment.height
-        var highest_navigable_height = environment.navigable_range[1] * environment.height
-        # disable nav if the cell is outside of the navigable range
-        map_cell.disabled = (height < lowest_navigable_height) or (height > highest_navigable_height)
+      # calculate navigability
+      var lowest_navigable_height = environment.navigable_range[0] * environment.height
+      var highest_navigable_height = environment.navigable_range[1] * environment.height
+      # disable nav if the cell is outside of the navigable range
+      map_cell.disabled = (height < lowest_navigable_height) or (height > highest_navigable_height)
 
-        # add the point to the astar network
-        var astar_id = map_grid.astar.get_available_point_id()
-        map_grid.astar.add_point(astar_id, position)
+      # add the point to the astar network
+      var astar_id = map.astar.get_available_point_id()
+      map.astar.add_point(astar_id, position)
 
-        # connect the point to its already-added astar neighbors
-        if z > 0:
-          var up_cell = map_grid.lookup_cell("%d,%d" % [x, z-1])
-          map_grid.astar.connect_points(astar_id, up_cell.astar_id)
-        if x > 0:
-          var left_cell = map_grid.lookup_cell("%d,%d" % [x-1, z])
-          map_grid.astar.connect_points(astar_id, left_cell.astar_id)
-        if x > 0 and z > 0:
-          var upleft_cell = map_grid.lookup_cell("%d,%d" % [x-1, z-1])
-          map_grid.astar.connect_points(astar_id, upleft_cell.astar_id)
-        if z > 0 and x < map_grid.map_size - 2:
-          var upright_cell = map_grid.lookup_cell("%d,%d" % [x+1, z-1])
-          map_grid.astar.connect_points(astar_id, upright_cell.astar_id)
+      # connect the point to its already-added astar neighbors
+      if z > 0:
+        var up_cell = map.lookup_cell("%d,%d" % [x, z-1])
+        map.astar.connect_points(astar_id, up_cell.astar_id)
+      if x > 0:
+        var left_cell = map.lookup_cell("%d,%d" % [x-1, z])
+        map.astar.connect_points(astar_id, left_cell.astar_id)
+      if x > 0 and z > 0:
+        var upleft_cell = map.lookup_cell("%d,%d" % [x-1, z-1])
+        map.astar.connect_points(astar_id, upleft_cell.astar_id)
+      if z > 0 and x < map_grid.map_size - 2:
+        var upright_cell = map.lookup_cell("%d,%d" % [x+1, z-1])
+        map.astar.connect_points(astar_id, upright_cell.astar_id)
 
-        if map_cell.disabled:
-          map_grid.astar.set_point_disabled(astar_id, true)
+      if map_cell.disabled:
+        map.astar.set_point_disabled(astar_id, true)
 
-        # Store and index astar id
-        map_cell.astar_id = astar_id
-        map_grid.set_cell(astar_id, map_cell)
+      # Store and index astar id
+      map_cell.astar_id = astar_id
+      map.set_cell(astar_id, map_cell)
 
-        # map_cell.connect("pathing_updated", self, "pathing_updated")
 
+static func stuff_on_map(store, map):
   # ### Stuff on the Map ###
-  for pawn in state.pawns:
-    var map_cell = map_grid.lookup_cell(pawn.location)
+  for pawn in store.pawns:
+    var map_cell = map.lookup_cell(pawn.location)
 
     # bail if exists and we're not forcing
     if map_cell.pawn:
       printerr("Pawn collision at %s: " % [map_cell.location])
-      return
+      continue
 
     # set pawn <-> cell
     map_cell.pawn = pawn
     pawn.map_cell = map_cell
 
-  for item in state.items:
+  store.emit_signal("pawn_collection_added", store.pawns)
+
+  for item in store.items:
     if item.owner is String:
-      var cell = map_grid.lookup_cell(item.location)
+      var cell = map.lookup_cell(item.location)
       item.map_cell = cell
       cell.add_item(item)
     else:
       item.owner.add_item(item)
 
-  for job in state.jobs:
-    var cell = map_grid.lookup_cell(job.location)
+  for job in store.jobs:
+    var cell = map.lookup_cell(job.location)
     if not cell.can_take_job(job):
       printerr("Attempted to assign job to ineligible cell: %s -> %s" % [job, cell])
 
@@ -124,19 +121,12 @@ static func activate_state(state):
         pass
         # add_job(sub_job)
 
-  for building in state.buildings:
-    var cell = map_grid.lookup_cell(building.location)
+  for building in store.buildings:
+    var cell = map.lookup_cell(building.location)
     building.map_cell = cell
     cell.feature = building
 
-  for forest in map_grid.forests:
-    var cell = map_grid.lookup_cell("%d,%d" % [forest.x, forest.z])
+  for forest in store.forests:
+    var cell = map.lookup_cell("%d,%d" % [forest.x, forest.z])
     forest["position"] = cell.position
     cell.feature = "Forest"
-
-  # signal for all existing resources
-  Events.emit_signal("pawn_collection_added", state.pawns)
-  Events.emit_signal("item_collection_added", state.items)
-  Events.emit_signal("building_collection_added", state.buildings)
-  Events.emit_signal("job_collection_added", state.jobs)
-  Events.emit_signal("forest_collection_added", map_grid.forests)
