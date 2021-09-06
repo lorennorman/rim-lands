@@ -114,9 +114,10 @@ static func generate_pawns(pawns, pawn_templates):
       pawn.character_name = template.name
 
     # location
-    location_index += 1
+    location_index += 5
     if template.use_random_location or template.location == "":
-      pawn.location = "%d,%d" % [location_index, location_index]
+      pawn.location = "%d,%d" % [randi()%location_index, randi()%location_index]
+      print(pawn.location)
     else:
       pawn.location = template.location
 
