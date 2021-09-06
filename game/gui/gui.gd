@@ -6,10 +6,30 @@ const InputModes = preload("res://game/gui/input_modes/input_modes.gd")
 onready var enable_draggable_cells = DraggableCells.new()
 onready var input_modes = InputModes.new()
 
+export(Array, NodePath) var store_observer_paths
+var store_observers := []
+
+
+var store setget set_store
+func set_store(new_store):
+  store = new_store
+  connect_store_observers()
+
+
 func _ready():
   Events.connect("hovered_cell_updated", self, "hovered_cell_updated")
   Events.connect("selected_entity_updated", self, "selected_entity_updated")
 
+  for path in store_observer_paths:
+    store_observers.push_back(get_node(path))
+
+  connect_store_observers()
+
+
+func connect_store_observers():
+  if store and store_observers.size() > 0:
+    for observer in store_observers:
+      observer.store = store
 
 func hovered_cell_updated(cell):
   var astar_text = "AStar: [?] %d" % cell.astar_id

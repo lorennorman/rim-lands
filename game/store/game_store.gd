@@ -2,6 +2,8 @@ extends Reference
 class_name GameStore
 
 
+signal game_state_teardown
+
 signal forest_collection_added(forests)
 signal forest_added(forest)
 signal forest_removed(forest)
@@ -13,7 +15,6 @@ signal pawn_removed(pawn)
 signal job_collection_added(jobs)
 signal job_added(job)
 signal job_removed(job)
-signal job_completed(job)
 
 signal building_collection_added(buildings)
 signal building_added(building)

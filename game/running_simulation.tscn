@@ -1,202 +1,20 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://game/gui/gui.gd" type="Script" id=2]
+[ext_resource path="res://game/gui/gui.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/world/world.tscn" type="PackedScene" id=3]
-[ext_resource path="res://game/gui/3d/jobs/job_markers.gd" type="Script" id=10]
-[ext_resource path="res://game/gui/3d/map_indicators.gd" type="Script" id=12]
-[ext_resource path="res://game/gui/2d/pawn_directory.gd" type="Script" id=13]
 [ext_resource path="res://game/timers.gd" type="Script" id=14]
-[ext_resource path="res://game/gui/2d/font_theme.tres" type="Theme" id=15]
 [ext_resource path="res://game/running_simulation.gd" type="Script" id=17]
-[ext_resource path="res://game/gui/2d/right_menu.tscn" type="PackedScene" id=18]
-
-[sub_resource type="SpatialMaterial" id=1]
-flags_transparent = true
-flags_do_not_receive_shadows = true
-albedo_color = Color( 1, 1, 1, 0.176471 )
-
-[sub_resource type="CubeMesh" id=2]
-material = SubResource( 1 )
-flip_faces = true
-size = Vector3( 1, 2, 1 )
-
-[sub_resource type="SpatialMaterial" id=3]
-flags_transparent = true
-flags_do_not_receive_shadows = true
-albedo_color = Color( 0.835294, 0.823529, 0.0784314, 0.309804 )
-
-[sub_resource type="CubeMesh" id=4]
-material = SubResource( 3 )
-flip_faces = true
-size = Vector3( 1, 2, 1 )
 
 [node name="RunningSimulation" type="Spatial"]
 pause_mode = 1
 script = ExtResource( 17 )
 world_node_path = NodePath("World")
+gui_node_path = NodePath("GUI")
 
 [node name="Timers" type="Spatial" parent="."]
 pause_mode = 1
 script = ExtResource( 14 )
 
-[node name="GUI" type="Spatial" parent="."]
-pause_mode = 2
-script = ExtResource( 2 )
-
-[node name="Menus" type="CanvasLayer" parent="GUI"]
-
-[node name="Top" type="Control" parent="GUI/Menus"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -20.0
-margin_right = 20.0
-margin_bottom = 40.0
-grow_horizontal = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="GUI/Menus/Top"]
-margin_top = 15.0
-grow_horizontal = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PawnDirectory" type="HBoxContainer" parent="GUI/Menus/Top/MarginContainer"]
-grow_horizontal = 2
-script = ExtResource( 13 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Left" type="Control" parent="GUI/Menus"]
-modulate = Color( 1, 1, 1, 0.784314 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -195.0
-margin_right = 171.0
-grow_vertical = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GUI/Menus/Left"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -195.0
-margin_right = 60.0
-margin_bottom = -20.0
-grow_vertical = 0
-alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AStarHoverLabel" type="Label" parent="GUI/Menus/Left/VBoxContainer"]
-margin_right = 118.0
-margin_bottom = 21.0
-theme = ExtResource( 15 )
-text = "Pawn:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PawnHoverLabel" type="Label" parent="GUI/Menus/Left/VBoxContainer"]
-margin_top = 25.0
-margin_right = 118.0
-margin_bottom = 46.0
-theme = ExtResource( 15 )
-text = "Pawn:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="FeatureHoverLabel" type="Label" parent="GUI/Menus/Left/VBoxContainer"]
-margin_top = 50.0
-margin_right = 118.0
-margin_bottom = 71.0
-theme = ExtResource( 15 )
-text = "Feature:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TerrainHoverLabel" type="Label" parent="GUI/Menus/Left/VBoxContainer"]
-margin_top = 75.0
-margin_right = 118.0
-margin_bottom = 96.0
-theme = ExtResource( 15 )
-text = "Terrain:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorRect" type="ColorRect" parent="GUI/Menus/Left/VBoxContainer/TerrainHoverLabel"]
-margin_left = 64.0
-margin_top = 2.0
-margin_right = 90.0
-margin_bottom = 22.0
-color = Color( 0, 0, 0, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LocationHoverLabel" type="Label" parent="GUI/Menus/Left/VBoxContainer"]
-margin_top = 100.0
-margin_right = 118.0
-margin_bottom = 121.0
-theme = ExtResource( 15 )
-text = "Location:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TargetFocus" type="Label" parent="GUI/Menus/Left/VBoxContainer"]
-margin_top = 125.0
-margin_right = 118.0
-margin_bottom = 225.0
-grow_vertical = 0
-rect_min_size = Vector2( 8, 100 )
-size_flags_vertical = 11
-theme = ExtResource( 15 )
-text = "This Person
-(Focused Entity)"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Panel" type="Panel" parent="GUI/Menus/Left/VBoxContainer/TargetFocus"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_min_size = Vector2( 0, 100 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RightMenu" parent="GUI/Menus" instance=ExtResource( 18 )]
-
-[node name="MapIndicators" type="Spatial" parent="GUI"]
-script = ExtResource( 12 )
-
-[node name="HoverIndicator" type="Spatial" parent="GUI/MapIndicators"]
-
-[node name="TransparentWhiteCube" type="MeshInstance" parent="GUI/MapIndicators/HoverIndicator"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-cast_shadow = 0
-mesh = SubResource( 2 )
-material/0 = null
-
-[node name="SelectIndicator" type="Spatial" parent="GUI/MapIndicators"]
-
-[node name="TransparentYellowCube" type="MeshInstance" parent="GUI/MapIndicators/SelectIndicator"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-cast_shadow = 0
-mesh = SubResource( 4 )
-material/0 = null
-
-[node name="JobMarkers" type="Spatial" parent="GUI"]
-script = ExtResource( 10 )
+[node name="GUI" parent="." instance=ExtResource( 1 )]
 
 [node name="World" parent="." instance=ExtResource( 3 )]

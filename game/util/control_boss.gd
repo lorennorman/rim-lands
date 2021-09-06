@@ -1,7 +1,9 @@
-extends Spatial
-class_name ModelBoss
+extends Control
+class_name ControlBoss
 
-export(bool) var bind_to_global_signals = true
+export(NodePath) var boss_container_path
+onready var boss_container = get_node(boss_container_path)
+
 export(PackedScene) var scene_to_instance
 export(String) var resource_name
 export(String) var key_method = "to_string"
@@ -13,21 +15,11 @@ func set_store(new_store):
   if store: subscribe_to_store()
 var scenes = {}
 
-func _ready():
-  if bind_to_global_signals:
-    var resource_collection_added = "%s_collection_added" % resource_name
-    var resource_added = "%s_added" % resource_name
-    var resource_removed = "%s_removed" % resource_name
-    Events.connect(resource_collection_added, self, "add_collection_of_scenes")
-    Events.connect(resource_added, self, "add_scene")
-    Events.connect(resource_removed, self, "remove_scene")
-    Events.connect("game_state_teardown", self, "teardown")
 
 func collection_getter_name(): return "get_%ss" % resource_name
 
 
 func subscribe_to_store():
-  print('Subscribing to "%s"' % resource_name)
   var resource_collection_added = "%s_collection_added" % resource_name
   var resource_added = "%s_added" % resource_name
   var resource_removed = "%s_removed" % resource_name
@@ -61,7 +53,7 @@ func add_scene(resource) -> void:
   var scene = scene_to_instance.instance()
   scene[resource_name] = resource
   scenes[get_key(resource)] = scene
-  add_child(scene)
+  boss_container.add_child(scene)
   after_added(resource, scene)
 
 

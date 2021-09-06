@@ -1,4 +1,4 @@
-# Global event bus
+# Global event bus, use as needed but try not to
 # Registered as Events in the Autoload constants
 # Use statically like:
 #   Events.emit_signal("signal_name", params...)
@@ -35,24 +35,5 @@ signal mode_updated(mode_options)
 signal simulator_state_updated(simulator_state)
 signal game_state_teardown
 
-signal forest_collection_added(forests)
-signal forest_added(forest)
-signal forest_removed(forest)
-
-signal pawn_collection_added(pawns)
-signal pawn_added(pawn)
-signal pawn_removed(pawn)
-
-signal job_collection_added(jobs)
-signal job_added(job)
-signal job_removed(job)
+# Orphaned Signals
 signal job_completed(job)
-
-signal building_collection_added(buildings)
-signal building_added(building)
-signal building_removed(building)
-
-signal item_collection_added(items)
-signal item_added(item)
-signal item_updated(item)
-signal item_removed(item)

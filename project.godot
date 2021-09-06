@@ -120,9 +120,9 @@ _global_script_classes=[ {
 "path": "res://game/gui/input_modes/mode_controller.gd"
 }, {
 "base": "Spatial",
-"class": "ModelBoss",
+"class": "SpatialBoss",
 "language": "GDScript",
-"path": "res://game/util/model_boss.gd"
+"path": "res://game/util/spatial_boss.gd"
 }, {
 "base": "Resource",
 "class": "Pawn",
@@ -187,7 +187,7 @@ _global_script_class_icons={
 "MapGrid": "",
 "MapTemplate": "",
 "ModeController": "",
-"ModelBoss": "",
+"SpatialBoss": "",
 "Pawn": "",
 "PawnTemplate": "",
 "SelectMode": "",

@@ -5,7 +5,7 @@
 [ext_resource path="res://game/gui/2d/girassol_font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/gui/3d/scenario_editor/scenario_editor.gd" type="Script" id=4]
 [ext_resource path="res://game/terrain/trees/tree_model.tscn" type="PackedScene" id=5]
-[ext_resource path="res://game/util/model_boss.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/util/spatial_boss.tscn" type="PackedScene" id=6]
 [ext_resource path="res://game/gui/2d/pawn_editor/pawn_editor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://game/state/pawn.gd" type="Script" id=8]
 

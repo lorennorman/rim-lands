@@ -4,6 +4,8 @@ const Simulator = preload("res://game/simulator.gd")
 
 export(NodePath) var world_node_path
 onready var world_node = get_node(world_node_path)
+export(NodePath) var gui_node_path
+onready var gui_node = get_node(gui_node_path)
 
 var store: GameStore
 var sim: Simulator
@@ -18,6 +20,7 @@ func _ready():
   assert(store, "store required before _ready")
 
   world_node.store = store
+  gui_node.store = store
   sim = Simulator.new(store)
   # self.simulator_state = "simulating"
 
