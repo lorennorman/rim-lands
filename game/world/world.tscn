@@ -29,6 +29,8 @@ filter_method = "is_on_map"
 script = ExtResource( 6 )
 scene_to_instance = ExtResource( 2 )
 resource_name = "building"
+key_method = null
+filter_method = null
 
 [node name="JobBoss" parent="." instance=ExtResource( 7 )]
 scene_to_instance = ExtResource( 1 )
