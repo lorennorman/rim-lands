@@ -24,7 +24,7 @@ static func build_map(map_grid, map):
       # A new MapCell for this position
       var map_cell = MapCell.new()
       # The MapGrid we're a part of, so we can lookup neighbors, etc
-      map_cell.map_grid = map_grid
+      map_cell.map = map
       # Apply the terrain
       map_cell.terrain = color
       # Calculate 3D position, mapping us to the terrain, averaging between points
