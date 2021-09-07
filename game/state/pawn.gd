@@ -31,7 +31,7 @@ func _set_map_cell(cell):
   translation = cell.position
   location = cell.location
 
-  start_job_cooldown(self.move_speed)
+  # start_job_cooldown(self.move_speed)
 
 
 # Inventory
@@ -64,6 +64,7 @@ func applied_build_speed():
 
 
 func start_job_cooldown(time):
+  print("starting cooldown %s" % time)
   # Job Cooldown
   on_cooldown = true
   self.emit_signal("updated")
@@ -72,8 +73,9 @@ func start_job_cooldown(time):
   job_timer.autostart = true
   job_timer.one_shot = true
   Events.emit_signal("start_timer", job_timer)
-
+  print("timer emitted")
   yield(job_timer, "timeout")
+  print("timer timed out")
   on_cooldown = false
   self.emit_signal("job_cooldown")
 

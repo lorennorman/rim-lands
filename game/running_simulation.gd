@@ -22,7 +22,7 @@ func _ready():
   world_node.store = store
   gui_node.store = store
   sim = Simulator.new(store)
-  # self.simulator_state = "simulating"
+  self.simulator_state = "simulating"
 
 
 func _input(event):
