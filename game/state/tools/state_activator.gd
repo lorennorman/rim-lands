@@ -81,16 +81,7 @@ static func build_map(map_grid, map):
 static func stuff_on_map(store, map):
   # ### Stuff on the Map ###
   for pawn in store.pawns:
-    var map_cell = map.lookup_cell(pawn.location)
-
-    # bail if exists and we're not forcing
-    if map_cell.pawn:
-      printerr("Pawn collision at %s: " % [map_cell.location])
-      continue
-
-    # set pawn <-> cell
-    map_cell.pawn = pawn
-    pawn.map_cell = map_cell
+    activate_pawn(pawn, map)
 
   store.emit_signal("pawn_collection_added", store.pawns)
 
@@ -103,23 +94,9 @@ static func stuff_on_map(store, map):
       item.owner.add_item(item)
 
   for job in store.jobs:
-    var cell = map.lookup_cell(job.location)
-    if not cell.can_take_job(job):
-      printerr("Attempted to assign job to ineligible cell: %s -> %s" % [job, cell])
+    activate_job(job, map)
+  store.emit_signal("job_collection_added", store.pawns)
 
-    job.map_cell = cell
-    # unless i have a parent and they occupy this cell...
-    if not (job.parent and job.map_cell == job.parent.map_cell):
-      # ...i occupy this cell
-      cell.feature = job
-
-    # FIXME: nested add_job for sub-jobs, something isn't right here
-    #   won't the subjobs get saved/loaded normally, and thus not need the
-    #   parent job to add them?
-    if not job.can_be_completed():
-      for sub_job in job.sub_jobs:
-        pass
-        # add_job(sub_job)
 
   for building in store.buildings:
     var cell = map.lookup_cell(building.location)
@@ -130,3 +107,48 @@ static func stuff_on_map(store, map):
     var cell = map.lookup_cell("%d,%d" % [forest.x, forest.z])
     forest["position"] = cell.position
     cell.feature = "Forest"
+
+static func activate_pawn(pawn, map):
+  var map_cell = map.lookup_cell(pawn.location)
+
+  # bail if exists and we're not forcing
+  if map_cell.pawn:
+    printerr("Pawn collision at %s: " % [map_cell.location])
+    return
+
+  # set pawn <-> cell
+  map_cell.pawn = pawn
+  pawn.map_cell = map_cell
+
+
+static func deactivate_pawn(pawn, map):
+  pawn.removed = true
+
+  var pawn_cell
+  if pawn.map_cell:
+    pawn_cell = pawn.map_cell
+  else:
+    pawn_cell = map.lookup_cell(pawn.location)
+
+  if pawn_cell.pawn == pawn:
+    pawn_cell.pawn = null
+
+
+static func activate_job(job, map):
+  var cell = map.lookup_cell(job.location)
+  if not cell.can_take_job(job):
+    printerr("Attempted to assign job to ineligible cell: %s -> %s" % [job, cell])
+
+  job.map_cell = cell
+  # unless i have a parent and they occupy this cell...
+  if not (job.parent and job.map_cell == job.parent.map_cell):
+    # ...i occupy this cell
+    cell.feature = job
+
+  # FIXME: nested add_job for sub-jobs, something isn't right here
+  #   won't the subjobs get saved/loaded normally, and thus not need the
+  #   parent job to add them?
+  if not job.can_be_completed():
+    for sub_job in job.sub_jobs:
+      pass
+      # add_job(sub_job)

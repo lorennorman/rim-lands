@@ -9,7 +9,7 @@ func new_job_at(_cell):
 
 
 func confirm(cell):
-  game_state.add_job( new_job_at(cell) )
+  store.add_job( new_job_at(cell) )
 
 
 func consider_from_to(start, end):
@@ -20,27 +20,27 @@ func consider_from_to(start, end):
 
   # clear and signal existing jobs
   for job in jobs:
-    Events.emit_signal("job_removed", job)
+    store.emit_signal("job_removed", job)
   jobs.clear()
 
   # new and signal jobs with between algorithm
   for cell in cell_selection_algorithm(start, end):
     var job = new_job_at(cell)
     jobs.push_back(job)
-    Events.emit_signal("job_added", job)
+    store.emit_signal("job_added", job)
 
 
 func confirm_from_to(start, end):
   for job in jobs:
     # signal existing jobs
-    Events.emit_signal("job_removed", job)
+    store.emit_signal("job_removed", job)
 
   if start == end:
     confirm(start)
   else:
     for job in jobs:
       # transfer into the game state
-      game_state.add_job(job)
+      store.add_job(job)
 
   # clear existing jobs
   jobs.clear()

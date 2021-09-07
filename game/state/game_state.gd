@@ -36,63 +36,7 @@ func teardown():
   map_grid.teardown()
 
 
-## Pawns
-func add_pawn(pawn: Pawn):
-  pawns.push_back(pawn)
-  buildup_pawn(pawn)
-  Events.emit_signal("pawn_added", pawn)
-
-
-func buildup_pawn(pawn):
-  assert(map_grid, "Map must be set before Pawns can be added")
-  assert(pawn.location, "Pawn must have a location to be added to the game")
-  # cell lookup
-  var map_cell = map_grid.lookup_cell(pawn.location)
-
-  # bail if exists and we're not forcing
-  if map_cell.pawn:
-    printerr("Pawn collision at %s: " % [map_cell.location])
-    return
-
-  # set pawn <-> cell
-  map_cell.pawn = pawn
-  pawn.map_cell = map_cell
-
-
-func destroy_pawn(pawn, erase=true):
-  if erase: pawns.erase(pawn)
-  pawn.removed = true
-  map_grid.lookup_cell(pawn.location).pawn = null
-  Events.emit_signal("pawn_removed", pawn)
-
-
 ## Jobs
-func add_job(job: Job):
-  buildup_job(job)
-  jobs.push_back(job)
-  Events.emit_signal("job_added", job)
-
-
-func buildup_job(job):
-  assert(map_grid, "Map must be set before Jobs can be added")
-  var cell = map_grid.lookup_cell(job.location)
-  if not cell.can_take_job(job):
-    printerr("Attempted to assign job to ineligible cell: %s -> %s" % [job, cell])
-
-  job.map_cell = cell
-  # unless i have a parent and they occupy this cell...
-  if not (job.parent and job.map_cell == job.parent.map_cell):
-    # ...i occupy this cell
-    cell.feature = job
-
-  # FIXME: nested add_job for sub-jobs, something isn't right here
-  #   won't the subjobs get saved/loaded normally, and thus not need the
-  #   parent job to add them?
-  if not job.can_be_completed():
-    for sub_job in job.sub_jobs:
-      add_job(sub_job)
-
-
 func complete_job(job, erase=true):
   match job.job_type:
     Enums.Jobs.BUILD:

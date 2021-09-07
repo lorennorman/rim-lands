@@ -1,5 +1,5 @@
 
-var game_state
+var store
 var mode_controller: ModeController
 
 const MODE_CONTROLLERS = {
@@ -26,7 +26,7 @@ func cell_right_clicked(cell):
 func mode_updated(mode_params):
   if MODE_CONTROLLERS.has(mode_params.mode):
     mode_controller = MODE_CONTROLLERS[mode_params.mode].new()
-    mode_controller.game_state = game_state
+    mode_controller.store = store
   else:
     mode_controller = null
 

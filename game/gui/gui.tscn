@@ -31,7 +31,7 @@ size = Vector3( 1, 2, 1 )
 [node name="GUI" type="Spatial"]
 pause_mode = 2
 script = ExtResource( 3 )
-store_observer_paths = [ NodePath("Menus/Top/MarginContainer/PawnEntryBoss") ]
+store_observer_paths = [ NodePath("Menus/Top/MarginContainer/PawnEntryBoss"), NodePath("Menus/RightMenu") ]
 
 [node name="Menus" type="CanvasLayer" parent="."]
 

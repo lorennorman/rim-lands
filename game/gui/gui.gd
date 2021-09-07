@@ -14,6 +14,7 @@ var store setget set_store
 func set_store(new_store):
   store = new_store
   connect_store_observers()
+  input_modes.store = store
 
 
 func _ready():

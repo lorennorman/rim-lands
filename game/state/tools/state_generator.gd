@@ -117,7 +117,6 @@ static func generate_pawns(pawns, pawn_templates):
     location_index += 5
     if template.use_random_location or template.location == "":
       pawn.location = "%d,%d" % [randi()%location_index, randi()%location_index]
-      print(pawn.location)
     else:
       pawn.location = template.location
 

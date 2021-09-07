@@ -2,7 +2,7 @@ extends Node
 class_name JobProposal
 
 
-var game_state#: GameState # circuluar dependency bug
+var game_state
 var job: Job
 var pawn
 var execution_plan: Array

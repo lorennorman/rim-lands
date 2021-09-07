@@ -10,19 +10,25 @@ signal forest_removed(forest)
 
 signal pawn_collection_added(pawns)
 signal pawn_added(pawn)
+signal pawn_updated(pawn)
+signal pawn_checked(pawn)
 signal pawn_removed(pawn)
 
 signal job_collection_added(jobs)
 signal job_added(job)
+signal job_updated(job)
+signal job_checked(job)
 signal job_removed(job)
 
 signal building_collection_added(buildings)
 signal building_added(building)
+signal building_checked(building)
 signal building_removed(building)
 
 signal item_collection_added(items)
 signal item_added(item)
 signal item_updated(item)
+signal item_checked(item)
 signal item_removed(item)
 
 
@@ -68,9 +74,21 @@ func add_pawn(new_pawn: Pawn):
   # check premises
   # mutate state
   game_state.pawns.push_back(new_pawn)
+  StateActivator.activate_pawn(new_pawn, map)
   # signal broadly
   emit_signal("pawn_added", new_pawn)
 
+
+func destroy_pawn(pawn, erase=true):
+  if erase: pawns.erase(pawn)
+  StateActivator.deactivate_pawn(pawn, map)
+  emit_signal("pawn_removed", pawn)
+
+
+func add_job(job: Job):
+  game_state.jobs.push_back(job)
+  StateActivator.activate_job(job, map)
+  emit_signal("job_added", job)
 
 class Map:
   var astar := AStar.new()

@@ -1,15 +1,15 @@
 extends Object
 class_name ModeController
 
-var game_state
+var store
 
-func _init(new_game_state=null):
-  game_state = new_game_state
+func _init(new_store=null):
+  store = new_store
 
 
 # by default let right click bail out to the basic selection mode
 func cancel(_cell):
-  game_state.mode = { "mode": Enums.Mode.SELECT }
+  store.mode = { "mode": Enums.Mode.SELECT }
 
 
 func confirm(_cell):
@@ -62,18 +62,18 @@ func square_of_cells(corner_a, corner_b, min_size=1, max_size=8):
   var square_cells = []
   for x in range(bounds.left, bounds.right+1):
     # top wall
-    square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [x, bounds.top]))
+    square_cells.push_back(store.map.lookup_cell("%d,%d" % [x, bounds.top]))
     if bounds.top != bounds.bottom:
       # bottom wall
-      square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [x, bounds.bottom]))
+      square_cells.push_back(store.map.lookup_cell("%d,%d" % [x, bounds.bottom]))
 
   if bounds.top != bounds.bottom:
     for z in range(bounds.top+1, bounds.bottom):
       # left wall
-      square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [bounds.left, z]))
+      square_cells.push_back(store.map.lookup_cell("%d,%d" % [bounds.left, z]))
       if bounds.left != bounds.right:
         # right wall
-        square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [bounds.right, z]))
+        square_cells.push_back(store.map.lookup_cell("%d,%d" % [bounds.right, z]))
 
   return square_cells
 
@@ -84,7 +84,7 @@ func filled_square_of_cells(corner_a, corner_b, min_size=1, max_size=8):
 
   for x in range(bounds.left, bounds.right):
     for z in range(bounds.top, bounds.bottom):
-      square_cells.push_back(game_state.map_grid.lookup_cell("%d,%d" % [x, z]))
+      square_cells.push_back(store.map.lookup_cell("%d,%d" % [x, z]))
 
   return square_cells
 
