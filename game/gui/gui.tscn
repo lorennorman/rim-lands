@@ -1,0 +1,205 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://game/util/control_boss.tscn" type="PackedScene" id=1]
+[ext_resource path="res://game/gui/2d/pawn_directory_entry.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/gui/gui.gd" type="Script" id=3]
+[ext_resource path="res://game/gui/3d/jobs/job_marker.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/gui/2d/font_theme.tres" type="Theme" id=5]
+[ext_resource path="res://game/gui/3d/map_indicators.gd" type="Script" id=6]
+[ext_resource path="res://game/gui/2d/right_menu.tscn" type="PackedScene" id=7]
+[ext_resource path="res://game/util/spatial_boss.gd" type="Script" id=8]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+flags_do_not_receive_shadows = true
+albedo_color = Color( 1, 1, 1, 0.176471 )
+
+[sub_resource type="CubeMesh" id=2]
+material = SubResource( 1 )
+flip_faces = true
+size = Vector3( 1, 2, 1 )
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+flags_do_not_receive_shadows = true
+albedo_color = Color( 0.835294, 0.823529, 0.0784314, 0.309804 )
+
+[sub_resource type="CubeMesh" id=4]
+material = SubResource( 3 )
+flip_faces = true
+size = Vector3( 1, 2, 1 )
+
+[node name="GUI" type="Spatial"]
+pause_mode = 2
+script = ExtResource( 3 )
+store_observer_paths = [ NodePath("Menus/Top/MarginContainer/PawnEntryBoss"), NodePath("Menus/RightMenu"), NodePath("JobMarkers") ]
+
+[node name="Menus" type="CanvasLayer" parent="."]
+
+[node name="Top" type="Control" parent="Menus"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_right = 20.0
+margin_bottom = 40.0
+grow_horizontal = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Menus/Top"]
+margin_top = 15.0
+grow_horizontal = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PawnEntryBoss" parent="Menus/Top/MarginContainer" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+boss_container_path = NodePath("HBoxContainer")
+scene_to_instance = ExtResource( 2 )
+resource_name = "pawn"
+key_method = "get_key"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menus/Top/MarginContainer/PawnEntryBoss"]
+margin_right = 40.0
+margin_bottom = 40.0
+grow_horizontal = 2
+custom_constants/separation = 20
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Left" type="Control" parent="Menus"]
+modulate = Color( 1, 1, 1, 0.784314 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -195.0
+margin_right = 171.0
+grow_vertical = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menus/Left"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -195.0
+margin_right = 60.0
+margin_bottom = -20.0
+grow_vertical = 0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AStarHoverLabel" type="Label" parent="Menus/Left/VBoxContainer"]
+margin_right = 118.0
+margin_bottom = 21.0
+theme = ExtResource( 5 )
+text = "Pawn:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PawnHoverLabel" type="Label" parent="Menus/Left/VBoxContainer"]
+margin_top = 25.0
+margin_right = 118.0
+margin_bottom = 46.0
+theme = ExtResource( 5 )
+text = "Pawn:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FeatureHoverLabel" type="Label" parent="Menus/Left/VBoxContainer"]
+margin_top = 50.0
+margin_right = 118.0
+margin_bottom = 71.0
+theme = ExtResource( 5 )
+text = "Feature:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TerrainHoverLabel" type="Label" parent="Menus/Left/VBoxContainer"]
+margin_top = 75.0
+margin_right = 118.0
+margin_bottom = 96.0
+theme = ExtResource( 5 )
+text = "Terrain:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Menus/Left/VBoxContainer/TerrainHoverLabel"]
+margin_left = 64.0
+margin_top = 2.0
+margin_right = 90.0
+margin_bottom = 22.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LocationHoverLabel" type="Label" parent="Menus/Left/VBoxContainer"]
+margin_top = 100.0
+margin_right = 118.0
+margin_bottom = 121.0
+theme = ExtResource( 5 )
+text = "Location:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TargetFocus" type="Label" parent="Menus/Left/VBoxContainer"]
+margin_top = 125.0
+margin_right = 118.0
+margin_bottom = 225.0
+grow_vertical = 0
+rect_min_size = Vector2( 8, 100 )
+size_flags_vertical = 11
+theme = ExtResource( 5 )
+text = "This Person
+(Focused Entity)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="Menus/Left/VBoxContainer/TargetFocus"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 100 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RightMenu" parent="Menus" instance=ExtResource( 7 )]
+
+[node name="MapIndicators" type="Spatial" parent="."]
+script = ExtResource( 6 )
+
+[node name="HoverIndicator" type="Spatial" parent="MapIndicators"]
+
+[node name="TransparentWhiteCube" type="MeshInstance" parent="MapIndicators/HoverIndicator"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+cast_shadow = 0
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="SelectIndicator" type="Spatial" parent="MapIndicators"]
+
+[node name="TransparentYellowCube" type="MeshInstance" parent="MapIndicators/SelectIndicator"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+cast_shadow = 0
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="JobMarkers" type="Spatial" parent="."]
+script = ExtResource( 8 )
+scene_to_instance = ExtResource( 4 )
+resource_name = "job"
+key_method = "get_key"

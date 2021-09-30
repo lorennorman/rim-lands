@@ -2,7 +2,7 @@ extends Node
 class_name JobProposal
 
 
-var game_state#: GameState # circuluar dependency bug
+var store
 var job: Job
 var pawn
 var execution_plan: Array
@@ -10,7 +10,7 @@ var execution_failure_reason: String
 
 func _init(mass_assignments: Dictionary = {}):
   Util.mass_assign(self, mass_assignments)
-  assert(game_state, "JobProposal initialized without a GameState")
+  assert(store, "JobProposal initialized without a GameStore")
   assert(job, "JobProposal initialized without a Job")
   assert(pawn, "JobProposal initialized without a Pawn")
 
@@ -33,7 +33,7 @@ func generate_execution_plan():
       var remaining_quantity = job.quantity
       while remaining_quantity > 0:
         # locate fitting material
-        var found_material = game_state.find_closest_available_material_to(job.material, pawn.map_cell)
+        var found_material = store.find_closest_available_material_to(job.material, pawn.map_cell)
         if not found_material:
           execution_failure("Not enough material")
           job.uncompletable_until(["item_added", "item_updated"])
@@ -77,7 +77,7 @@ func execution_failure(reason: String):
     if task.has("pick_up"):
       var args = task.pick_up
       if args.item.owner is Pawn:
-        game_state.transfer_item_from_to(args.item.type, args.item_quantity, pawn, pawn.map_cell)
+        store.transfer_item_from_to(args.item.type, args.item_quantity, pawn, pawn.map_cell)
       args.item.unclaim()
 
 func execute():
@@ -114,7 +114,7 @@ func unassign_job_from_pawn():
 func move_to(args: Dictionary):
   assert(args.has("cell"), "move_to called without a cell arg")
   # fetch the A* path
-  var move_path = game_state.map_grid.get_move_path(pawn.map_cell, args.cell)
+  var move_path = store.map.get_move_path(pawn.map_cell, args.cell)
   var next_index = 1
 
   while not pawn_in_range(args.cell):
@@ -131,13 +131,14 @@ func move_to(args: Dictionary):
       return
     var next_position = move_path[next_index]
     var current_cell = pawn.map_cell
-    var next_cell = game_state.map_grid.lookup_cell(next_position)
+    var next_cell = store.map.lookup_cell(next_position)
 
     # retry if destination is already occupied by a pawn (pawn will freeze)
     if next_cell.pawn:
       # recalculate the move path and go around
-      move_path = game_state.map_grid.get_move_path(pawn.map_cell, job.map_cell)
+      move_path = store.map.get_move_path(pawn.map_cell, job.map_cell)
       next_index = 1
+      pawn.start_job_cooldown(0.01)
       continue
 
     next_cell.pawn = pawn
@@ -159,7 +160,8 @@ func lumber_drop_on_job_completion(cell):
     "quantity": 20,
     "owner": cell
   })
-  game_state.add_item(lumber_drop)
+  store.add_item(lumber_drop)
+  store.destroy_forest({ "x": cell.x,  "z": cell.z })
 
 func build(_args: Dictionary):
   while job.percent_complete < 100:
@@ -171,9 +173,9 @@ func build(_args: Dictionary):
 
 
 func pick_up(args: Dictionary):
-  game_state.transfer_item_from_to(args.item.type, args.item_quantity, args.item.map_cell, pawn)
+  store.transfer_item_from_to(args.item.type, args.item_quantity, args.item.map_cell, pawn)
   args.item.unclaim()
 
 
 func drop_off(args: Dictionary):
-  game_state.transfer_item_from_to(args.item.type, args.item.quantity, pawn, args.target)
+  store.transfer_item_from_to(args.item.type, args.item.quantity, pawn, args.target)

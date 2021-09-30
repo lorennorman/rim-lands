@@ -1,5 +1,11 @@
 extends Spatial
 
+var forest setget set_forest
+func set_forest(new_forest):
+  forest = new_forest
+  translation = forest.position
+
+
 func _ready():
   var active_tree
   match randi() % 10:
@@ -10,5 +16,6 @@ func _ready():
 
   var rng = RandomNumberGenerator.new()
   rng.randomize()
-  var translation_offset = Vector3(rng.randf_range(-.5,.5), 0, rng.randf_range(-.5,.5))
+  var translation_offset = Vector3(rng.randf_range(-.25,.25), 0, rng.randf_range(-.25,.25))
   active_tree.translate(translation_offset)
+  scale = Vector3.ONE * rng.randf_range(.85, 1.15)

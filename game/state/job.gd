@@ -16,37 +16,45 @@ func set_job_type(new_job_type):
   job_type = new_job_type
   emit_signal("updated", self)
 
+
 export(String) var location setget set_location
 func set_location(new_location):
   location = new_location
   emit_signal("updated", self)
 
+
 var params setget set_params
 func set_params(_new_params):
   pass
+
 
 var area setget set_area
 func set_area(new_area):
   area = new_area
   emit_signal("updated", self)
 
+
 var map_cell setget set_map_cell
 func set_map_cell(new_map_cell):
   map_cell = new_map_cell
   location = map_cell.location
 
+
 var key setget , get_key
 func get_key(): return to_string() #"%s:%s" % [job_type, location]
+
 
 var current_worker setget set_current_worker
 func set_current_worker(new_worker):
   current_worker = new_worker
   emit_signal("updated", self)
 
+
 export(int, 0, 100) var percent_complete = 0 setget set_percent_complete
 func set_percent_complete(new_percent_complete):
   percent_complete = new_percent_complete
   emit_signal("updated", self)
+
 
 ### CONSTRUCTOR ###
 func _init(mass_assignments: Dictionary = {}):
@@ -57,6 +65,7 @@ func _init(mass_assignments: Dictionary = {}):
 func can_be_completed():
   return completable
 
+
 var completable_signals = []
 var completable = true
 func uncompletable_until(signals_to_watch):
@@ -66,9 +75,11 @@ func uncompletable_until(signals_to_watch):
   for watch_signal in signals_to_watch:
     Events.connect(watch_signal, self, "set_completable")
 
+
 func set_completable(_args):
   completable = true
   clear_completable_signals()
+
 
 func clear_completable_signals():
   for watch_signal in completable_signals:
@@ -78,6 +89,7 @@ func clear_completable_signals():
 
 func is_claimed():
   return current_worker
+
 
 func complete():
   # clear your worker

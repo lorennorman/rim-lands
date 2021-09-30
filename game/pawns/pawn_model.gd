@@ -1,7 +1,7 @@
 tool
 extends Spatial
 
-export(String, "Dwarf", "Elf", "Human") var presenting_race = "Dwarf"
+export(String, "Dorv", "Alv", "Hum") var presenting_race = "Dorv"
 
 var character_name setget _set_character_name, _get_character_name
 
@@ -31,9 +31,9 @@ func model_did_update():
 
 func present_as(race):
   presenting_race = race
-  $Dwarf.visible = false
-  $Elf.visible = false
-  $Human.visible = false
+  $Dorv.visible = false
+  $Alv.visible = false
+  $Hum.visible = false
 
   get_node(race).visible = true
 

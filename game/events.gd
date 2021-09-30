@@ -1,4 +1,4 @@
-# Global event bus
+# Global event bus, use as needed but try not to
 # Registered as Events in the Autoload constants
 # Use statically like:
 #   Events.emit_signal("signal_name", params...)
@@ -6,11 +6,6 @@
 
 extends Node
 
-# GameState: New/Load/Save
-signal new_game_requested(map_grid)
-signal new_world_requested
-signal load_world_requested
-signal save_world_requested
 
 # Timer Service
 signal start_timer
@@ -40,16 +35,5 @@ signal mode_updated(mode_options)
 signal simulator_state_updated(simulator_state)
 signal game_state_teardown
 
-signal pawn_added(pawn)
-signal pawn_removed(pawn)
-
-signal job_added(job)
-signal job_removed(job)
+# Orphaned Signals
 signal job_completed(job)
-
-signal building_added(building)
-signal building_removed(building)
-
-signal item_added(item)
-signal item_updated(item)
-signal item_removed(item)

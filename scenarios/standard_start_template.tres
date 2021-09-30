@@ -1,0 +1,59 @@
+[gd_resource type="Resource" load_steps=9 format=2]
+
+[ext_resource path="res://game/templates/state_template.gd" type="Script" id=1]
+[ext_resource path="res://game/templates/map_template.gd" type="Script" id=2]
+[ext_resource path="res://game/templates/pawn_template.gd" type="Script" id=3]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 2 )
+environment = "core"
+map_size = 129
+terrain_seed = 0
+use_random_terrain_seed = true
+forest_seed = 0
+use_random_forest_seed = true
+oasis_seed = 0
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 3 )
+name = ""
+use_random_name = true
+race = "Hum"
+use_random_race = false
+location = "15,13"
+use_random_location = false
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 3 )
+name = ""
+use_random_name = true
+race = "Dorv"
+use_random_race = false
+location = "10,10"
+use_random_location = true
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 3 )
+name = ""
+use_random_name = true
+race = "Alv"
+use_random_race = false
+location = ""
+use_random_location = true
+
+[sub_resource type="Resource" id=5]
+script = ExtResource( 3 )
+name = ""
+use_random_name = false
+race = ""
+use_random_race = false
+location = ""
+use_random_location = false
+
+[resource]
+script = ExtResource( 1 )
+map_template = SubResource( 1 )
+pawn_templates = [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ]
+item_templates = [  ]
+building_templates = [  ]
+rules = [  ]

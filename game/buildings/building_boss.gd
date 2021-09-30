@@ -1,4 +1,4 @@
-extends ModelBoss
+extends SpatialBoss
 
 func after_added(_resource, _scene):
   update_neighborspaces()

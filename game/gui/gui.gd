@@ -3,23 +3,37 @@ extends Spatial
 const DraggableCells = preload("res://game/gui/draggable_cells.gd")
 const InputModes = preload("res://game/gui/input_modes/input_modes.gd")
 
-var game_state setget set_game_state
-func set_game_state(new_game_state):
-  game_state = new_game_state
-  input_modes.game_state = game_state
 onready var enable_draggable_cells = DraggableCells.new()
 onready var input_modes = InputModes.new()
 
-func _ready():
-  if game_state: input_modes.game_state = game_state
+export(Array, NodePath) var store_observer_paths
+var store_observers := []
 
+
+var store setget set_store
+func set_store(new_store):
+  store = new_store
+  connect_store_observers()
+  input_modes.store = store
+
+
+func _ready():
   Events.connect("hovered_cell_updated", self, "hovered_cell_updated")
   Events.connect("selected_entity_updated", self, "selected_entity_updated")
 
+  for path in store_observer_paths:
+    store_observers.push_back(get_node(path))
+
+  connect_store_observers()
+
+
+func connect_store_observers():
+  if store and store_observers.size() > 0:
+    for observer in store_observers:
+      observer.store = store
 
 func hovered_cell_updated(cell):
-  var disabled = game_state.map_grid.astar.is_point_disabled(cell.astar_id)
-  var astar_text = "AStar: [%s] %d" % ['X' if disabled else '  ', cell.astar_id]
+  var astar_text = "AStar: [?] %d" % cell.astar_id
   $Menus/Left/VBoxContainer/AStarHoverLabel.text = astar_text
 
   var pawn_name = cell.pawn.character_name if cell.pawn else ""

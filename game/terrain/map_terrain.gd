@@ -7,38 +7,43 @@ extends Spatial
 const HTerrain = preload("res://addons/zylann.hterrain/hterrain.gd")
 const HTerrainData = preload("res://addons/zylann.hterrain/hterrain_data.gd")
 
+var terrain: HTerrain
+export(float) var water_y = 10.65
+
 # Camera's perspective to use when clicked
-var input_camera: Camera
+export(NodePath) var input_camera_node_path
+onready var input_camera: Camera = get_node(input_camera_node_path)
 var input_state = "paused"
 
-var map_grid setget set_map_grid
-func set_map_grid(new_map_grid):
+
+var store setget set_store
+var map
+func set_store(new_store):
   input_state = "paused"
 
+  clear_existing_terrain()
+  store = new_store
+  map = store.map
+  generate_from_map()
+
+  input_state = "listening"
+
+
+func clear_existing_terrain():
   if terrain:
+    printerr("Terrain already present")
     terrain.queue_free()
     terrain = null
 
-  map_grid = new_map_grid
 
-  if map_grid as MapGrid:
-    map_grid.generate_cells()
-    generate_from_map_grid()
-
-
-var terrain: HTerrain
-
-export(float) var water_y = 10.65
-
-
-func generate_from_map_grid():
-  assert(map_grid, "Tried to generate MapTerrain with MapGrid")
+func generate_from_map():
+  assert(map, "Tried to generate MapTerrain without a Map")
   assert(!terrain, "Tried to generate MapTerrain without clearing previous terrain")
+
   # Generate fresh terrain
   var terrain_data = HTerrainData.new()
-
-  # power-of-two-plus-1 (17, 33, 65, 129, 257, 513, 1025, etc...)
-  terrain_data.resize(map_grid.map_size)
+  # only valid options: 65, 129, 257, 513, 1025, 2049
+  terrain_data.resize(map.size)
 
   var image_maps = [HTerrainData.CHANNEL_COLOR, HTerrainData.CHANNEL_HEIGHT] #, HTerrainData.CHANNEL_NORMAL, HTerrainData.CHANNEL_DETAIL]
   extract_map_images(terrain_data, image_maps, funcref(self, "generate_maps"))
@@ -47,12 +52,15 @@ func generate_from_map_grid():
   terrain.set_shader_type(HTerrain.SHADER_LOW_POLY)
   terrain.set_data(terrain_data)
   terrain.update_collider() # super important if you want to click the terrain
-  if map_grid.terrain_style == "Core's Edge":
+
+  # calibrate/hide water
+  if map.environment.name == "Core's Edge":
     $Water.visible = true
-    $Water.mesh.size = Vector2(map_grid.map_size, map_grid.map_size)
-    $Water.translation = Vector3(map_grid.map_size/2, water_y, map_grid.map_size/2)
+    $Water.mesh.size = Vector2(map.size, map.size)
+    $Water.translation = Vector3(map.size/2, water_y, map.size/2)
   else:
     $Water.visible = false
+
   add_child(terrain)
 
 
@@ -61,13 +69,13 @@ func generate_maps(maps):
   var color_map: Image = maps[0]
   var height_map: Image = maps[1]
 
-
   for z in height_map.get_width():
     for x in height_map.get_height():
-      var map_cell = map_grid.lookup_cell("%d,%d" % [x, z])
+      var map_cell = map.lookup_cell("%d,%d" % [x, z])
       var height_color = Color(map_cell.position.y, 0, 0)
       height_map.set_pixel(x, z, height_color)
       color_map.set_pixel(x, z, map_cell.terrain)
+
 
 # this is all hterrain implementation details
 func extract_map_images(terrain_data, image_types, operator_func):
@@ -146,7 +154,7 @@ func _physics_process(_delta):
     # if the work worked, go!
     if result.get("position"):
       var location = "%d,%d" % [result.position.x, result.position.z]
-      var map_cell = map_grid.lookup_cell(location)
+      var map_cell = map.lookup_cell(location)
       Events.emit_signal("cell_%s" % action, map_cell)
 
     if result.get("collider") and result.collider is Pawn:

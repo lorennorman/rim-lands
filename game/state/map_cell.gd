@@ -4,7 +4,7 @@ class_name MapCell
 
 signal pathing_updated(astar_id, pathable)
 
-var map_grid
+var map
 
 var position: Vector3
 var disabled: bool = false
@@ -49,19 +49,19 @@ func update_neighborspace():
   if self.z > 0:
     var top_key = "%d,%d" % [self.x, self.z-1]
     # true if top has a wall
-    new_neighborspace[0] = map_grid.lookup_cell(top_key).feature is Building
+    new_neighborspace[0] = map.lookup_cell(top_key).feature is Building
 
-  if self.x < map_grid.map_size-1:
+  if self.x < map.size-1:
     var right_key = "%d,%d" % [self.x+1, self.z]
-    new_neighborspace[1] = map_grid.lookup_cell(right_key).feature is Building
+    new_neighborspace[1] = map.lookup_cell(right_key).feature is Building
 
-  if self.z < map_grid.map_size-1:
+  if self.z < map.size-1:
     var bottom_key = "%d,%d" % [self.x, self.z+1]
-    new_neighborspace[2] = map_grid.lookup_cell(bottom_key).feature is Building
+    new_neighborspace[2] = map.lookup_cell(bottom_key).feature is Building
 
   if self.x > 0:
     var left_key = "%d,%d" % [self.x-1, self.z]
-    new_neighborspace[3] = map_grid.lookup_cell(left_key).feature is Building
+    new_neighborspace[3] = map.lookup_cell(left_key).feature is Building
 
   if new_neighborspace != neighborspace:
     neighborspace = new_neighborspace
@@ -78,12 +78,6 @@ func get_item(item_type: int):
   if feature_is_item and feature.type == item_type:
     return feature
   else: return null
-
-
-func add_item(item):
-  assert(not feature, "Called MapCell.add_item but already has a feature: %s" % feature)
-  feature = item
-  feature_is_item = true
 
 
 func remove_item(item):

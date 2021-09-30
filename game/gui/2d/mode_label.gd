@@ -4,7 +4,7 @@ var current_mode
 var current_simulator_state: String
 
 func _ready():
-  Events.connect("mode_updated", self, "mode_updated")
+  Events.connect("set_mode", self, "mode_updated")
   Events.connect("simulator_state_updated", self, "simulator_state_updated")
 
 func mode_updated(mode_change):

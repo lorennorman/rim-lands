@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/state/building.gd"
 }, {
+"base": "Resource",
+"class": "BuildingTemplate",
+"language": "GDScript",
+"path": "res://game/templates/building_template.gd"
+}, {
 "base": "Job",
 "class": "ChopJob",
 "language": "GDScript",
@@ -33,6 +38,11 @@ _global_script_classes=[ {
 "class": "ChopMode",
 "language": "GDScript",
 "path": "res://game/gui/input_modes/chop_mode.gd"
+}, {
+"base": "Control",
+"class": "ControlBoss",
+"language": "GDScript",
+"path": "res://game/util/control_boss.gd"
 }, {
 "base": "Object",
 "class": "Enums",
@@ -48,6 +58,11 @@ _global_script_classes=[ {
 "class": "GameState",
 "language": "GDScript",
 "path": "res://game/state/game_state.gd"
+}, {
+"base": "Reference",
+"class": "GameStore",
+"language": "GDScript",
+"path": "res://game/store/game_store.gd"
 }, {
 "base": "ResourceFormatLoader",
 "class": "HTerrainDataLoader",
@@ -68,6 +83,11 @@ _global_script_classes=[ {
 "class": "Item",
 "language": "GDScript",
 "path": "res://game/state/item.gd"
+}, {
+"base": "Resource",
+"class": "ItemTemplate",
+"language": "GDScript",
+"path": "res://game/templates/item_template.gd"
 }, {
 "base": "Resource",
 "class": "Job",
@@ -94,20 +114,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/state/map_grid.gd"
 }, {
+"base": "Resource",
+"class": "MapTemplate",
+"language": "GDScript",
+"path": "res://game/templates/map_template.gd"
+}, {
 "base": "Object",
 "class": "ModeController",
 "language": "GDScript",
 "path": "res://game/gui/input_modes/mode_controller.gd"
 }, {
-"base": "Spatial",
-"class": "ModelBoss",
-"language": "GDScript",
-"path": "res://game/util/model_boss.gd"
-}, {
 "base": "Resource",
 "class": "Pawn",
 "language": "GDScript",
 "path": "res://game/state/pawn.gd"
+}, {
+"base": "Resource",
+"class": "PawnTemplate",
+"language": "GDScript",
+"path": "res://game/templates/pawn_template.gd"
 }, {
 "base": "ModeController",
 "class": "SelectMode",
@@ -119,6 +144,26 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/gui/input_modes/sow_mode.gd"
 }, {
+"base": "Spatial",
+"class": "SpatialBoss",
+"language": "GDScript",
+"path": "res://game/util/spatial_boss.gd"
+}, {
+"base": "Object",
+"class": "StateActivator",
+"language": "GDScript",
+"path": "res://game/state/tools/state_activator.gd"
+}, {
+"base": "Object",
+"class": "StateGenerator",
+"language": "GDScript",
+"path": "res://game/state/tools/state_generator.gd"
+}, {
+"base": "Resource",
+"class": "StateTemplate",
+"language": "GDScript",
+"path": "res://game/templates/state_template.gd"
+}, {
 "base": "Object",
 "class": "Util",
 "language": "GDScript",
@@ -128,32 +173,41 @@ _global_script_class_icons={
 "BuildJob": "",
 "BuildMode": "",
 "Building": "",
+"BuildingTemplate": "",
 "ChopJob": "",
 "ChopMode": "",
+"ControlBoss": "",
 "Enums": "",
 "Factory": "",
 "GameState": "",
+"GameStore": "",
 "HTerrainDataLoader": "",
 "HTerrainDataSaver": "",
 "HaulJob": "",
 "Item": "",
+"ItemTemplate": "",
 "Job": "",
 "JobMode": "",
 "JobProposal": "",
 "MapCell": "",
 "MapGrid": "",
+"MapTemplate": "",
 "ModeController": "",
-"ModelBoss": "",
 "Pawn": "",
+"PawnTemplate": "",
 "SelectMode": "",
 "SowMode": "",
+"SpatialBoss": "",
+"StateActivator": "",
+"StateGenerator": "",
+"StateTemplate": "",
 "Util": ""
 }
 
 [application]
 
 config/name="RimLands"
-run/main_scene="res://game/main.tscn"
+run/main_scene="res://game/main_shell.tscn"
 config/icon="res://icon.png"
 
 [autoload]

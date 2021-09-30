@@ -2,7 +2,7 @@
 
 ## Forage
 
-Elf
+Alv
 At: (?) Growth Patch
 Time: 100
 Consumes: N/A
@@ -11,7 +11,7 @@ Requires: Skill/Attribute/
 
 ## Plant
 
-Human
+Hum
 At: Crop Field
 Time: 20
 Consumes: N/A
@@ -39,7 +39,7 @@ Effect: Spawn Prepared Food Item
 
 ## Cultivate
 
-Elf + Human?
+Alv + Hum?
 At: Crop Field
 Time: 200
 Consumes: Seed/Spore/Clipping
@@ -47,30 +47,30 @@ Effect: Spawn Crop at 0% Growth
 
 ## Prospect
 
-Dwarf
+Dorv
 At: (?) Exposed Vein
 Time: 100
 Consumes: N/A
 Effect: Identify Exposed Vein
 
-## Mine Dwarf
-## Smith Dwarf
-## Forge Dwarf
-## Charcoaling Human (yikes)
-## Tunnel Dwarf
-## Lumber Human
-## Retail Items Human
-## Jeweling/Gemstoning Tree (+ Service) Elf
-## Accessory Creation (+ Service) Elf
-## Enchanting (+ Service) Elf
+## Mine Dorv
+## Smith Dorv
+## Forge Dorv
+## Charcoaling Hum (yikes)
+## Tunnel Dorv
+## Lumber Hum
+## Retail Items Hum
+## Jeweling/Gemstoning Tree (+ Service) Alv
+## Accessory Creation (+ Service) Alv
+## Enchanting (+ Service) Alv
 ## Healing (+ Service) Any
-## Brew Dwarf
-## Bartend Dwarf
-## Restaurant Human
-## Teach Magic Elf
-## Study Magic Elf
-## Handle Animal Dwarf
-## Art/Decor/Luxury Elf
+## Brew Dorv
+## Bartend Dorv
+## Restaurant Hum
+## Teach Magic Alv
+## Study Magic Alv
+## Handle Animal Dorv
+## Art/Decor/Luxury Alv
 
 ## Haul
 ## Relax/Heal/Regenerate/Downtime

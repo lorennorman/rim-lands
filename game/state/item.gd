@@ -5,6 +5,8 @@ signal updated
 
 export(int) var type
 export(String) var location
+
+# potential owners
 var map_cell: MapCell
 var pawn: Pawn
 var job: Job

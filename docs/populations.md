@@ -4,12 +4,31 @@
 - addicted to money
 - ambitious try-hards
 - don't produce much
-- ubiquitous among shopkeepers, tavernkeepers, and merchants
+- ubiquitous among:
+  - grinning tavernkeepers
+  - travelling merchants
+  - miserly hermits
+
 
 ## Dorvs (dwarf-analog)
 - addicted to shrooms
-- industrious stonemasons, metalworkers, and mycologists
+- seen as:
+  - driven mycologists
+  - industrious stonemasons
+  - meticulous metalworkers
+
 
 ## Alvs (elf-analog)
 - addicted to magic
-- elegant woodworkers, foragers, and instructors
+- known to be:
+  - elegant woodworkers
+  - peaceful foragers
+  - demanding instructors
+
+
+## Ercs (orc-analog)
+- addicted to ______
+- depicted as:
+  - warring bands
+  - rapacious raiders
+  - savage brutes
