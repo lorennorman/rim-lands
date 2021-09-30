@@ -11,7 +11,7 @@ const MODE_CONTROLLERS = {
 
 func _init():
   mode_controller = SelectMode.new()
-  Events.connect("mode_updated", self, "mode_updated")
+  Events.connect("set_mode", self, "mode_updated")
   Events.connect("cell_right_clicked", self, "cell_right_clicked")
   Events.connect("dragged_cell_updated", self, "dragged_cell_updated")
   Events.connect("dragged_cell_started", self, "dragged_cell_started")
