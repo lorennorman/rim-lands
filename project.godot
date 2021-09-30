@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/gui/input_modes/chop_mode.gd"
 }, {
+"base": "Control",
+"class": "ControlBoss",
+"language": "GDScript",
+"path": "res://game/util/control_boss.gd"
+}, {
 "base": "Object",
 "class": "Enums",
 "language": "GDScript",
@@ -171,6 +176,7 @@ _global_script_class_icons={
 "BuildingTemplate": "",
 "ChopJob": "",
 "ChopMode": "",
+"ControlBoss": "",
 "Enums": "",
 "Factory": "",
 "GameState": "",
