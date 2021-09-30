@@ -80,12 +80,6 @@ func get_item(item_type: int):
   else: return null
 
 
-func add_item(item):
-  assert(not feature, "Called MapCell.add_item but already has a feature: %s" % feature)
-  feature = item
-  feature_is_item = true
-
-
 func remove_item(item):
   assert(feature == item, "MapCell asked to remove item it didn't have.")
   feature = null
