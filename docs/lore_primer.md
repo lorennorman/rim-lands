@@ -12,6 +12,22 @@ But this is not The Core; this is The Rim Eternal.
 The rim lands are populated only with the banished, the feeble, and the insane... and those who would hunt them.
 
 
+The Three Orientations
+======================
+
+1. Coreward
+  - means in, towards the Core, where the Core Alliance rules
+  - used by Corefolk in lieu of "forward"
+    "coreward, march!"
+2. Rimward
+  - means the center of the 3 rims, the desert know as The Rim Eternal
+  - a rimward soul prefers the harsh limbo of the desert
+3. Voidward
+  - out, towards the Voidlands, and on to the Void beyond
+  - might be used as an insult, to mean "crazy" or "lost"
+  - not a joke, many have returned from the Voidlands very much crazy, and many more never returned, no doubt lost even now, wandering the void
+
+
 Default Scenario
 ================
 
