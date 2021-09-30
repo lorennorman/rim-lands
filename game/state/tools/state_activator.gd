@@ -86,27 +86,21 @@ static func stuff_on_map(store, map):
   store.emit_signal("pawn_collection_added", store.pawns)
 
   for item in store.items:
-    if item.owner is String:
-      var cell = map.lookup_cell(item.location)
-      item.map_cell = cell
-      cell.add_item(item)
-    else:
-      item.owner.add_item(item)
+    activate_item(item, map)
 
   for job in store.jobs:
     activate_job(job, map)
   store.emit_signal("job_collection_added", store.pawns)
 
-
   for building in store.buildings:
-    var cell = map.lookup_cell(building.location)
-    building.map_cell = cell
-    cell.feature = building
+    activate_building(building, map)
+  store.emit_signal("building_collection_added", store.buildings)
 
   for forest in store.forests:
     var cell = map.lookup_cell("%d,%d" % [forest.x, forest.z])
     forest["position"] = cell.position
     cell.feature = "Forest"
+
 
 static func activate_pawn(pawn, map):
   var map_cell = map.lookup_cell(pawn.location)
@@ -152,3 +146,34 @@ static func activate_job(job, map):
     for sub_job in job.sub_jobs:
       pass
       # add_job(sub_job)
+
+
+static func activate_building(building, map):
+  var cell = map.lookup_cell(building.location)
+  building.map_cell = cell
+  cell.feature = building
+
+
+static func activate_item(item, map):
+  var cell
+  if item.owner is String:
+    cell = map.lookup_cell(item.location)
+
+  if item.owner is MapCell:
+    cell = item.owner
+
+  if cell:
+    assert(not cell.feature, "activate_item: target cell already has a feature: %s" % cell.feature)
+    item.map_cell = cell
+    cell.feature = item
+    cell.feature_is_item = true
+
+
+static func deactivate_item(item):
+  if item.owner: item.owner.remove_item(item)
+
+
+static func activate_forest(forest, map):
+  var cell = map.lookup_cell("%d,%d" % [forest.x, forest.z])
+  forest["position"] = cell.position
+  cell.feature = "Forest"
