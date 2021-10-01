@@ -148,6 +148,12 @@ static func activate_job(job, map):
       # add_job(sub_job)
 
 
+static func deactivate_job(job):
+  job.removed = true
+  if job.map_cell && job.map_cell.feature == job:
+    job.map_cell.feature = null
+
+
 static func activate_building(building, map):
   var cell = map.lookup_cell(building.location)
   building.map_cell = cell

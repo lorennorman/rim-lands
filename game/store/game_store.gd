@@ -92,23 +92,10 @@ func add_job(job: Job):
   StateActivator.activate_job(job, map)
   emit_signal("job_added", job)
 
-
-### Buildings ###
-func add_building(building):
-  game_state.buildings.push_back(building)
-  StateActivator.activate_building(building, map)
-  emit_signal("building_added", building)
-
-
-### Items ###
-func add_item(item):
-  game_state.items.push_back(item)
-  StateActivator.activate_item(item, map)
-  emit_signal("item_added", item)
-
-
-## Jobs
-func complete_job(job, erase=true):
+# TODO: just listen to the jobs directly?
+var _jc = Events.connect("job_completed", self, "complete_job")
+func complete_job(job):
+  # TODO: move this into the job
   match job.job_type:
     Enums.Jobs.BUILD:
       add_building(Building.new({
@@ -116,9 +103,20 @@ func complete_job(job, erase=true):
         location = job.location
       }))
 
-  if erase: jobs.erase(job)
-  job.removed = true
-  Events.emit_signal("job_removed", job)
+  destroy_job(job)
+
+
+func destroy_job(job):
+  self.jobs.erase(job)
+  StateActivator.deactivate_job(job)
+  emit_signal("job_removed", job)
+
+
+### Buildings ###
+func add_building(building):
+  game_state.buildings.push_back(building)
+  StateActivator.activate_building(building, map)
+  emit_signal("building_added", building)
 
 
 ## Forests
@@ -142,7 +140,13 @@ func destroy_forest(forest_dict):
     printerr("Didn't find a matching forest for %s" % forest_dict)
 
 
-## Items
+### Items ###
+func add_item(item):
+  game_state.items.push_back(item)
+  StateActivator.activate_item(item, map)
+  emit_signal("item_added", item)
+
+
 func destroy_item(item):
   items.erase(item)
   StateActivator.deactivate_item(item)
