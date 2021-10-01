@@ -43,4 +43,7 @@ func dragged_cell_updated(start: MapCell, end: MapCell):
 
 func dragged_cell_ended(start, end):
   if mode_controller:
-    mode_controller.confirm_from_to(start, end)
+    if(start == end):
+      mode_controller.confirm(start)
+    else:
+      mode_controller.confirm_from_to(start, end)

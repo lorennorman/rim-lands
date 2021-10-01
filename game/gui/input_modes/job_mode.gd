@@ -5,7 +5,7 @@ var jobs = []
 
 
 func new_job_at(_cell):
-  printerr("Implement get_job_at(cell) for this JobMode")
+  printerr("Implement new_job_at(cell) for this JobMode")
 
 
 func confirm(cell):

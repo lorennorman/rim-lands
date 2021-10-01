@@ -21,7 +21,7 @@ func consider_from_to(_start, _end):
 
 
 func confirm_from_to(_start, _end):
-  printerr("%s Didn't implement consider_from_to" % self)
+  printerr("%s Didn't implement confirm_from_to" % self)
 
 
 # Util Functions

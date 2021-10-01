@@ -5,7 +5,9 @@ var selected_cell: MapCell
 var selected_entity
 
 
-func cancel(_cell): pass # TODO: deselect things
+func cancel(_cell):
+  # TODO: deselect things
+  pass
 
 
 func confirm(cell):
@@ -18,6 +20,15 @@ func confirm(cell):
   selected_entity = next_selectable_entity(cell, selected_entity)
   Events.emit_signal("selected_entity_updated", selected_entity)
 
+
+func consider_from_to(_start, _end):
+  # TODO: selection square? highlight lasso'd selectable items?
+  pass
+
+
+func confirm_from_to(_start, _end):
+  # TODO: group-selection routine
+  pass
 
 func next_selectable_entity(cell, current_selection):
   var entities = []
