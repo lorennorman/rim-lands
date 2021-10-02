@@ -15,11 +15,12 @@ jobby jobs:
   - fix all input modes: click/drag
   - new buildings: roadhouse, forge
 
-passage of time
+passage of time:
   - ticks framework
   - time-of-day, environment
   - hunger/food/eating
-  - random events
+  - night questline events
+  - day questline events
 
 ship initial gameplay!
 
