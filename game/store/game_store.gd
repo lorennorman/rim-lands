@@ -31,6 +31,9 @@ signal item_updated(item)
 signal item_checked(item)
 signal item_removed(item)
 
+# Reactive Store Signals
+signal getter(getter_name)
+signal mutation(resource_name)
 
 var game_state
 var map
@@ -45,30 +48,87 @@ func _init(new_game_state):
 
 var pawns setget , get_pawns
 func get_pawns():
+  emit_signal("getter", "pawns")
   return game_state.pawns
 
 
 var items setget , get_items
 func get_items():
+  emit_signal("getter", "items")
   return game_state.items
 
 
 var buildings setget , get_buildings
 func get_buildings():
+  emit_signal("getter", "buildings")
   return game_state.buildings
 
 
 var jobs setget , get_jobs
 func get_jobs():
+  emit_signal("getter", "jobs")
   return game_state.jobs
 
 
 var forests setget , get_forests
 func get_forests():
+  emit_signal("getter", "forests")
   return game_state.map_grid.forests
 
 
-### Pawns ###
+# Reactive Stuff: Getter Observation
+var getter_invocations = []
+func collect_getter_invocations():
+  connect("getter", self, "add_getter_invocation")
+
+
+func add_getter_invocation(getter_name):
+  print("adding invocation for: ", getter_name)
+  getter_invocations.push_back(getter_name)
+
+
+func retrieve_getter_invocations():
+  disconnect("getter", self, "add_getter_invocation")
+  var to_return = getter_invocations.duplicate()
+  getter_invocations.clear()
+  return to_return
+
+
+func register_reactive_function(target, func_name):
+  # listen_to_getters
+  collect_getter_invocations()
+  target.call(func_name, self)
+  # retrieve accessed getters
+  var invocations = retrieve_getter_invocations()
+  # register action listeners for each of them
+  print(invocations)
+  for getter_name in invocations:
+    connect_to_mutation(getter_name, target, func_name)
+
+
+var mutation_listeners = {}
+var m = connect("mutation", self, "route_mutation")
+func route_mutation(resource_type):
+  if !mutation_listeners.has(resource_type): return
+
+  for listener in mutation_listeners[resource_type]:
+    listener[0].call(listener[1], self)
+
+
+func connect_to_mutation(resource_type, update_target, update_func):
+  if !mutation_listeners.has(resource_type):
+    mutation_listeners[resource_type] = []
+
+  mutation_listeners[resource_type].push_back([update_target, update_func])
+
+
+func getters(property_name):
+  return self.get(property_name)
+
+
+### Actions ###
+
+## Pawns ##
 func add_pawn(new_pawn: Pawn):
   # pass
   # gather resources
@@ -86,13 +146,15 @@ func destroy_pawn(pawn, erase=true):
   emit_signal("pawn_removed", pawn)
 
 
-### Jobs ###
+## Jobs ##
 func add_job(job: Job):
   game_state.jobs.push_back(job)
   StateActivator.activate_job(job, map)
   emit_signal("job_added", job)
+  emit_signal("mutation", "jobs")
 
 # TODO: just listen to the jobs directly?
+# no, jobs will invoke this as an action like everything else
 var _jc = Events.connect("job_completed", self, "complete_job")
 func complete_job(job):
   # TODO: move this into the job
@@ -110,16 +172,16 @@ func destroy_job(job):
   self.jobs.erase(job)
   StateActivator.deactivate_job(job)
   emit_signal("job_removed", job)
+  emit_signal("mutation", "jobs")
 
-
-### Buildings ###
+## Buildings ##
 func add_building(building):
   game_state.buildings.push_back(building)
   StateActivator.activate_building(building, map)
   emit_signal("building_added", building)
 
 
-## Forests
+## Forests ##
 func buildup_forest(forest):
   StateActivator.activate_forest(forest, map)
 
@@ -140,7 +202,7 @@ func destroy_forest(forest_dict):
     printerr("Didn't find a matching forest for %s" % forest_dict)
 
 
-### Items ###
+## Items ##
 func add_item(item):
   game_state.items.push_back(item)
   StateActivator.activate_item(item, map)
