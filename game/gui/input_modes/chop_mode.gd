@@ -2,8 +2,8 @@ extends JobMode
 class_name ChopMode
 
 
-func new_job_at(cell):
-  return ChopJob.new({ "map_cell": cell })
+func new_job_details():
+  return { "job_type": Enums.Jobs.CHOP }
 
 
 func cell_selection_algorithm(start, end):
