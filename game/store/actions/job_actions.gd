@@ -2,7 +2,8 @@ extends Object
 
 const JobMap = {
   Enums.Jobs.BUILD: BuildJob,
-  Enums.Jobs.CHOP: ChopJob
+  Enums.Jobs.CHOP: ChopJob,
+  Enums.Jobs.SOW: Job
 }
 
 func action_add_job(store, payload):

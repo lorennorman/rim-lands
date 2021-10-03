@@ -73,8 +73,7 @@ func getters(property_name):
 
 
 func action(action_name, action_payload):
-  print("Action: ", action_name)
-  print("Payload: ", action_payload)
+  print(action_name, ": ", action_payload)
 
   assert(action_register.has(action_name), "Unregistered Action: '%s'" % action_name)
   var action_funcref = action_register[action_name]
