@@ -14,8 +14,14 @@ static func default_dict(target, defaults):
 
 
 static func merge_dicts(target, patch):
+  # immutable style
+  var merged_dict = {}
+  for key in target:
+    merged_dict[key] = target[key]
   for key in patch:
-    target[key] = patch[key]
+    merged_dict[key] = patch[key]
+
+  return merged_dict
 
 
 static func is_between(target, minimum, maximum):
