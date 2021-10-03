@@ -37,18 +37,9 @@ func get_owner():
 
   return null
 
-export(int) var quantity = 1 setget set_quantity
-func set_quantity(new_quantity):
-  quantity = new_quantity
-  emit_signal("updated", self)
-  Events.emit_signal("item_updated", self)
+export(int) var quantity = 1
 
-
-var claimant setget set_claimant
-func set_claimant(new_claimant) -> void:
-  claimant = new_claimant
-  Events.emit_signal("item_updated", self)
-
+var claimant
 
 func _init(mass_assignments: Dictionary = {}):
   Util.mass_assign(self, mass_assignments)

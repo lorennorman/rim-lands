@@ -42,6 +42,7 @@ const PawnActions = preload("./actions/pawn_actions.gd")
 const JobActions = preload("./actions/job_actions.gd")
 const ItemActions = preload("./actions/item_actions.gd")
 const BuildingActions = preload("./actions/building_actions.gd")
+const ForestActions = preload("./actions/forest_actions.gd")
 
 
 func _init(new_game_state):
@@ -55,6 +56,7 @@ func _init(new_game_state):
   register_actions(JobActions.new())
   register_actions(ItemActions.new())
   register_actions(BuildingActions.new())
+  register_actions(ForestActions.new())
 
 
 const action_register = {}
@@ -158,7 +160,6 @@ func connect_to_mutation(resource_type, update_target, update_func):
 ### Actions ###
 
 ## Pawns ##
-
 ## Jobs ##
 
 # TODO: just listen to the jobs directly?
@@ -169,28 +170,7 @@ func complete_job(job):
 
 
 ## Buildings ##
-
 ## Forests ##
-func buildup_forest(forest):
-  StateActivator.activate_forest(forest, map)
-
-
-func destroy_forest(forest_dict):
-  var found_forest
-
-  for forest in self.forests:
-    if forest.x == forest_dict.x and forest.z == forest_dict.z:
-      found_forest = forest
-      break
-
-  if found_forest:
-    self.forests.erase(found_forest)
-    emit_signal("forest_removed", found_forest)
-
-  else:
-    printerr("Didn't find a matching forest for %s" % forest_dict)
-
-
 ## Items ##
 
 # getter

@@ -167,7 +167,8 @@ func lumber_drop_on_job_completion(cell):
     "owner": cell
   }
   store.action("add_item", lumber_drop)
-  store.destroy_forest({ "x": cell.x,  "z": cell.z })
+  store.action("destroy_forest", { "x": cell.x,  "z": cell.z })
+
 
 func build(_args: Dictionary):
   while job.percent_complete < 100:
