@@ -2,8 +2,20 @@ extends Object
 class_name Util
 
 
+static func check_property(target, property_to_check):
+  var found = false
+  for property in target.get_property_list():
+    if property.name == property_to_check:
+      found = true
+      break
+
+  if !found:
+    printerr("Mass-Assignment Error: target has no property '%s'" % property_to_check)
+
 static func mass_assign(target, mass_assignments):
   for property in mass_assignments.keys():
+    check_property(target, property)
+
     target.set(property, mass_assignments[property])
 
 
