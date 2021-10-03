@@ -38,6 +38,9 @@ signal mutation(resource_name)
 var game_state
 var map
 
+const JobActions = preload("./actions/job_actions.gd")
+
+
 func _init(new_game_state):
   game_state = new_game_state
 
@@ -55,6 +58,10 @@ func register_actions(action_container):
       action_register[method.name.substr(7)] = funcref(action_container, method.name)
 
   print("Registered Actions: ", action_register)
+
+
+func getters(property_name):
+  return self.get(property_name)
 
 
 func action(action_name, action_payload):
@@ -141,10 +148,6 @@ func connect_to_mutation(resource_type, update_target, update_func):
   mutation_listeners[resource_type].push_back([update_target, update_func])
 
 
-func getters(property_name):
-  return self.get(property_name)
-
-
 ### Actions ###
 
 ## Pawns ##
@@ -166,11 +169,6 @@ func destroy_pawn(pawn, erase=true):
 
 
 ## Jobs ##
-func add_job(job: Job):
-  game_state.jobs.push_back(job)
-  StateActivator.activate_job(job, map)
-  emit_signal("job_added", job)
-  emit_signal("mutation", "jobs")
 
 # TODO: just listen to the jobs directly?
 # no, jobs will invoke this as an action like everything else
@@ -184,14 +182,8 @@ func complete_job(job):
         location = job.location
       }))
 
-  destroy_job(job)
+  action("destroy_job", job)
 
-
-func destroy_job(job):
-  self.jobs.erase(job)
-  StateActivator.deactivate_job(job)
-  emit_signal("job_removed", job)
-  emit_signal("mutation", "jobs")
 
 ## Buildings ##
 func add_building(building):
