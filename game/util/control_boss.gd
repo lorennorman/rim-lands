@@ -9,70 +9,46 @@ export(String) var resource_name
 export(String) var key_method = "to_string"
 export(String) var filter_method
 
+
+# resources are truth
+# - observe them
+# - sort/id/diff them by their keys
+# - scenes attach to them
+var resources = []
+var scenes = {}
+
 var store setget set_store
 func set_store(new_store):
   if store: printerr("ControlBoss error: my store is already set and its not made to be set twice")
-  #
-  # if store == new_store:
-  #   printerr('set_store: new store == old store')
-  #   return
-
-  # unsubscribe
-  # if store: unsubscribe_from_store()
-
-  # unhook the generator function
-  # store.unregister_reactive_function(self, "generate_controls")
 
   # mutate
   store = new_store
 
-  # subscribe
-  # if store: subscribe_to_store()
-
-  # pass a generator function
+  # pass a generator function to the store's reactor
   store.register_reactive_function(self, "generate_controls")
 
 
-# let the magic begin
+# reactive function: use the store and it'll call you again whenever the things
+# you used change. be smart! only do work if something actually changed.
 func generate_controls(game_store):
-  print(self, " got called with: ", game_store, " for ", resource_name)
   # accessing the getters automatically registers listeners for
   # changes to those getters, automatically calling this function again
-  var resources = game_store.getters("%ss" % resource_name)
-  print(resources)
-  if !resources: resources = []
-  # brute force method: annihilate all then add all
-  teardown()
-  add_collection_of_scenes(resources)
+  var resource_collection = game_store.getters("%ss" % resource_name)
+  # print(resource_collection)
+  if !resource_collection: resource_collection = []
 
-  # TODO: optimized method
   # remove all current scenes not present in new scenes (current - new)
+  for existing_resource in resources:
+    if resource_collection.find(existing_resource) == -1:
+      remove_resource(existing_resource)
+
   # add all scenes not present in current scenes (new - current)
-
-
-var scenes = {}
+  for new_resource in resource_collection:
+    if resources.find(new_resource) == -1:
+      add_resources([new_resource])
 
 
 func collection_getter_name(): return "get_%ss" % resource_name
-
-
-func subscribe_to_store():
-  var resource_collection_added = "%s_collection_added" % resource_name
-  var resource_added = "%s_added" % resource_name
-  var resource_removed = "%s_removed" % resource_name
-  store.connect(resource_collection_added, self, "add_collection_of_scenes")
-  store.connect(resource_added, self, "add_scene")
-  store.connect(resource_removed, self, "remove_scene")
-  store.connect("game_state_teardown", self, "teardown")
-
-  # wow already metaprogramming
-  # TODO: let's hoist this idea up into a proper Util and make it safer, self-documenting
-  if store.has_method(collection_getter_name()):
-    add_collection_of_scenes(store.call(collection_getter_name()))
-
-  # TODO: expose a way to call a property?
-  # if store.has(collection_property_name()):
-  #   add_collection_of_scenes(store.get(collection_property_name()))
 
 
 func get_key(resource):
@@ -86,9 +62,17 @@ func filtered(resource) -> bool:
   else: return false
 
 
-func add_collection_of_scenes(resources):
-  for resource in resources:
+func add_resources(new_resources):
+  resources.append_array(new_resources)
+
+  for resource in new_resources:
     add_scene(resource)
+
+
+func remove_resource(stale_resource):
+  resources.erase(stale_resource)
+
+  remove_scene(stale_resource)
 
 
 func after_added(_resource, _scene): pass
