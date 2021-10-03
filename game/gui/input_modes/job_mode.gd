@@ -42,6 +42,7 @@ func confirm_from_to(start, end):
 
   if start == end:
     confirm(start)
+
   else:
     # for job in jobs:
     for cell in cell_selection_algorithm(start, end):

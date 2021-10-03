@@ -15,6 +15,18 @@ func action_add_job(store, payload):
   store.emit_signal("mutation", "jobs")
 
 
+func action_complete_job(store, job):
+  # TODO: move this into the job
+  match job.job_type:
+    Enums.Jobs.BUILD:
+      store.action("add_building", {
+        type = job.building_type,
+        location = job.location
+      })
+
+  store.action("destroy_job", job)
+
+
 func action_destroy_job(store, job):
   store.game_state.jobs.erase(job)
   StateActivator.deactivate_job(job)

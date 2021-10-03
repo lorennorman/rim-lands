@@ -46,7 +46,7 @@ func generate_execution_plan():
         add_task({ "move_to": { "cell": found_material.map_cell }})
         add_task({ "pick_up": {
           "item": found_material,
-          "item_quantity": quantity_to_take,
+          "quantity": quantity_to_take,
         }})
 
       if remaining_quantity == job.quantity: return
@@ -74,10 +74,16 @@ func execution_failure(reason: String):
   job.current_worker = null
 
   for task in execution_plan:
+    # drop previously picked-up items
     if task.has("pick_up"):
       var args = task.pick_up
       if args.item.owner is Pawn:
-        store.transfer_item_from_to(args.item.type, args.item_quantity, pawn, pawn.map_cell)
+        store.action("transfer_item", {
+          "type": args.item.type,
+          "item_quantity": args.item_quantity,
+          "from": pawn,
+          "to": pawn.map_cell
+        })
       args.item.unclaim()
 
 func execute():
@@ -155,12 +161,12 @@ func chop(args: Dictionary):
 
 func lumber_drop_on_job_completion(cell):
   yield(job, "completed")
-  var lumber_drop = Item.new({
+  var lumber_drop = {
     "type": Enums.Items.LUMBER,
     "quantity": 20,
     "owner": cell
-  })
-  store.add_item(lumber_drop)
+  }
+  store.action("add_item", lumber_drop)
   store.destroy_forest({ "x": cell.x,  "z": cell.z })
 
 func build(_args: Dictionary):
@@ -173,9 +179,19 @@ func build(_args: Dictionary):
 
 
 func pick_up(args: Dictionary):
-  store.transfer_item_from_to(args.item.type, args.item_quantity, args.item.map_cell, pawn)
+  store.action("transfer_item", {
+    "type": args.item.type,
+    "quantity": args.item_quantity,
+    "from": args.item.map_cell,
+    "to": pawn
+  })
   args.item.unclaim()
 
 
 func drop_off(args: Dictionary):
-  store.transfer_item_from_to(args.item.type, args.item.quantity, pawn, args.target)
+  store.action("transfer_item", {
+    "type": args.item.type,
+    "quantity": args.item.quantity,
+    "from": pawn,
+    "to": args.target
+  })
