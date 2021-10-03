@@ -45,6 +45,25 @@ func _init(new_game_state):
   StateActivator.build_map(game_state.map_grid, map)
   StateActivator.stuff_on_map(self, map)
 
+  register_actions(JobActions.new())
+
+
+const action_register = {}
+func register_actions(action_container):
+  for method in action_container.get_method_list():
+    if method.name.find("action_") == 0:
+      action_register[method.name.substr(7)] = funcref(action_container, method.name)
+
+  print("Registered Actions: ", action_register)
+
+
+func action(action_name, action_payload):
+  print("Action: ", action_name)
+  print("Payload: ", action_payload)
+
+  var action_funcref = action_register[action_name]
+  action_funcref.call_func(self, action_payload)
+
 
 var pawns setget , get_pawns
 func get_pawns():
