@@ -38,11 +38,13 @@ signal mutation(resource_name)
 var game_state
 var map
 
-const PawnActions = preload("./actions/pawn_actions.gd")
-const JobActions = preload("./actions/job_actions.gd")
-const ItemActions = preload("./actions/item_actions.gd")
-const BuildingActions = preload("./actions/building_actions.gd")
-const ForestActions = preload("./actions/forest_actions.gd")
+const ActionProviders = [
+  preload("./actions/pawn_actions.gd"),
+  preload("./actions/job_actions.gd"),
+  preload("./actions/item_actions.gd"),
+  preload("./actions/building_actions.gd"),
+  preload("./actions/forest_actions.gd"),
+]
 
 
 func _init(new_game_state):
@@ -52,11 +54,8 @@ func _init(new_game_state):
   StateActivator.build_map(game_state.map_grid, map)
   StateActivator.stuff_on_map(self, map)
 
-  register_actions(PawnActions.new())
-  register_actions(JobActions.new())
-  register_actions(ItemActions.new())
-  register_actions(BuildingActions.new())
-  register_actions(ForestActions.new())
+  for Actions in ActionProviders:
+    register_actions(Actions.new())
 
 
 const action_register = {}
