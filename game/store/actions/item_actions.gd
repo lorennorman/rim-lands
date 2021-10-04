@@ -13,7 +13,9 @@ func action_update_item(_store, payload):
   var updates = payload["updates"]
 
   for key in updates.keys():
-    item[key] = updates[key]
+    item[key] = item[key] + updates[key]
+
+  item.emit_signal("updated", item)
 
 
 func action_destroy_item(store, item):
@@ -41,7 +43,7 @@ func action_transfer_item(store, payload):
     store.action("update_item", {
       "item": from_item,
       "updates": {
-        "quantity": (from_item.quantity - item_quantity)
+        "quantity": -item_quantity
       }
     })
 
@@ -52,7 +54,7 @@ func action_transfer_item(store, payload):
     store.action("update_item", {
       "item": to_item,
       "updates": {
-        "quantity": (to_item.quantity + item_quantity)
+        "quantity": item_quantity
       }
     })
 

@@ -65,16 +65,14 @@ func register_actions(action_container):
     if method.name.find("action_") == 0:
       action_register[method.name.substr(7)] = funcref(action_container, method.name)
 
-  print("Registered Actions: ", action_register)
-
 
 func getters(property_name):
+  print('GETTER: ', property_name)
   return self.get(property_name)
 
 
 func action(action_name, action_payload):
-  print(action_name, ": ", action_payload)
-
+  print('ACTION: ', action_name, " PAYLOAD: ", action_payload)
   assert(action_register.has(action_name), "Unregistered Action: '%s'" % action_name)
   var action_funcref = action_register[action_name]
   action_funcref.call_func(self, action_payload)
@@ -176,7 +174,7 @@ func complete_job(job):
 func find_closest_available_material_to(material_type, origin_cell: MapCell):
   var closest_item = null
   var distance = 100_000
-  for item in items:
+  for item in getters("items"):
     if item.type != material_type or item.is_claimed() or not item.is_on_map(): continue
 
     var item_distance = map.get_move_path(origin_cell, item.map_cell).size()
@@ -184,6 +182,7 @@ func find_closest_available_material_to(material_type, origin_cell: MapCell):
       closest_item = item
       distance = item_distance
 
+  print("CLOSEST ITEM: ", closest_item)
   return closest_item
 
 

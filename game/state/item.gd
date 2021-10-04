@@ -1,7 +1,7 @@
 extends Resource
 class_name Item
 
-signal updated
+signal updated(item)
 
 export(int) var type
 export(String) var location
