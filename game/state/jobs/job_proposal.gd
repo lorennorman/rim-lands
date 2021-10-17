@@ -14,8 +14,14 @@ func _init(mass_assignments: Dictionary = {}):
   assert(job, "JobProposal initialized without a Job")
   assert(pawn, "JobProposal initialized without a Pawn")
 
-  pawn.current_job = job
-  job.current_worker = pawn
+  store.action("update_pawn", {
+    "pawn": pawn,
+    "updates": { "current_job": job }
+  })
+  store.action("update_job", {
+    "job": job,
+    "updates": { "current_worker": pawn }
+  })
 
   generate_execution_plan()
 
@@ -80,7 +86,7 @@ func execution_failure(reason: String):
       if args.item.owner is Pawn:
         store.action("transfer_item", {
           "type": args.item.type,
-          "item_quantity": args.item_quantity,
+          "quantity": args.item_quantity,
           "from": pawn,
           "to": pawn.map_cell
         })
@@ -175,7 +181,12 @@ func build(_args: Dictionary):
     # Pawn removed or job canceled
     if pawn.removed or job.removed: break
     # build function :)
-    job.percent_complete += pawn.applied_build_speed()
+    store.action("update_job", {
+      "job": job,
+      "updates": {
+        "percent_complete": job.percent_complete + pawn.applied_build_speed()
+      }
+    })
     yield(pawn, "job_cooldown")
 
 
@@ -186,7 +197,7 @@ func pick_up(args: Dictionary):
     "from": args.item.map_cell,
     "to": pawn
   })
-  args.item.unclaim()
+  store.action("unclaim_item", args.item)
 
 
 func drop_off(args: Dictionary):
