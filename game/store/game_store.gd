@@ -100,6 +100,18 @@ func get_jobs():
   emit_signal("getter", "jobs")
   return game_state.jobs
 
+var all_jobs setget , get_all_jobs
+func get_all_jobs():
+  var jobs_and_subjobs = []
+  # take all the jobs
+  # print("appending", game_state.jobs)
+  jobs_and_subjobs.append_array(game_state.jobs)
+  for job in game_state.jobs:
+    if job.sub_jobs.size() > 0:
+      # then take all their subjobs as well
+      jobs_and_subjobs.append_array(job.sub_jobs)
+
+  return jobs_and_subjobs
 
 var forests setget , get_forests
 func get_forests():
@@ -203,6 +215,7 @@ class Map:
 
   func lookup_cell(index):
     assert(cells.has(index), "Omni Dict doesn't have ID: '%s'" % index)
+    assert(cells[index], "Omni Dict doesn't have a cell at: '%s'" % index)
     return cells[index]
 
 

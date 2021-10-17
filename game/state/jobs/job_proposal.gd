@@ -124,7 +124,8 @@ func unassign_job_from_pawn():
 
 ### TASKS ###
 func move_to(args: Dictionary):
-  assert(args.has("cell"), "move_to called without a cell arg")
+  assert(args.has("cell") and args.cell, "move_to called without a cell arg")
+  assert(pawn.map_cell, "move_to called for pawn without a cell")
   # fetch the A* path
   var move_path = store.map.get_move_path(pawn.map_cell, args.cell)
   var next_index = 1
@@ -165,6 +166,7 @@ func move_to(args: Dictionary):
 func chop(args: Dictionary):
   lumber_drop_on_job_completion(args.cell)
 
+
 func lumber_drop_on_job_completion(cell):
   yield(job, "completed")
   var lumber_drop = {
@@ -193,7 +195,7 @@ func build(_args: Dictionary):
 func pick_up(args: Dictionary):
   store.action("transfer_item", {
     "type": args.item.type,
-    "quantity": args.item_quantity,
+    "quantity": args.quantity,
     "from": args.item.map_cell,
     "to": pawn
   })
