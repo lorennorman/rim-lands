@@ -19,20 +19,28 @@ func find_job_for_pawn(pawn: Pawn) -> void:
   var shortest_distance: int = 100_000
   var closest_job: Job
 
-  for job in store.jobs:
-    if job.can_be_completed() and not job.is_claimed():
+  for job in store.getters("all_jobs"):
+    if job.is_available(): # this is like a getter query, a scope maybe
       var distance = store.map.get_move_path(pawn.location, job.location).size()
       if distance < shortest_distance:
         shortest_distance = distance
         closest_job = job
 
-  if closest_job: propose_job_by_pawn(closest_job, pawn)
+  if closest_job: attempt_job(closest_job, pawn)
 
 
-func propose_job_by_pawn(job, pawn):
-  var job_proposal = JobProposal.new({ "store": store, "pawn": pawn, "job": job })
+func attempt_job(job, pawn):
+  var job_proposal = JobProposal.new({
+    "store": store,
+    "pawn": pawn,
+    "job": job
+  })
   var execution_coroutine = job_proposal.execute()
-  if execution_coroutine: yield(execution_coroutine, "completed")
+
+  if execution_coroutine:
+    yield(execution_coroutine, "completed")
+
   if not job_proposal.execution_failure_reason:
     job.complete()
-  else: printerr(job_proposal.execution_failure_reason, ": ", job_proposal.pawn.character_name)
+  else:
+    printerr(job_proposal.execution_failure_reason, ": ", job_proposal.pawn.character_name)

@@ -66,6 +66,14 @@ func can_be_completed():
   return completable
 
 
+func is_claimed():
+  return !!current_worker
+
+
+func is_available():
+  return can_be_completed() and not is_claimed()
+
+
 var completable_signals = []
 var completable = true
 func uncompletable_until(signals_to_watch):
@@ -85,10 +93,6 @@ func clear_completable_signals():
   for watch_signal in completable_signals:
     Events.disconnect(watch_signal, self, "set_completable")
   completable_signals.clear()
-
-
-func is_claimed():
-  return current_worker
 
 
 func complete():

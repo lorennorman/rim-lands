@@ -15,7 +15,7 @@ func _ready():
 
   pawn.connect("updated", self, "model_did_update")
 
-func model_did_update():
+func model_did_update(new_pawn):
   if presenting_race != pawn.race:
     present_as(pawn.race)
 

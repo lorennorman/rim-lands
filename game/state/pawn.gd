@@ -1,7 +1,7 @@
 extends Resource
 class_name Pawn
 
-signal updated
+signal updated(pawn)
 signal job_cooldown
 
 # RPG Stuff
@@ -66,7 +66,7 @@ func applied_build_speed():
 func start_job_cooldown(time):
   # Job Cooldown
   on_cooldown = true
-  self.emit_signal("updated")
+  self.emit_signal("updated", self)
   var job_timer = Timer.new()
   job_timer.wait_time = time
   job_timer.autostart = true

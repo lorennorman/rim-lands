@@ -10,6 +10,7 @@ func set_materials_required(new_materials):
   for material in materials_required:
     materials_present[material] = null
 
+
 var materials_present: Dictionary = {}
 
 func set_params(new_params):
@@ -65,7 +66,7 @@ func ensure_sub_jobs():
 
     var haul_job =  HaulJob.new({
       "parent": self,
-      "location": self.location,
+      "map_cell": self.map_cell,
       "material": material,
       "quantity": lacking_materials[material]
     })
@@ -75,14 +76,17 @@ func ensure_sub_jobs():
 
   dirty = false
 
+
 func sub_job_completed(sub_job):
   .sub_job_completed(sub_job)
   dirty = true
+
 
 func find_haul_job_by_material(material):
   for job in sub_jobs:
     if job.material == material:
       return job
+
 
 func can_be_completed():
   ensure_sub_jobs()
