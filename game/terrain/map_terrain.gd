@@ -100,7 +100,7 @@ var to_process = null
 var ray_length := 1000
 var left_dragging := false
 var right_dragging := false
-func _input(event):
+func _unhandled_input(event):
   if input_state != "listening": return
 
   if event is InputEventMouseButton:
