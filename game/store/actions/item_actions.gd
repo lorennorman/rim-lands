@@ -24,6 +24,14 @@ func action_destroy_item(store, item):
   store.emit_signal("item_removed", item)
 
 
+func action_unclaim_item(store, item):
+  store.action("update_item", {
+    "item": item,
+    "updates": {
+      "claimant": null
+    }
+  })
+
 func action_transfer_item(store, payload):
   # unpack payload
   var item_type: int = payload["type"]
@@ -43,7 +51,7 @@ func action_transfer_item(store, payload):
     store.action("update_item", {
       "item": from_item,
       "updates": {
-        "quantity": -item_quantity
+        "quantity": (from_item.quantity - item_quantity)
       }
     })
 
@@ -54,7 +62,7 @@ func action_transfer_item(store, payload):
     store.action("update_item", {
       "item": to_item,
       "updates": {
-        "quantity": item_quantity
+        "quantity": (to_item.quantity + item_quantity)
       }
     })
 
