@@ -13,7 +13,7 @@ func action_update_item(_store, payload):
   var updates = payload["updates"]
 
   for key in updates.keys():
-    item[key] = item[key] + updates[key]
+    item[key] = updates[key]
 
   item.emit_signal("updated", item)
 
