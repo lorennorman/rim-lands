@@ -4,7 +4,7 @@
 mapgen overhaul:
   - test-drive reactive store
   - Simulation uses Store, not State
-  - fix save/load
+  - fix save/load/new
   - add roads to mapgen
   - add intro message support
   - update all scenarios (use templates?)
